@@ -1,19 +1,21 @@
-DROP TABLE IF EXISTS user_roles;
+CREATE DATABASE IF NOT EXISTS DB_PHP;
 use DB_PHP;
-CREATE TABLE user_roles (
-	  user_roleID		INT		NOT NULL auto_increment
-	, userID		    INT		NOT NULL
-	, roleID		    INT		NOT NULL
+DROP TABLE IF EXISTS USER_ROLES;
 
-	, PRIMARY KEY (user_roleID)
-	, UNIQUE KEY user_roles_IDX0 (userID, roleID)
+CREATE TABLE USER_ROLES (
+	  User_RoleID		INT		NOT NULL auto_increment
+	, UserID		    INT		NOT NULL
+	, RoleID		    INT		NOT NULL
+
+	, PRIMARY KEY (User_RoleID)
+	, UNIQUE KEY User_Roles_IDX0 (UserID, RoleID)
 );
 
 
-INSERT INTO user_roles
+INSERT INTO USER_ROLES
 (
-      userID
-    , roleID
+      UserID
+    , RoleID
 )
 VALUES
 (
