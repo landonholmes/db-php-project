@@ -2,9 +2,7 @@
 session_start();
 
 if(!isset($_SESSION['loggedIn']) || (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == false)) {
-    header("Location: login.php"); // Redirecting To Login Page
-    exit;
+    header("Location: index.php?action=login");// Redirecting To Login Page
 } else {
-    header("Location: manageUsers.php"); // Redirecting To Home Page
-    exit;
+    header("Location: index.php?action=manageUsers"); // Redirecting To Home Page
 }

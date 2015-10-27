@@ -2,17 +2,36 @@
     session_start(); // Starting Session
     $error=''; // var for error message
     $username=''; // Variable To Store username
+    include "PasswordHash.php";
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
+        $password = $_POST['password'];
 
         if (empty($_POST['username']) || empty($_POST['password'])) { //check if they didn't fill it out
             $error = "Username or Password is invalid";
         } else { //okay they filled it out
-            if ($_POST['username'] != 'landon' && $_POST['password'] != 'notpassword') { //validate
-                $error = "Username or Password is invalid";
-            } else { //hey they're right
-                $_SESSION['loggedIn']=true;
-                header("location: manageUsers.php"); // redirect to other page
+            $connection = mysqli_connect("localhost", "root", "!password");
+            // To protect MySQL injection for Security purpose
+            if ($connection->connect_error) {
+                $error = "Database connection failed";
+            } else { //connection was good
+                $username = stripslashes($username);
+                $password = stripslashes($password);
+                $username = mysqli_real_escape_string($username);
+                $password = mysqli_real_escape_string($password);
+                // Selecting Database
+                $db = mysqli_select_db("db_php", $connection);
+                // SQL query to fetch information of registerd users and finds user match.
+                $qCheckLogin= mysqli_query("SELECT * FROM users WHERE password='$password' AND username='$username'", $connection);
+                //TODO: check password hash instead of results
+                if (mysqli_num_rows($qCheckLogin) == 1) {
+                    $_SESSION['loggedIn']=true;
+                    header("location: index.php?action=manageUsers"); // redirect to other page
+                } else {
+                    $error = "Username or Password is invalid";
+                }
+
+                mysqli_close($connection); // Closing Connection
             }
         }
     }

@@ -2,7 +2,7 @@
 session_start();
 
 if(!isset($_SESSION['loggedIn'])) {
-    header("Location: login.php"); // Redirecting To Home Page
+    header("Location: index.php?action=login"); // Redirecting To Home Page
     exit;
 }
 ?>
