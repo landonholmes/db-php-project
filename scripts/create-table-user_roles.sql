@@ -11,7 +11,7 @@ CREATE TABLE USER_ROLES (
 	, UNIQUE KEY User_Roles_IDX0 (UserID, RoleID)
 );
 
-
+/*default admin user is in admin group*/
 INSERT INTO USER_ROLES
 (
       UserID
@@ -22,3 +22,13 @@ VALUES
       1
     , 1
 );
+
+/*default student user is in student group*/
+INSERT INTO USER_ROLES
+( UserID, RoleID )
+VALUES(2, 2);
+
+/*default manager user is in manager group*/
+INSERT INTO USER_ROLES
+( UserID, RoleID )
+VALUES(3, 3);

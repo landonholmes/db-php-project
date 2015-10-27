@@ -25,13 +25,12 @@ INSERT INTO ROLES
     , LastModifiedBy
 )
 SELECT
-    'ADMIN'
-    , 'Administrators'
+    'TEACH'
+    , 'Teacher'
     , CURRENT_TIMESTAMP()
     , 1
     , '1970-01-01'
     , 1;
-
 
 INSERT INTO ROLES
 (
@@ -43,9 +42,26 @@ INSERT INTO ROLES
     , LastModifiedBy
 )
 SELECT
-    'USERMANAGE'
-    , 'User Management'
+    'STUDENT'
+    , 'Student'
     , CURRENT_TIMESTAMP()
     , 1
     , '1970-01-01'
     , 1;
+
+INSERT INTO ROLES
+(
+    RoleName
+    , RoleDesc
+    , CreatedOn
+    , CreatedBy
+    , LastModifiedOn
+    , LastModifiedBy
+)
+    SELECT
+        'USERMANAGE'
+        , 'User Management'
+        , CURRENT_TIMESTAMP()
+        , 1
+        , '1970-01-01'
+        , 1;
