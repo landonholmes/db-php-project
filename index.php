@@ -19,6 +19,7 @@ if ($securedPage) {
     include "securityCheck.php";
 }
 include "helperFunctions.php";
+require './assets/kint/Kint.class.php';
 
 ?>
 

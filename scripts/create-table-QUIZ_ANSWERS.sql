@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS DB_PHP;
+use DB_PHP;
+DROP TABLE IF EXISTS QUIZ_ANSWERS;
+
+CREATE TABLE QUIZ_ANSWERS (
+	  AnswerID			INT		        NOT NULL auto_increment
+    , QuizID		    INT				NOT NULL
+	, UserID			INT				NOT NULL
+	, QuestionID		INT				NOT NULL
+	, Answer			VARCHAR(2000)	NOT NULL
+	, PRIMARY KEY (AnswerID)
+);
