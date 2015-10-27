@@ -12,7 +12,7 @@
         } else { //okay they filled it out
             $connection = mysqli_connect("localhost", "root", "!password");
             // To protect MySQL injection for Security purpose
-            if ($connection->connect_error) {
+            if (!$connection) {
                 $error = "Database connection failed";
             } else { //connection was good
                 $username = stripslashes($username);
@@ -47,7 +47,7 @@
             <br />
             <div  style="text-align: center;">
                 <div class="col-sm-4 col-sm-offset-4"  style="margin-top: 3%;">
-                    <form class="form-inline" method="POST" action="login.php">
+                    <form class="form-inline" method="POST" action="index.php?action=login">
                         <fieldset>
                             <div class="panel panel-primary" >
                                 <legend class="panel-heading panel-title">Log In</legend>
