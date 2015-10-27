@@ -17,12 +17,12 @@
             } else { //connection was good
                 $username = stripslashes($username);
                 $password = stripslashes($password);
-                $username = mysqli_real_escape_string($username);
-                $password = mysqli_real_escape_string($password);
+                $username = mysqli_real_escape_string($connection,$username);
+                $password = mysqli_real_escape_string($connection,$password);
                 // Selecting Database
-                $db = mysqli_select_db("db_php", $connection);
+                $db = mysqli_select_db($connection,"db_php");
                 // SQL query to fetch information of registerd users and finds user match.
-                $qCheckLogin= mysqli_query("SELECT * FROM users WHERE password='$password' AND username='$username'", $connection);
+                $qCheckLogin= mysqli_query($connection,"SELECT * FROM users WHERE password='$password' AND username='$username'");
                 //TODO: check password hash instead of results
                 if (mysqli_num_rows($qCheckLogin) == 1) {
                     $_SESSION['loggedIn']=true;
