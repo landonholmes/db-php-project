@@ -10,7 +10,7 @@
         if (empty($_POST['username']) || empty($_POST['password'])) { //check if they didn't fill it out
             $error = "Username or Password is invalid";
         } else { //okay they filled it out
-            $connection = mysqli_connect("localhost", "root", "!password");
+            $connection = mysqli_connect("localhost", "php", "password");
             // To protect MySQL injection for Security purpose
             if (!$connection) {
                 $error = "Database connection failed";

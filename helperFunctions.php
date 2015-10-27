@@ -1,7 +1,7 @@
 <?php
 
 function doesUserHaveRole($userID, $roleName) { /*roleName could be "ADMIN","USERMANAGE","STUDENT"*/
-    $connection = mysqli_connect("localhost", "root", "!password");
+    $connection = mysqli_connect("localhost", "php", "password");
     // To protect MySQL injection for Security purpose
     if (!$connection) {
         //error connecting
