@@ -6,7 +6,7 @@ function doesUserHaveRole($userID, $roleName) { /*roleName could be "ADMIN","USE
     if (!$connection) {
         //error connecting
     } else { //connection was good
-        $db = mysqli_select_db($connection,"db_php");
+        $db = mysqli_select_db($connection,"DB_PHP");
         // SQL query to fetch information of users and finds user match.
         $queryString = "SELECT RoleID FROM ROLES WHERE RoleName = '$roleName';";
         $qCheckRoleExists= mysqli_query($connection,$queryString);

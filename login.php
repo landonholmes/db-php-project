@@ -20,7 +20,7 @@
                 $username = mysqli_real_escape_string($connection,$username);
                 $password = mysqli_real_escape_string($connection,$password);
                 // Selecting Database
-                $db = mysqli_select_db($connection,"db_php");
+                $db = mysqli_select_db($connection,"DB_PHP");
                 // SQL query to fetch information of users and finds user match.
                 $qCheckLogin= mysqli_query($connection,"SELECT UserID,Password FROM USERS WHERE Username='$username';");
                 if (!is_bool($qCheckLogin) && mysqli_num_rows($qCheckLogin) == 1) {
