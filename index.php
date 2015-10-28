@@ -39,6 +39,7 @@ require 'assets/kint/Kint.class.php';
     <body>
         <?php include "navbar.php"; ?>
         <div class="container">
+            <?php  d($toInclude) ?>
             <?php include $toInclude; ?>
         </div>
     </body>
