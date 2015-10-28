@@ -2,15 +2,21 @@
 include "models/user.php";
 $connection = mysqli_connect("localhost", "php", "password");
 if (!$connection) {
-    //error connecting
+    $errorMsg = "no connection";
 } else { //connection was good
     $db = mysqli_select_db($connection, "DB_PHP");
     $queryString = "SELECT * FROM USERS;";
     $getUsers = mysqli_query($connection, $queryString);
-    $getUsers->fetch_all();
     $userList = array();
-    foreach ($getUsers as $userThing) {
-        array_push($userList,(new user())->populateFromQuery($userThing));
+    if (is_bool($getUsers) && !$getUsers) {
+        $errorMsg = 'bad query';
+        d($connection);
+        d($getUsers);
+    } else {
+        $getUsers->fetch_all();
+        foreach ($getUsers as $userThing) {
+            array_push($userList, (new user())->populateFromQuery($userThing));
+        }
     }
 }
 
@@ -19,6 +25,7 @@ mysqli_close($connection); // Closing Connection
 
 <div class="row">
     <h1>Managing Users</h1>
+    <?php if (isset($errorMsg)){echo "<label class=\"label label-warning\">$errorMsg</label>";}?>
     <div class="col-md-12">
         <?php if(count($getUsers) < 1) {
             echo 'No users found..';
