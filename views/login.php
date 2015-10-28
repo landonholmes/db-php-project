@@ -30,6 +30,7 @@
                         $_SESSION['loggedInUserID'] = $qCheckLoginObj->UserID;
 
                         $root = $_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+                        d($root);
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
                             header("location: $root/index.php?action=manageQuiz"); // redirect to other page
                         }
