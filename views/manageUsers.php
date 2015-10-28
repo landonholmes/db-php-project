@@ -13,7 +13,8 @@ if (!$connection) {
         array_push($userList,(new user())->populateFromQuery($userThing));
     }
 }
-
+d($getUsers);
+d($userList);
 mysqli_close($connection); // Closing Connection
 ?>
 
