@@ -13,7 +13,7 @@ if (!$connection) {
         d($connection);
         d($getUsers);
     } else {
-        $getUsers->fetch_all();
+        $getUsers->fetch_array();
         foreach ($getUsers as $userThing) {
             array_push($userList, (new user())->populateFromQuery($userThing));
         }
