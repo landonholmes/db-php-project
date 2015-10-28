@@ -73,8 +73,9 @@ mysqli_close($connection); // Closing Connection
             <label class="control-label col-sm-2 label-required" for="isLocked">Account Locked?</label>
             <div class="col-sm-5">
                 <select id="isLocked" name="isLocked" class="form-control" required>
-                    <option value="false" <?php if($user->IsLocked) {echo "selected";} ?>>Unlocked</option>
-                    <option value="true" <?php if($user->IsLocked) {echo "selected";} ?>>Locked</option>
+
+                    <option value="0" <?php if($user->IsLocked==0) {echo "selected";} ?>>Unlocked</option>
+                    <option value="1" <?php if($user->IsLocked==1) {echo "selected";} ?>>Locked</option>
                 </select>
                 <!--error message?-->
             </div>
