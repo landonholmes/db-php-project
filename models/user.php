@@ -7,7 +7,6 @@ class user {
     public $FirstName = "";
     public $LastName = "";
     public $Password = "";
-    public $IsPasswordExpired = 0;
     public $PasswordLastSetOn = '1970-01-01 00:00:00';
     public $PasswordLastSetBy = 0;
     public $PasswordLastSetByIP = "";
@@ -39,7 +38,6 @@ class user {
                 $this->FirstName = $qCheckLoginObj->FirstName;
                 $this->LastName = $qCheckLoginObj->LastName;
                 $this->Password = $qCheckLoginObj->Password;
-                $this->IsPasswordExpired = $qCheckLoginObj->IsPasswordExpired;
                 $this->PasswordLastSetOn = $qCheckLoginObj->PasswordLastSetOn;
                 $this->PasswordLastSetBy = $qCheckLoginObj->PasswordLastSetBy;
                 $this->PasswordLastSetByIP = $qCheckLoginObj->PasswordLastSetByIP;
@@ -84,7 +82,6 @@ class user {
                                 ,FirstName
                                 ,LastName
                                 ,Password
-                                ,IsPasswordExpired
                                 ,PasswordLastSetOn
                                 ,PasswordLastSetBy
                                 ,PasswordLastSetByIP
@@ -103,7 +100,6 @@ class user {
                                 ,FirstName = '$this->FirstName'
                                 ,LastName = '$this->LastName'
                                 ,Password = '$this->Password'
-                                ,IsPasswordExpired = '$this->IsPasswordExpired'
                                 ,PasswordLastSetOn = '$this->PasswordLastSetOn'
                                 ,PasswordLastSetBy = '$this->PasswordLastSetBy'
                                 ,PasswordLastSetByIP = '$this->PasswordLastSetByIP'
@@ -140,7 +136,6 @@ class user {
                                 ,FirstName = '$this->FirstName'
                                 ,LastName = '$this->LastName'
                                 ,Password = '$this->Password'
-                                ,IsPasswordExpired = '$this->IsPasswordExpired'
                                 ,PasswordLastSetOn = '$this->PasswordLastSetOn'
                                 ,PasswordLastSetBy = '$this->PasswordLastSetBy'
                                 ,PasswordLastSetByIP = '$this->PasswordLastSetByIP'
@@ -172,7 +167,6 @@ class user {
         $this->FirstName = mysqli_real_escape_string($conn,$this->FirstName);
         $this->LastName = mysqli_real_escape_string($conn,$this->LastName);
         $this->Password = mysqli_real_escape_string($conn,$this->Password);
-        $this->IsPasswordExpired = mysqli_real_escape_string($conn,$this->IsPasswordExpired);
         $this->PasswordLastSetOn = mysqli_real_escape_string($conn,$this->PasswordLastSetOn);
         $this->PasswordLastSetBy = mysqli_real_escape_string($conn,$this->PasswordLastSetBy);
         $this->PasswordLastSetByIP = mysqli_real_escape_string($conn,$this->PasswordLastSetByIP);
@@ -184,6 +178,27 @@ class user {
         $this->LastModifiedOn = mysqli_real_escape_string($conn,$this->LastModifiedOn);
         $this->LastModifiedBy = mysqli_real_escape_string($conn,$this->LastModifiedBy);
         $this->LastModifiedByIP = mysqli_real_escape_string($conn,$this->LastModifiedByIP);
+    }
+
+    public function populateFromQuery($queryRow) {
+        $this->UserID = $queryRow['UserID'];
+        $this->Username = $queryRow['Username'];
+        $this->Email = $queryRow['Email'];
+        $this->FirstName = $queryRow['FirstName'];
+        $this->LastName = $queryRow['LastName'];
+        $this->Password = $queryRow['Password'];
+        $this->PasswordLastSetOn = $queryRow['PasswordLastSetOn'];
+        $this->PasswordLastSetBy = $queryRow['PasswordLastSetBy'];
+        $this->PasswordLastSetByIP = $queryRow['PasswordLastSetByIP'];
+        $this->LastLoggedInOn = $queryRow['LastLoggedInOn'];
+        $this->IsLocked = $queryRow['IsLocked'];
+        $this->CreatedOn = $queryRow['CreatedOn'];
+        $this->CreatedBy = $queryRow['CreatedBy'];
+        $this->CreatedByIP = $queryRow['CreatedByIP'];
+        $this->LastModifiedOn = $queryRow['LastModifiedOn'];
+        $this->LastModifiedBy = $queryRow['LastModifiedBy'];
+        $this->LastModifiedByIP = $queryRow['LastModifiedByIP'];
+        return $this;
     }
 
 }
