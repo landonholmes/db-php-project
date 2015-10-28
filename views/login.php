@@ -2,6 +2,7 @@
     $error=''; // var for error message
     $username=''; // Variable To Store username
     include "PasswordHash.php";
+    $root = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
@@ -29,8 +30,6 @@
                         $_SESSION['loggedIn'] = true;
                         $_SESSION['loggedInUserID'] = $qCheckLoginObj->UserID;
 
-                        $root = $_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
-                        d($root);
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
                             header("location: $root/index.php?action=manageQuiz"); // redirect to other page
                         }
@@ -55,7 +54,7 @@
 <br />
 <div  style="text-align: center;">
     <div class="col-sm-4 col-sm-offset-4"  style="margin-top: 3%;">
-        <form class="form-inline" method="POST" action="../index.php?action=login">
+        <form class="form-inline" method="POST" action="<?php print $root; ?>/index.php?action=login">
             <fieldset>
                 <div class="panel panel-primary" >
                     <legend class="panel-heading panel-title">Log In</legend>
@@ -66,7 +65,7 @@
                                 <input type="text" id="username" name="username" class="input form-control" placeholder="Username" value="<?php echo $username;?>" />
                             </div>
                         </div><br /><br />
-                        <div class="form-group <?php if (strlen($error)) {echo 'has-error';} ?>"">
+                        <div class="form-group <?php if (strlen($error)) {echo 'has-error';} ?>">
                             <div class="controls input-group">
                                 <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
                                 <input type="password" id="password" name="password" class="input form-control" placeholder="Password" value="" />
@@ -86,9 +85,6 @@
     </div>
 </div>
 
-</div>
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
 
 <script>
 <?php

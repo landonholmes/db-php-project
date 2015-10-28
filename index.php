@@ -32,13 +32,13 @@ require './assets/kint/Kint.class.php';
         <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="./assets/css/main.css" rel="stylesheet">
         <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+        <script src="./assets/js/jquery.min.js"></script>
+        <script src="./assets/js/bootstrap.min.js"></script>
     </head>
     <body>
         <?php include "navbar.php"; ?>
         <div class="container">
             <?php include $toInclude; ?>
         </div>
-        <script src="./assets/js/jquery.min.js"></script>
-        <script src="./assets/js/bootstrap.min.js"></script>
     </body>
 </html>
