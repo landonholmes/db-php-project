@@ -30,13 +30,13 @@
                         $_SESSION['loggedInUserID'] = $qCheckLoginObj->UserID;
 
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
-                            header("location: index.php?action=manageQuiz"); // redirect to other page
+                            header("location: ./../index.php?action=manageQuiz"); // redirect to other page
                         }
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE") ) {
-                            header("location: index.php?action=manageUsers"); // redirect to other page
+                            header("location: ./../index.php?action=manageUsers"); // redirect to other page
                         }
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) {
-                            header("location: index.php?action=quiz"); // redirect to other page
+                            header("location: ./../index.php?action=quiz"); // redirect to other page
                         }
 
                     }

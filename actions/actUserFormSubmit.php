@@ -3,7 +3,7 @@ if (isset($_POST['submit'])) {
     d($_POST);
 
 } else {
-    header("location: index.php?action=manageUsers");
+    header("location: ./../index.php?action=manageUsers");
     exit;
 }
 
