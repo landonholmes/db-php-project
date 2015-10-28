@@ -23,7 +23,7 @@ mysqli_close($connection); // Closing Connection
 <div class="row">
         <?php
             echo "
-            <div class=\"col-md-8\">
+            <div class=\"col-sm-8\">
                 <h2>$user->FirstName $user->LastName</h2>
 
                 <table class=\"table table-condensed table-detail\">
@@ -91,7 +91,7 @@ mysqli_close($connection); // Closing Connection
                     </tr>
                 </table>
             </div>
-            <div class=\"col-md-4\"><br />
+            <div class=\"col-sm-4\"><br />
             <div class=\"well\">";
 
             if ($_SESSION['loggedInUserID'] == $user->UserID) {

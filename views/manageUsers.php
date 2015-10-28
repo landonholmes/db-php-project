@@ -24,7 +24,7 @@ mysqli_close($connection); // Closing Connection
 <div class="row">
     <h1>Managing Users</h1>
     <?php if (isset($errorMsg)){echo "<label class=\"label label-warning\">$errorMsg</label>";}?>
-    <div class="col-md-12">
+    <div class="col-sm-12">
         <?php if(count($getUsers) < 1) {
             echo 'No users found..';
         } else {
