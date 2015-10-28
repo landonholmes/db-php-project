@@ -75,10 +75,10 @@ mysqli_close($connection); // Closing Connection
                 }
 
                 echo "<td>
-                            $singleUser->PasswordLastSetOn
+                            ".getDateTimeDisplay($singleUser->PasswordLastSetOn)."
                         </td>
                         <td>
-                            $singleUser->LastLoggedInOn
+                            ".getDateTimeDisplay($singleUser->LastLoggedInOn)."
                         </td>
                     </tr>
                 ";

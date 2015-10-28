@@ -29,6 +29,8 @@
                         $_SESSION['loggedIn'] = true;
                         $_SESSION['loggedInUserID'] = $qCheckLoginObj->UserID;
 
+                        $updateLoggedInTime = mysqli_query($connection,"UPDATE USERS SET LastLoggedInOn = '".date("Y-m-d H:i:s")."' WHERE UserID = '$qCheckLoginObj->UserID'");
+
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
                             redirect("$root/index.php?action=manageQuiz"); // redirect to other page
                         }

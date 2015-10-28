@@ -35,3 +35,11 @@ function redirect($url) {
     exit();
 }
 
+function getDateTimeDisplay($date) {
+    if ($date == '1970-01-01 00:00:00') {
+        return 'Never';
+    } else {
+        return $date;
+    }
+}
+

@@ -85,7 +85,7 @@ mysqli_close($connection); // Closing Connection
                             Last Login:
                         </th>
                         <td>
-                            $user->LastLoggedInOn
+                            ".getDateTimeDisplay($user->LastLoggedInOn)."
                         </td>
                     </tr>
                 </table>
