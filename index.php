@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors',1);
+error_reporting(-1);
+
 if(!isset($_SESSION)) {session_start();} //checking if session needs to be started
 $root = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 //this file acts as a controller, including pages that are necessary
@@ -39,11 +42,6 @@ require 'assets/kint/Kint.class.php';
     <body>
         <?php include "navbar.php"; ?>
         <div class="container">
-
-            <?php
-            ini_set('display_errors',1);
-            error_reporting(-1);
-            ?>
             <?php include($toInclude); ?>
         </div>
     </body>

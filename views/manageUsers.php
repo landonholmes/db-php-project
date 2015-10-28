@@ -10,8 +10,6 @@ if (!$connection) {
     $userList = array();
     if (is_bool($getUsers) && !$getUsers) {
         $errorMsg = 'bad query';
-        d($connection);
-        d($getUsers);
     } else {
         $getUsers->fetch_array();
         foreach ($getUsers as $userThing) {
