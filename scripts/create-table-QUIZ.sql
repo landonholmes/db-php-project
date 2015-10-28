@@ -6,6 +6,6 @@ CREATE TABLE QUIZ (
 	  QuizID		    INT		        NOT NULL auto_increment
     , Name		        VARCHAR(100)	NOT NULL
 	, Description		VARCHAR(2000)	NOT NULL
-	, isActive		    BIT	NOT NULL
+	, IsActive		    BIT	NOT NULL
 	, PRIMARY KEY (QuizID)
 );

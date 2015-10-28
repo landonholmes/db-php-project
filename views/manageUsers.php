@@ -25,7 +25,7 @@ mysqli_close($connection); // Closing Connection
 
     <?php if (isset($errorMsg)){echo "<label class=\"label label-warning\">$errorMsg</label>";}?>
     <div class="col-sm-12">
-        <?php if(count($getUsers) < 1) {
+        <?php if(count($userList) < 1) {
             echo 'No users found..';
         } else {
             echo "

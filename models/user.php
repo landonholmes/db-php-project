@@ -20,6 +20,10 @@ class user {
     public $LastModifiedByIP = "";
 
     public function load($userID){
+        if (!$userID) {
+            return $this;
+        }
+
         $connection = mysqli_connect("localhost", "php", "password");
         if (!$connection) {
             //error connecting
@@ -148,10 +152,6 @@ class user {
                                 WHERE  UserID = '$this->UserID';
                             ";
             $qUpdateUser = mysqli_query($connection, $queryString);
-            var_dump($connection); echo '<hr />';
-            var_dump($qUpdateUser);
-
-
 
             mysqli_close($connection); // Closing Connection
             return $this;

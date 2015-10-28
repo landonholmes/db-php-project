@@ -21,6 +21,10 @@ if (!isset($_GET["action"])) {
         case "userDetail": $toInclude = 'views/userDetail.php'; $pageTitle='User Detail'; break;
         case "userForm": $toInclude = 'views/userForm.php'; $pageTitle='User Form'; break;
         case "actUserFormSubmit": $toInclude = 'actions/actUserFormSubmit.php'; $pageTitle='User Form'; break;
+        case "manageQuiz": $toInclude = 'views/manageQuiz.php'; $pageTitle='Manage Quizzes'; break;
+        case "quizDetail": $toInclude = 'views/quizDetail.php'; $pageTitle='Quiz Detail'; break;
+        case "quizForm": $toInclude = 'views/quizForm.php'; $pageTitle='Quiz Form'; break;
+        case "actQuizFormSubmit": $toInclude = 'actions/actQuizFormSubmit.php'; $pageTitle='Quiz Form'; break;
         default: $toInclude = 'views/login.php'; $pageTitle='Log In';
     }
 }

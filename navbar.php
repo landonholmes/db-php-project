@@ -10,7 +10,7 @@
             if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) { //if a user is in a group
                 echo "
                     <ul class=\"nav navbar-nav navbar-left\">
-                        <li><a href=\"index.php?action=quiz\"><i class=\"fa fa-lg fa-th-large\"></i> Quiz</a></li>
+                        <li><a href=\"index.php?action=quiz\"><i class=\"glyphicon glyphicon-th-list\"></i>&nbsp;Quiz</a></li>
                     </ul>
                 ";
             }
@@ -18,15 +18,18 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <?php
+                if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH")) { //if a user is in a group
+                    echo "<li><a href='index.php?action=manageQuiz'><i class='glyphicon glyphicon-ok'></i>&nbsp;Quiz Management</a></li>";
+                }
                 if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE")) { //if a user is in a group
-                    echo "<li><a href='index.php?action=manageUsers'><i class='fa fa-lg fa-users'></i>&nbsp;User Management</a></li>";
+                    echo "<li><a href='index.php?action=manageUsers'><i class='glyphicon glyphicon-cog'></i>&nbsp;User Management</a></li>";
                 }
 
                 if ($_SESSION['loggedIn']) {
                     echo "
                         <li class=\"dropdown\">
                             <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
-                                <i class=\"icon-user icon-white\"></i>".(new user())->load($_SESSION['loggedInUserID'])->Username."<b class=\"caret\"></b>
+                                <i class=\"glyphicon glyphicon-user glyphicon-white\"></i>&nbsp;".(new user())->load($_SESSION['loggedInUserID'])->Username."<b class=\"caret\"></b>
                             </a>
                             <ul id=\"actions-submenu\" class=\"dropdown-menu\">
                                 <li><a href=\"index.php?action=userDetail&userID=".$_SESSION['loggedInUserID']."\">Account Settings</a></li>
