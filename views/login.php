@@ -29,14 +29,15 @@
                         $_SESSION['loggedIn'] = true;
                         $_SESSION['loggedInUserID'] = $qCheckLoginObj->UserID;
 
+                        $root = $_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
-                            header("location: ../index.php?action=manageQuiz"); // redirect to other page
+                            header("location: $root/index.php?action=manageQuiz"); // redirect to other page
                         }
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE") ) {
-                            header("location: ../index.php?action=manageUsers"); // redirect to other page
+                            header("location: $root/index.php?action=manageUsers"); // redirect to other page
                         }
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) {
-                            header("location: ../index.php?action=quiz"); // redirect to other page
+                            header("location: $root/index.php?action=quiz"); // redirect to other page
                         }
 
                     }
