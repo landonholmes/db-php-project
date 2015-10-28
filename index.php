@@ -40,6 +40,7 @@ require 'assets/kint/Kint.class.php';
         <?php include "navbar.php"; ?>
         <div class="container">
             <?php  d($toInclude) ?>
+            <?php include("views/manageUsers.php"); ?>
             <?php include($toInclude); ?>
         </div>
     </body>
