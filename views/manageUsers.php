@@ -50,8 +50,7 @@ mysqli_close($connection); // Closing Connection
                     <tbody>";
 
             foreach ($userList as $singleUser) {
-                echo "
-                    <tr>
+                echo "<tr>
                         <td>
                             <a href=\"index.php?action=userDetail&userID=$singleUser->UserID\">$singleUser->Username</a>
                         </td>
@@ -63,14 +62,14 @@ mysqli_close($connection); // Closing Connection
                         </td>
                         <td style=\"text-align:center;\">
                         ";
-                    if ($singleUser->IsLocked == 1) {
-                        echo "<span class=\"label label-warning\">Locked</span>";
-                    } else {
-                        echo "<span class=\"label label-info\">Active</span>";
-                    }
 
-                    echo "
-                        <td>
+                if ($singleUser->IsLocked == 1) {
+                    echo "<span class=\"label label-warning\">Locked</span>";
+                } else {
+                    echo "<span class=\"label label-info\">Active</span>";
+                }
+
+                echo "<td>
                             $singleUser->PasswordLastSetOn
                         </td>
                         <td>

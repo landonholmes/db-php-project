@@ -2,16 +2,19 @@
 if(!isset($_SESSION)) {session_start();} //checking if session needs to be started
 //this file acts as a controller, including pages that are necessary
 if (!isset($_GET["action"])) {
-    $toInclude = 'login.php';
+    $toInclude = './views/login.php';
     $pageTitle='Log In';
     $securedPage=false;
 } else {
-    $securedPage=true; //pages are security checked by default and explicity stated if not
+    $securedPage=true; //pages are security (loggedIn = true) checked by default and explicitly stated if not
     switch($_GET["action"]) {
-        case "login": $toInclude = 'login.php'; $pageTitle='Log In'; $securedPage=false; break;
+        case "login": $toInclude = './views/login.php'; $pageTitle='Log In'; $securedPage=false; break;
         case "logout": $toInclude = 'logout.php';  $pageTitle='Log Out' ; $securedPage=false ;break;
-        case "manageUsers": $toInclude = 'manageUsers.php'; $pageTitle='Manage Users'; break;
-        default: $toInclude = 'login.php'; $pageTitle='Log In';
+        case "manageUsers": $toInclude = './views/manageUsers.php'; $pageTitle='Manage Users'; break;
+        case "userDetail": $toInclude = './views/userDetail.php'; $pageTitle='User Detail'; break;
+        case "userForm": $toInclude = './views/userForm.php'; $pageTitle='User Form'; break;
+        case "actUserFormSubmit": $toInclude = './actions/actUserFormSubmit.php'; $pageTitle='User Form'; break;
+        default: $toInclude = './views/login.php'; $pageTitle='Log In';
     }
 }
 

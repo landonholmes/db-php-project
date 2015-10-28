@@ -22,7 +22,7 @@
                 // Selecting Database
                 $db = mysqli_select_db($connection,"DB_PHP");
                 // SQL query to fetch information of users and finds user match.
-                $qCheckLogin= mysqli_query($connection,"SELECT UserID,Password FROM USERS WHERE Username='$username';");
+                $qCheckLogin= mysqli_query($connection,"SELECT UserID,Password FROM USERS WHERE Username='$username' AND IsLocked = 0;");
                 if (!is_bool($qCheckLogin) && mysqli_num_rows($qCheckLogin) == 1) {
                     $qCheckLoginObj = $qCheckLogin->fetch_object();
                     if (validate_password($password, $qCheckLoginObj->Password)) {
@@ -53,7 +53,7 @@
 <br />
 <div  style="text-align: center;">
     <div class="col-sm-4 col-sm-offset-4"  style="margin-top: 3%;">
-        <form class="form-inline" method="POST" action="index.php?action=login">
+        <form class="form-inline" method="POST" action="../index.php?action=login">
             <fieldset>
                 <div class="panel panel-primary" >
                     <legend class="panel-heading panel-title">Log In</legend>
@@ -85,8 +85,8 @@
 </div>
 
 </div>
-<script src="./assets/js/jquery.min.js"></script>
-<script src="./assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
 
 <script>
 <?php
