@@ -1,5 +1,4 @@
 <?php
-include "models/user.php";
 if (isset($_GET["userID"])) {
     $userID = $_GET["userID"];
 } else {
@@ -30,7 +29,7 @@ mysqli_close($connection); // Closing Connection
         <div id="username-form-group" class="form-group">
             <label class="control-label col-sm-2 label-required" for="username">Username:</label>
             <div class="col-sm-5">
-                <input type="text" id="username" name="username" class="form-control" value="<?php print $user->Username;?>" />
+                <input type="text" id="username" name="username" class="form-control" required value="<?php print $user->Username;?>" />
             </div>
             <div>
                 <!--error message?-->
@@ -44,7 +43,7 @@ mysqli_close($connection); // Closing Connection
         <div id="email-form-group" class="form-group">
             <label class="control-label col-sm-2" for="email">Email:</label>
             <div class="col-sm-5">
-                <input type="text" id="email" name="email" class="form-control" value="<?php print $user->Email;?>" />
+                <input type="text" id="email" name="email" class="form-control" required value="<?php print $user->Email;?>" />
             </div>
             <div>
                 <!--error message?-->
@@ -58,14 +57,14 @@ mysqli_close($connection); // Closing Connection
         <div class="form-group">
             <label class="control-label col-sm-2 label-required" for="firstName">First Name:</label>
             <div class="col-sm-5">
-                <input type="text" id="firstName" name="firstName" class="form-control" value="<?php print $user->FirstName;?>" />
+                <input type="text" id="firstName" name="firstName" class="form-control" required value="<?php print $user->FirstName;?>" />
                 <!--error message?-->
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-sm-2 label-required" for="lastName">Last Name:</label>
             <div class="col-sm-5">
-                <input type="text" id="lastName" name="lastName" class="form-control" value="<?php print $user->LastName;?>" />
+                <input type="text" id="lastName" name="lastName" class="form-control" required value="<?php print $user->LastName;?>" />
                 <!--error message?-->
             </div>
         </div>
@@ -73,7 +72,7 @@ mysqli_close($connection); // Closing Connection
         <div class="form-group">
             <label class="control-label col-sm-2 label-required" for="isLocked">Account Locked?</label>
             <div class="col-sm-5">
-                <select id="isLocked" name="isLocked" class="form-control">
+                <select id="isLocked" name="isLocked" class="form-control" required>
                     <option value="false" <?php if($user->IsLocked) {echo "selected";} ?>>Unlocked</option>
                     <option value="true" <?php if($user->IsLocked) {echo "selected";} ?>>Locked</option>
                 </select>
@@ -82,13 +81,21 @@ mysqli_close($connection); // Closing Connection
         </div>
 
         <div class="well" id="passwordQuestionsWell">
-            <div class="checkbox row" style="margin-bottom: 7px;">
-                <label class="control-label col-sm-1"></label>
-                <div class="col-sm-6">
-                    <input type="checkbox" id="changePasswords" name="changePasswords" value="true" />
-                    <label for="changePasswords">Change Password? (if not, ignore this block)</label>
-                </div>
-            </div>
+            <?php
+            if ($user->UserID != 0) {
+                echo "
+                    <div class=\"checkbox row\" style=\"margin-bottom: 7px;\">
+                        <label class=\"control-label col-sm-1\"></label>
+                        <div class=\"col-sm-6\">
+                            <input type=\"checkbox\" id=\"changePasswords\" name=\"changePasswords\" value=\"true\" />
+                            <label for=\"changePasswords\">Change Password? (if not, ignore this block)</label>
+                        </div>
+                    </div>
+                ";
+            } else {
+                echo "<input type=\"hidden\" id=\"changePasswords\" name=\"changePasswords\" value=\"true\" />";
+            }
+            ?>
             <div class="checkbox row" style="margin-bottom: 7px;">
                 <label class="control-label col-sm-1"></label>
                 <div class="col-sm-6">
@@ -100,7 +107,7 @@ mysqli_close($connection); // Closing Connection
             <div class="form-group passwordInputFormGroup">
                 <label class="control-label col-sm-2 label-required" for="password">Password:</label>
                 <div class="col-sm-5">
-                    <input type="password" id="password" name="password" class="form-control passwordInput" value="" />
+                    <input type="password" id="password" name="password" class="form-control passwordInput" value="" <?php if($user->UserID == 0) {echo "required";} ?>/>
                     <!--error message?-->
                     <span class="help-block passwordsDontMatchErrorMessage" style="display:none;">The passwords do not match. Please try again.</span>
                 </div>
@@ -108,7 +115,7 @@ mysqli_close($connection); // Closing Connection
             <div class="form-group passwordInputFormGroup">
                 <label class="control-label col-sm-2 label-required" for="password2">Password Again:</label>
                 <div class="col-sm-5">
-                    <input type="password" id="password2" name="password2" class="form-control passwordInput" value="" />
+                    <input type="password" id="password2" name="password2" class="form-control passwordInput" value="" <?php if($user->UserID == 0) {echo "required";} ?>/>
                     <!--error message?-->
                     <span class="help-block passwordsDontMatchErrorMessage" style="display:none;">The passwords do not match. Please try again.</span>
                 </div>

@@ -1,5 +1,4 @@
 <?php
-include "models/user.php";
 if (isset($_GET["userID"])) {
     $userID = $_GET["userID"];
 } else {

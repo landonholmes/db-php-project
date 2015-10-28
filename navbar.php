@@ -26,10 +26,10 @@
                     echo "
                         <li class=\"dropdown\">
                             <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
-                                <i class=\"icon-user icon-white\"></i>User <b class=\"caret\"></b>
+                                <i class=\"icon-user icon-white\"></i>".(new user())->load($_SESSION['loggedInUserID'])->Username."<b class=\"caret\"></b>
                             </a>
                             <ul id=\"actions-submenu\" class=\"dropdown-menu\">
-                                <li><a href=\"index.php?action=account\">Account Settings</a></li>
+                                <li><a href=\"index.php?action=userDetail&userID=".$_SESSION['loggedInUserID']."\">Account Settings</a></li>
                                 <li><a href=\"index.php?action=logout\">Logout</a></li>
                             </ul>
                         </li>

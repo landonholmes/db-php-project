@@ -76,8 +76,7 @@ class user {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "INSERT INTO USERS(UserID
-                                ,Username
+            $queryString = "INSERT INTO USERS(Username
                                 ,Email
                                 ,FirstName
                                 ,LastName
@@ -94,27 +93,26 @@ class user {
                                 ,LastModifiedBy
                                 ,LastModifiedByIP)
                             VALUES (
-                                UserID = '$this->UserID'
-                                ,Username = '$this->Username'
-                                ,Email = '$this->Email'
-                                ,FirstName = '$this->FirstName'
-                                ,LastName = '$this->LastName'
-                                ,Password = '$this->Password'
-                                ,PasswordLastSetOn = '$this->PasswordLastSetOn'
-                                ,PasswordLastSetBy = '$this->PasswordLastSetBy'
-                                ,PasswordLastSetByIP = '$this->PasswordLastSetByIP'
-                                ,LastLoggedInOn = '$this->LastLoggedInOn'
-                                ,IsLocked = '$this->IsLocked'
-                                ,CreatedOn = '$this->CreatedOn'
-                                ,CreatedBy = '$this->CreatedBy'
-                                ,CreatedByIP = '$this->CreatedByIP'
-                                ,LastModifiedOn = '$this->LastModifiedOn'
-                                ,LastModifiedBy = '$this->LastModifiedBy'
-                                ,LastModifiedByIP = '$this->LastModifiedByIP'
+                                '$this->Username'
+                                ,'$this->Email'
+                                ,'$this->FirstName'
+                                ,'$this->LastName'
+                                ,'$this->Password'
+                                ,'$this->PasswordLastSetOn'
+                                ,'$this->PasswordLastSetBy'
+                                ,'$this->PasswordLastSetByIP'
+                                ,'$this->LastLoggedInOn'
+                                ,'$this->IsLocked'
+                                ,'$this->CreatedOn'
+                                ,'$this->CreatedBy'
+                                ,'$this->CreatedByIP'
+                                ,'$this->LastModifiedOn'
+                                ,'$this->LastModifiedBy'
+                                ,'$this->LastModifiedByIP'
                             );
                             ";
             $qCreateUser = mysqli_query($connection, $queryString);
-            var_dump($qCreateUser);
+            $this->UserID = $connection->insert_id;
 
 
             mysqli_close($connection); // Closing Connection

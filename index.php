@@ -29,6 +29,7 @@ if ($securedPage) {
     include "securityCheck.php";
 }
 include "helperFunctions.php";
+include "models/user.php"; //included for displaying name on the nav
 require 'assets/kint/Kint.class.php';
 ?>
 

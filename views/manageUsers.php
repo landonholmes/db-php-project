@@ -1,5 +1,4 @@
 <?php
-include "models/user.php";
 $connection = mysqli_connect("localhost", "php", "password");
 if (!$connection) {
     $errorMsg = "no connection";
@@ -22,7 +21,8 @@ mysqli_close($connection); // Closing Connection
 ?>
 
 <div class="row">
-    <h1>Managing Users</h1>
+    <h1>Managing Users<a href="index.php?action=userForm&userID=0" class="btn btn-info" style="float:right;margin-top:5px;">New</a></h1>
+
     <?php if (isset($errorMsg)){echo "<label class=\"label label-warning\">$errorMsg</label>";}?>
     <div class="col-sm-12">
         <?php if(count($getUsers) < 1) {

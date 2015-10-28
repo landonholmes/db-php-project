@@ -1,8 +1,6 @@
 <?php
-include "models/user.php";
 include "PasswordHash.php";
 if (isset($_POST['submit']) && isset($_POST['userID'])) {
-
     //param'ing for userID
     if (is_numeric($_POST['userID'])) {
         $userID = $_POST['userID'];
@@ -44,8 +42,8 @@ if (isset($_POST['submit']) && isset($_POST['userID'])) {
     $user->LastModifiedBy = $_SESSION['loggedInUserID'];
     $user->LastModifiedByIP = $ip;
 
-    $user->save();
-    redirect("$root/index.php?action=userDetail&userID=$userID");
+    $user = $user->save();
+    redirect("$root/index.php?action=userDetail&userID=$user->UserID");
 } else {
     redirect("$root/index.php?action=manageUsers");
 }
