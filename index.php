@@ -39,7 +39,11 @@ require 'assets/kint/Kint.class.php';
     <body>
         <?php include "navbar.php"; ?>
         <div class="container">
-            <?php  d($toInclude) ?>
+
+            <?php  d($toInclude);
+            ini_set('display_errors',1);
+            error_reporting(-1);
+            ?>
             <?php include("views/manageUsers.php"); ?>
             <?php include($toInclude); ?>
         </div>
