@@ -52,10 +52,10 @@ mysqli_close($connection); // Closing Connection
             foreach ($userList as $singleUser) {
                 echo "<tr>
                         <td>
-                            <a href=\"./../index.php?action=userDetail&userID=$singleUser->UserID\">$singleUser->Username</a>
+                            <a href=\"index.php?action=userDetail&userID=$singleUser->UserID\">$singleUser->Username</a>
                         </td>
                         <td>
-                            <a href=\"./../index.php?action=userDetail&userID=$singleUser->UserID\">$singleUser->Email</a>
+                            <a href=\"index.php?action=userDetail&userID=$singleUser->UserID\">$singleUser->Email</a>
                         </td>
                         <td>
                             $singleUser->FirstName $singleUser->LastName

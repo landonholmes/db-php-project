@@ -4,7 +4,6 @@ if (isset($_GET["userID"])) {
     $userID = $_GET["userID"];
 } else {
     //we didn't get an id. abort
-    $root = $_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
     header("location: $root/index.php?action=manageUsers");
     exit;
 }
@@ -28,7 +27,7 @@ mysqli_close($connection); // Closing Connection
 </div>
 
 <div class="row">
-    <form class="form-horizontal" action="./../index.php?action=actUserFormSubmit" method="POST">
+    <form class="form-horizontal" action="index.php?action=actUserFormSubmit" method="POST">
         <div id="username-form-group" class="form-group">
             <label class="control-label col-md-2 label-required" for="username">Username:</label>
             <div class="col-md-5">

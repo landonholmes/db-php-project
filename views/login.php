@@ -2,7 +2,6 @@
     $error=''; // var for error message
     $username=''; // Variable To Store username
     include "PasswordHash.php";
-    $root = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];

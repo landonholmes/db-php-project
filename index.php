@@ -1,5 +1,6 @@
 <?php
 if(!isset($_SESSION)) {session_start();} //checking if session needs to be started
+$root = $_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 //this file acts as a controller, including pages that are necessary
 if (!isset($_GET["action"])) {
     $toInclude = './views/login.php';

@@ -4,7 +4,6 @@ if (isset($_GET["userID"])) {
     $userID = $_GET["userID"];
 } else {
     //we didn't get an id. abort
-    $root = $_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
     header("location: $root/index.php?action=manageUsers");
     exit;
 }
@@ -98,10 +97,10 @@ mysqli_close($connection); // Closing Connection
 
             if ($_SESSION['loggedInUserID'] == $user->UserID) {
               echo "<p>To update your account, click the button below.</p>
-					<a href=\"./../index.php?action=userForm&userID=$userID\" class=\"btn btn-default\">Update Account</a>";
+					<a href=\"index.php?action=userForm&userID=$userID\" class=\"btn btn-default\">Update Account</a>";
             } else{
                 echo "<p>To update this user, click the button below.</p>
-					<a href=\"./../index.php?action=userForm&userID=$userID\" class=\"btn btn-default\">Update User</a>";
+					<a href=\"index.php?action=userForm&userID=$userID\" class=\"btn btn-default\">Update User</a>";
             }
             echo "</div>
                 </div>";
