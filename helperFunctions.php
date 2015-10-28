@@ -30,3 +30,8 @@ function doesUserHaveRole($userID, $roleName) { /*roleName could be "ADMIN","USE
     }
 }
 
+function redirect($url) {
+    header("Location:$url");
+    exit();
+}
+

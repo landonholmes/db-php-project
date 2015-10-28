@@ -1,8 +1,11 @@
 <?php
+ob_start();
 ini_set('display_errors',1);
 error_reporting(-1);
 
 if(!isset($_SESSION)) {session_start();} //checking if session needs to be started
+if(!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn']=false;} //checking if session loggedIn has been set yet
+if(!isset($_SESSION['loggedInUserID'])) {$_SESSION['loggedInUserID']=0;} //checking if loggedIn userid has been set yet
 $root = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 //this file acts as a controller, including pages that are necessary
 if (!isset($_GET["action"])) {
@@ -27,7 +30,6 @@ if ($securedPage) {
 }
 include "helperFunctions.php";
 require 'assets/kint/Kint.class.php';
-
 ?>
 
 <html>
@@ -46,3 +48,4 @@ require 'assets/kint/Kint.class.php';
         </div>
     </body>
 </html>
+<?php ob_end_flush(); /*end output buffering and send our HTML to the browser as a whole*/ ?>

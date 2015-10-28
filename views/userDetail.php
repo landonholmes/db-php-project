@@ -4,8 +4,7 @@ if (isset($_GET["userID"])) {
     $userID = $_GET["userID"];
 } else {
     //we didn't get an id. abort
-    header("location: $root/index.php?action=manageUsers");
-    exit;
+    redirect("$root/index.php?action=manageUsers");
 }
 $connection = mysqli_connect("localhost", "php", "password");
 if (!$connection) {

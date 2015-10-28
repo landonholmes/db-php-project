@@ -30,15 +30,16 @@
                         $_SESSION['loggedInUserID'] = $qCheckLoginObj->UserID;
 
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
-                            header("location: $root/index.php?action=manageQuiz"); // redirect to other page
+                            redirect("$root/index.php?action=manageQuiz"); // redirect to other page
                         }
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE") ) {
-                            header("location: $root/index.php?action=manageUsers"); // redirect to other page
+                            redirect("$root/index.php?action=manageUsers"); // redirect to other page
                         }
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) {
-                            header("location: $root/index.php?action=quiz"); // redirect to other page
+                            redirect("$root/index.php?action=quiz"); // redirect to other page
                         }
-
+                    } else {
+                        $error = "Username or Password is invalid.";
                     }
                 } else {
                     $error = "Username or Password is invalid";
@@ -53,7 +54,7 @@
 <br />
 <div  style="text-align: center;">
     <div class="col-sm-4 col-sm-offset-4"  style="margin-top: 3%;">
-        <form class="form-inline" method="POST" action="<?php print $root; ?>/index.php?action=login">
+        <form class="form-inline" method="POST" action="index.php?action=login">
             <fieldset>
                 <div class="panel panel-primary" >
                     <legend class="panel-heading panel-title">Log In</legend>
