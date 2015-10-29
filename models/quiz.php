@@ -40,6 +40,29 @@ class quiz {
         }
     }
 
+    public function loadAll() {
+        $connection = mysqli_connect("localhost", "php", "password");
+        if (!$connection) {
+            $errorMsg = "no connection";
+        } else { //connection was good
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "SELECT * FROM QUIZ;";
+            $getQuizzes = mysqli_query($connection, $queryString);
+            mysqli_close($connection); // Closing Connection
+            $quizList = array();
+            if (is_bool($getQuizzes) && !$getQuizzes) {
+                $errorMsg = "bad query";
+            } else {
+                $getQuizzes->fetch_array();
+                foreach ($getQuizzes as $quizThing) {
+                    array_push($quizList, (new quiz())->populateFromQuery($quizThing));
+                }
+            }
+        }
+
+        return $quizList;
+    }
+
     public function save() {
         if ($this->QuizID == 0) {
             return $this->create();

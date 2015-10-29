@@ -1,23 +1,13 @@
 <?php
 include "models/quiz.php";
-if (isset($_GET["quizID"])) {
+if (isset($_GET["quizID"]) && is_numeric($_GET["quizID"])) {
     $quizID = $_GET["quizID"];
 } else {
     //we didn't get an id. abort
     redirect("$root/index.php?action=manageQuiz");
 }
-$connection = mysqli_connect("localhost", "php", "password");
-if (!$connection) {
-    //error connecting
-} else { //connection was good
-    $db = mysqli_select_db($connection, "DB_PHP");
-    $queryString = "SELECT * FROM QUIZ WHERE QuizID = '$quizID';";
-    $getQuiz = mysqli_query($connection, $queryString);
-    $getQuiz = $getQuiz->fetch_array();
-    $quiz = (new quiz())->populateFromQuery($getQuiz);
-}
 
-mysqli_close($connection); // Closing Connection
+$quiz = (new quiz())->load($quizID);
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -59,12 +49,4 @@ mysqli_close($connection); // Closing Connection
             <input type="submit" value="Submit" name="submit" class="btn btn-primary" id="accountSubmitButton" />
         </div>
     </form>
-
-    <script>
-        var PAGE = {
-            quizID: <?php print $quiz->QuizID;?>,
-            xeh: {
-                ajaxIsQuizNameAvailable: '',
-            };
-    </script>
 </div>

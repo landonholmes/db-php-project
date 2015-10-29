@@ -1,24 +1,7 @@
 <?php
 include "models/quiz.php";
-$connection = mysqli_connect("localhost", "php", "password");
-if (!$connection) {
-    $errorMsg = "no connection";
-} else { //connection was good
-    $db = mysqli_select_db($connection, "DB_PHP");
-    $queryString = "SELECT * FROM QUIZ;";
-    $getQuizzes = mysqli_query($connection, $queryString);
-    $quizList = array();
-    if (is_bool($getQuizzes) && !$getQuizzes) {
-        $errorMsg = "bad query";
-    } else {
-        $getQuizzes->fetch_array();
-        foreach ($getQuizzes as $quizThing) {
-            array_push($quizList, (new quiz())->populateFromQuery($quizThing));
-        }
-    }
-}
 
-mysqli_close($connection); // Closing Connection
+$quizList = (new quiz())->loadAll();
 ?>
 
 <div class="row">
@@ -33,14 +16,14 @@ mysqli_close($connection); // Closing Connection
                 <table class=\"table table-condensed table-bordered\">
                     <thead>
                         <tr>
-                            <th>
+                            <th style=\"width:20%;\">
                                 Name
                             </th>
-                            <th style=\"width:250px;\">
+                            <th style=\"width:70%;\">
                                 Description
                             </th>
-                            <th style=\"width:50px;\">
-                                &nbsp;<!--active-->
+                            <th style=\"width:10%;\">
+                                Status
                             </th>
                         </tr>
                     </thead>
