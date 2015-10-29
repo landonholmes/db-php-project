@@ -16,7 +16,7 @@ if (!isset($_GET["action"])) {
     $securedPage=true; //pages are security (loggedIn = true) checked by default and explicitly stated if not
     switch($_GET["action"]) {
         case "login": $toInclude = 'views/login.php'; $pageTitle='Log In'; $securedPage=false; break;
-        case "logout": $toInclude = 'logout.php';  $pageTitle='Log Out' ; $securedPage=false ;break;
+        case "logout": $toInclude = 'actions/logout.php';  $pageTitle='Log Out' ; $securedPage=false ;break;
         case "manageUsers": $toInclude = 'views/manageUsers.php'; $pageTitle='Manage Users'; break;
         case "userDetail": $toInclude = 'views/userDetail.php'; $pageTitle='User Detail'; break;
         case "userForm": $toInclude = 'views/userForm.php'; $pageTitle='User Form'; break;
@@ -30,9 +30,9 @@ if (!isset($_GET["action"])) {
 }
 
 if ($securedPage) {
-    include "securityCheck.php";
+    include "includes/securityCheck.php";
 }
-include "helperFunctions.php";
+include "includes/helperFunctions.php";
 include "models/user.php"; //included for displaying name on the nav
 require 'assets/kint/Kint.class.php';
 ?>
@@ -48,7 +48,7 @@ require 'assets/kint/Kint.class.php';
         <script src="./assets/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <?php include "navbar.php"; ?>
+        <?php include "includes/navbar.php"; ?>
         <div class="container">
             <?php include($toInclude); ?>
         </div>

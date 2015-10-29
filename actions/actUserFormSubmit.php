@@ -1,5 +1,5 @@
 <?php
-include "PasswordHash.php";
+include "includes/PasswordHash.php";
 if (isset($_POST['submit']) && isset($_POST['userID'])) {
     //param'ing for userID
     if (is_numeric($_POST['userID'])) {

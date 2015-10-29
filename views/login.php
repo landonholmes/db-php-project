@@ -1,7 +1,7 @@
 <?php
     $error=''; // var for error message
     $username=''; // Variable To Store username
-    include "PasswordHash.php";
+    include "includes/PasswordHash.php";
 
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
