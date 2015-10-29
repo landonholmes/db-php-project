@@ -1,22 +1,12 @@
 <?php
-if (isset($_GET["userID"])) {
+if (isset($_GET["userID"]) && is_numeric($_GET["userID"])) {
     $userID = $_GET["userID"];
 } else {
     //we didn't get an id. abort
     redirect("$root/index.php?action=manageUsers");
 }
-$connection = mysqli_connect("localhost", "php", "password");
-if (!$connection) {
-    //error connecting
-} else { //connection was good
-    $db = mysqli_select_db($connection, "DB_PHP");
-    $queryString = "SELECT * FROM USERS WHERE UserID = '$userID';";
-    $getUser = mysqli_query($connection, $queryString);
-    $getUser = $getUser->fetch_array();
-    $user = (new user())->populateFromQuery($getUser);
-}
 
-mysqli_close($connection); // Closing Connection
+$user = (new user())->load($userID);
 ?>
 
 <div class="row">

@@ -1,29 +1,12 @@
 <?php
-$connection = mysqli_connect("localhost", "php", "password");
-if (!$connection) {
-    $errorMsg = "no connection";
-} else { //connection was good
-    $db = mysqli_select_db($connection, "DB_PHP");
-    $queryString = "SELECT * FROM USERS;";
-    $getUsers = mysqli_query($connection, $queryString);
-    $userList = array();
-    if (is_bool($getUsers) && !$getUsers) {
-        $errorMsg = 'bad query';
-    } else {
-        $getUsers->fetch_array();
-        foreach ($getUsers as $userThing) {
-            array_push($userList, (new user())->populateFromQuery($userThing));
-        }
-    }
-}
 
-mysqli_close($connection); // Closing Connection
+$userList =  (new user())->loadAll();
+
 ?>
 
 <div class="row">
     <h1>Managing Users<a href="index.php?action=userForm&userID=0" class="btn btn-info" style="float:right;margin-top:5px;">New</a></h1>
 
-    <?php if (isset($errorMsg)){echo "<label class=\"label label-warning\">$errorMsg</label>";}?>
     <div class="col-sm-12">
         <?php if(count($userList) < 1) {
             echo 'No users found..';

@@ -63,6 +63,30 @@ class user {
         }
     }
 
+    public function loadAll() {
+        $connection = mysqli_connect("localhost", "php", "password");
+
+        if (!$connection) {
+            $errorMsg = "no connection";
+        } else { //connection was good
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "SELECT * FROM USERS;";
+            $getUsers = mysqli_query($connection, $queryString);
+            mysqli_close($connection); // Closing Connection
+            $userList = array();
+            if (is_bool($getUsers) && !$getUsers) {
+                $errorMsg = 'bad query';
+            } else {
+                $getUsers->fetch_array();
+                foreach ($getUsers as $userThing) {
+                    array_push($userList, (new user())->populateFromQuery($userThing));
+                }
+            }
+        }
+
+        return $userList;
+    }
+
     public function save() {
         if ($this->UserID == 0) {
             return $this->create();
