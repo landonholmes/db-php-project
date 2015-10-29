@@ -13,17 +13,35 @@ if (isset($_GET["quizID"]) && is_numeric($_GET["quizID"])) {
 } else {
     $quizID = 0;
 }
+$quizResults = [];
+if ($quizID) { //given a specific quiz, load all for that
+    $quizResults = (new quiz_result())->loadAllResultsForQuiz($userID,$quizID);
+} else {
+    $quizResults = (new quiz_result())->loadAllResultsForUser($userID);
+}
 
-$quiz = (new quiz())->load($quizID);
-
-$quizResults = (new quiz_result())->loadLatest($userID,$quizID);
-d($quizResults);
 ?>
-<div class="row">
-    <div class="col-sm-12">
-        <h2>Quiz Results for: <?php print $quiz->Name;?></h2>
-    </div>
-</div>
+
+<?php
+    if (!count($quizResults)) {
+        echo "<div class=\"row\">
+                <div class=\"col-sm-12\">
+                    <h2>No quiz results found.</h2>
+                </div>
+            </div>";
+    } else {
+        foreach($quizResults as $quizResult) {
+            echo "<div class=\"row\">
+                    <div class=\"col-sm-12\">
+                        <h2>Quiz Results for:".(new quiz())->load($quizResult->QuizID)->Name." on $quizResult->ResponseOn </h2>
+                        ".$quizResult->getGrade()."
+                    </div>
+                </div>";
+        }
+    }
+
+?>
+
 
 <div class="row">
 

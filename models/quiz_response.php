@@ -72,12 +72,11 @@ class quiz_response {
 
                     $this->ResponseID = $qLoadResponseObj->ResponseID;
                     array_push($tempArrayOfResponses,(new self())->load($qLoadResponseObj->ResponseID));
-                } else if (mysqli_num_rows($qLoadResponse) >= 1) {
-                    $qLoadResponseObj = $qLoadResponse->fetch_object();
+                } else if (mysqli_num_rows($qLoadResponse) > 0) {
+                    $qLoadResponse->fetch_array();
 
-                    $this->ResponseID = $qLoadResponseObj->ResponseID;
-                    foreach ($qLoadResponseObj as $singleResponse) {
-                        array_push($tempArrayOfResponses,(new self())->load($singleResponse));
+                    foreach ($qLoadResponse as $singleResponse) {
+                        array_push($tempArrayOfResponses,(new self())->populateFromQuery($singleResponse));
                     }
                 }
             } else {
@@ -115,14 +114,14 @@ class quiz_response {
                                 ,IsCorrect
                                 ,ResponseOn)
                             VALUES (
-                                '$this->QuizID'
-                                ,'$this->UserID'
+                                $this->QuizID
+                                ,$this->UserID
                                 ,'$this->QuestionText'
-                                ,'$this->QuestionID'
+                                ,$this->QuestionID
                                 ,'$this->OptionText'
                                 ,'$this->QuestionOptionID'
                                 ,'$this->Response'
-                                ,'$this->IsCorrect'
+                                ,$this->IsCorrect
                                 ,'$this->ResponseOn'
                             );
                             ";
@@ -143,14 +142,14 @@ class quiz_response {
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
             $queryString = "UPDATE QUIZ_RESPONSE
-                            SET QuizID = '$this->QuizID'
-                                ,UserID = '$this->UserID'
+                            SET QuizID = $this->QuizID
+                                ,UserID = $this->UserID
                                 ,QuestionText = '$this->QuestionText'
                                 ,QuestionID = $this->QuestionID
                                 ,OptionText = '$this->OptionText'
                                 ,QuestionOptionID = $this->QuestionOptionID
                                 ,Response = '$this->Response'
-                                ,IsCorrect = '$this->IsCorrect'
+                                ,IsCorrect = $this->IsCorrect
                                 ,ResponseOn = '$this->ResponseOn'
                                 WHERE  ResponseID = '$this->ResponseID';
                             ";
