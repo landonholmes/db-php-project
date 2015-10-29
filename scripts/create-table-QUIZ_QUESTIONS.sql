@@ -4,10 +4,9 @@ DROP TABLE IF EXISTS QUIZ_QUESTIONS;
 
 CREATE TABLE QUIZ_QUESTIONS (
 	  QuestionID		INT		        NOT NULL auto_increment
+	, QuizID			INT		        NOT NULL
     , Text		        VARCHAR(100)	NOT NULL
 	, Type				VARCHAR(2000)	NOT NULL
-	, Options			VARCHAR(2000)	NOT NULL
-	, Answer			VARCHAR(2000)	NOT NULL
-	, isActive		    BIT	NOT NULL
+	, IsActive		    BIT				NOT NULL
 	, PRIMARY KEY (QuestionID)
 );

@@ -1,15 +1,16 @@
 <?php
-include "quiz_question.php";
-class quiz {
+include "quiz_question_option.php";
+class quiz_question {
     private $_never = '1970-01-01 00:00:00';
+    public $QuestionID = 0;
     public $QuizID = 0;
-    public $Name = "";
-    public $Description = "";
+    public $Text = "";
+    public $Type = "";
     public $IsActive = 1;
-    public $Quiz_Questions = [];
+    public $Options = [];
 
-    public function load($quizID){
-        if (!$quizID) {
+    public function load($quizQuestionID){
+        if (!$quizQuestionID) {
             return $this;
         }
 
@@ -17,21 +18,22 @@ class quiz {
         if (!$connection) {
             //error connecting
         } else { //connection was good
-            $quizID = mysqli_real_escape_string($connection, stripslashes($quizID));
+            $quizQuestionID = mysqli_real_escape_string($connection, stripslashes($quizQuestionID));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ WHERE QuizID='$quizID';";
+            $queryString = "SELECT * FROM QUIZ_QUESTION WHERE QuizQuestionID='$quizQuestionID';";
             $qLoadQuiz = mysqli_query($connection, $queryString);
 
             mysqli_close($connection); // Closing Connection
             if (!is_bool($qLoadQuiz) && mysqli_num_rows($qLoadQuiz) == 1) {
                 $qLoadQuizObj = $qLoadQuiz->fetch_object();
 
+                $this->QuestionID = $qLoadQuizObj->QuestionID;
                 $this->QuizID = $qLoadQuizObj->QuizID;
-                $this->Name = $qLoadQuizObj->Name;
-                $this->Description = $qLoadQuizObj->Description;
+                $this->Text = $qLoadQuizObj->Text;
+                $this->Type = $qLoadQuizObj->Type;
                 $this->IsActive = $qLoadQuizObj->IsActive;
 
-                $this->Quiz_Questions = $this->loadArrayOfQuizQuestions();
+                $this->Options = $this->loadArrayOfQuizQuestionAnswers();
             } else {
                 //error, return empty
             }
@@ -41,7 +43,7 @@ class quiz {
     }
 
     public function save() {
-        if ($this->QuizID == 0) {
+        if ($this->QuizQuestionID == 0) {
             return $this->create();
         } else {
             return $this->update();
@@ -57,17 +59,19 @@ class quiz {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "INSERT INTO QUIZ(Name
-                                ,Description
+            $queryString = "INSERT INTO QUIZ_QUESTION(QuizID
+                                ,Text
+                                ,Type
                                 ,IsActive)
                             VALUES (
-                                '$this->Name'
-                                ,'$this->Description'
+                                '$this->QuizID'
+                                ,'$this->Text'
+                                ,'$this->Type'
                                 ,'$this->IsActive'
                             );
                             ";
             $qCreateUser = mysqli_query($connection, $queryString);
-            $this->QuizID = $connection->insert_id;
+            $this->QuizQuestionID = $connection->insert_id;
 
 
             mysqli_close($connection); // Closing Connection
@@ -83,11 +87,12 @@ class quiz {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "UPDATE QUIZ
-                            SET Name = '$this->Name'
-                                ,Description = '$this->Description'
+            $queryString = "UPDATE QUIZ_QUESTION
+                            SET QuizID = '$this->QuizID'
+                                ,Text = '$this->Text'
+                                ,Type = '$this->Type'
                                 ,IsActive = $this->IsActive
-                                WHERE  QuizID = '$this->QuizID';
+                                WHERE  QuizQuestionID = '$this->QuizQuestionID';
                             ";
             $qUpdateQuiz = mysqli_query($connection, $queryString);
 
@@ -97,45 +102,50 @@ class quiz {
     }
 
     private function enforceSQLProtection($conn) {
+        $this->QuestionID = mysqli_real_escape_string($conn,$this->QuestionID);
         $this->QuizID = mysqli_real_escape_string($conn,$this->QuizID);
-        $this->Name = mysqli_real_escape_string($conn,$this->Name);
-        $this->Description = mysqli_real_escape_string($conn,$this->Description);
+        $this->Text = mysqli_real_escape_string($conn,$this->Text);
+        $this->Type = mysqli_real_escape_string($conn,$this->Type);
         $this->IsActive = mysqli_real_escape_string($conn,$this->IsActive);
     }
 
     public function populateFromQuery($queryRow) {
+        $this->QuestionID = $queryRow['QuestionID'];
         $this->QuizID = $queryRow['QuizID'];
-        $this->Name = $queryRow['Name'];
-        $this->Description = $queryRow['Description'];
+        $this->Text = $queryRow['Text'];
+        $this->Type = $queryRow['Type'];
         $this->IsActive = $queryRow['IsActive'];
-        $this->Quiz_Questions = $this->loadArrayOfQuizQuestions();
+        $this->Options = $this->loadArrayOfQuizQuestionAnswers();
         return $this;
     }
 
-    public function loadArrayOfQuizQuestions(){
-        if (!$this->QuizID) {
+    public function loadArrayOfQuizQuestionAnswers(){
+        if (!$this->QuestionID) {
             return []; //no questions for an empty quiz
         }
-        $quizID = $this->QuizID;
+        $questionID = $this->QuestionID;
         $tempArrayOfQuizQuestions = [];
         $connection = mysqli_connect("localhost", "php", "password");
         if (!$connection) {
             //error connecting
         } else { //connection was good
-            $quizID = mysqli_real_escape_string($connection, stripslashes($quizID));
+            $questionID = mysqli_real_escape_string($connection, stripslashes($questionID));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ_QUESTIONS WHERE QuizID='$quizID';";
-            $qLoadQuizQuestions = mysqli_query($connection, $queryString);
-            mysqli_close($connection); // Closing Connection
-            if (!is_bool($qLoadQuizQuestions) && mysqli_num_rows($qLoadQuizQuestions) > 0) {
-                $qLoadQuizQuestionsObj = $qLoadQuizQuestions->fetch_array();
+            $queryString = "SELECT * FROM QUIZ_QUESTION_OPTIONS WHERE QuestionID='$questionID';";
+            $qLoadQuizQuestionOptions = mysqli_query($connection, $queryString);
 
-                foreach ($qLoadQuizQuestions as $quizQuestion) {
-                    array_push($tempArrayOfQuizQuestions, (new quiz_question())->populateFromQuery($quizQuestion));
+            mysqli_close($connection); // Closing Connection
+
+            if (!is_bool($qLoadQuizQuestionOptions) && mysqli_num_rows($qLoadQuizQuestionOptions) > 0) {
+                $qLoadQuizQuestionOptions->fetch_array();
+
+                foreach ($qLoadQuizQuestionOptions as $quizQuestionOption) {
+                    array_push($tempArrayOfQuizQuestions, (new quiz_question_option())->populateFromQuery($quizQuestionOption));
                 }
             } else {
                 //error, return empty
             }
+
 
             return $tempArrayOfQuizQuestions;
         }
