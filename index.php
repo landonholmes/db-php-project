@@ -44,6 +44,7 @@ require 'assets/kint/Kint.class.php';
         <link href="./assets/css/main.css" rel="stylesheet">
         <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
         <script src="./assets/js/jquery.min.js"></script>
+        <script src="./assets/js/lodash_3.10.1.min.js"></script>
         <script src="./assets/js/bootstrap.min.js"></script>
     </head>
     <body>
