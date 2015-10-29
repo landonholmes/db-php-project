@@ -28,7 +28,7 @@ d($_POST);
 } else {
     redirect("$root/index.php?action=quizList");
 }
-
+/*TODO: note to self, fix people without access to user management from not being able to edit their own information*/
 
 
 
