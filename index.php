@@ -9,32 +9,32 @@ if(!isset($_SESSION['loggedInUserID'])) {$_SESSION['loggedInUserID']=0;} //check
 $root = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 //this file acts as a controller, including pages that are necessary
 if (!isset($_GET["action"])) {
-    $toInclude = 'views/login.php';
+    $toInclude = ['views/login.php'];
     $pageTitle='Log In';
     $securedPage=false;
 } else {
     $securedPage=true; //pages are security (loggedIn = true) checked by default and explicitly stated if not
     switch($_GET["action"]) {
-        case "login": $toInclude = 'views/login.php'; $pageTitle='Log In'; $securedPage=false; break;
-        case "logout": $toInclude = 'actions/logout.php';  $pageTitle='Log Out' ; $securedPage=false ;break;
-        case "manageUsers": $toInclude = 'views/manageUsers.php'; $pageTitle='Manage Users'; break;
-        case "userDetail": $toInclude = 'views/userDetail.php'; $pageTitle='User Detail'; break;
-        case "userForm": $toInclude = 'views/userForm.php'; $pageTitle='User Form'; break;
-        case "actUserFormSubmit": $toInclude = 'actions/actUserFormSubmit.php'; $pageTitle='User Form'; break;
-        case "manageQuiz": $toInclude = 'views/manageQuiz.php'; $pageTitle='Manage Quizzes'; break;
-        case "quizDetail": $toInclude = 'views/quizDetail.php'; $pageTitle='Quiz Detail'; break;
-        case "quizForm": $toInclude = 'views/quizForm.php'; $pageTitle='Quiz Form'; break;
-        case "actQuizFormSubmit": $toInclude = 'actions/actQuizFormSubmit.php'; $pageTitle='Quiz Form'; break;
-        default: $toInclude = 'views/login.php'; $pageTitle='Log In';
+        case "login": $toInclude = ['views/login.php']; $pageTitle='Log In'; $securedPage=false; break;
+        case "logout": $toInclude = ['actions/logout.php'];  $pageTitle='Log Out' ; $securedPage=false ;break;
+        case "manageUsers": $toInclude = ['includes/securityCheck_userSection.php','views/manageUsers.php']; $pageTitle='Manage Users'; break;
+        case "userDetail": $toInclude = ['includes/securityCheck_userSection.php','views/userDetail.php']; $pageTitle='User Detail'; break;
+        case "userForm": $toInclude = ['includes/securityCheck_userSection.php','views/userForm.php']; $pageTitle='User Form'; break;
+        case "actUserFormSubmit": $toInclude = ['includes/securityCheck_quizManageSection.php','actions/actUserFormSubmit.php']; $pageTitle='User Form'; break;
+        case "manageQuiz": $toInclude = ['includes/securityCheck_quizManageSection.php','views/manageQuiz.php']; $pageTitle='Manage Quizzes'; break;
+        case "quizDetail": $toInclude = ['includes/securityCheck_quizManageSection.php','views/quizDetail.php']; $pageTitle='Quiz Detail'; break;
+        case "quizForm": $toInclude = ['includes/securityCheck_quizManageSection.php','views/quizForm.php']; $pageTitle='Quiz Form'; break;
+        case "actQuizFormSubmit": $toInclude = ['includes/securityCheck_quizManageSection.php','actions/actQuizFormSubmit.php']; $pageTitle='Quiz Form'; break;
+        default: $toInclude = ['views/login.php']; $pageTitle='Log In';
     }
 }
 
 if ($securedPage) {
-    include "includes/securityCheck.php";
+    include_once "includes/securityCheck.php";
 }
-include "includes/helperFunctions.php";
-include "models/user.php"; //included for displaying name on the nav
-require 'assets/kint/Kint.class.php';
+include_once "includes/helperFunctions.php";
+include_once "models/user.php"; //included for displaying name on the nav
+require_once 'assets/kint/Kint.class.php';
 ?>
 
 <html>
@@ -48,9 +48,13 @@ require 'assets/kint/Kint.class.php';
         <script src="./assets/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <?php include "includes/navbar.php"; ?>
+        <?php include_once "includes/navbar.php"; ?>
         <div class="container">
-            <?php include($toInclude); ?>
+            <?php
+                foreach($toInclude as $singleInclude) {
+                    include_once($singleInclude);
+                }
+            ?>
         </div>
     </body>
 </html>

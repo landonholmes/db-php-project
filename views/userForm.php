@@ -120,11 +120,4 @@ $user = (new user())->load($userID);
         </div>
     </form>
 
-    <script>
-        var PAGE = {
-            userID: <?php print $user->UserID;?>,
-            xeh: {
-                ajaxIsUsernameAvailable: '',
-            };
-    </script>
 </div>

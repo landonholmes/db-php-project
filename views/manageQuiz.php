@@ -1,5 +1,5 @@
 <?php
-include "models/quiz.php";
+include_once "models/quiz.php";
 
 $quizList = (new quiz())->loadAll();
 ?>

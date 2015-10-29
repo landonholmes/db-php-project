@@ -1,5 +1,5 @@
 <?php
-include "quiz_question.php";
+include_once "quiz_question.php";
 class quiz {
     private $_never = '1970-01-01 00:00:00';
     public $QuizID = 0;
