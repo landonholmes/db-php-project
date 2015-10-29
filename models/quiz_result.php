@@ -1,0 +1,194 @@
+<?php
+class quiz_result {
+    private $_never = '1970-01-01 00:00:00';
+    public $ResponseID = 0;
+    public $QuizID = 0;
+    public $UserID = 0;
+    public $ResponseOn = '1970-01-01 00:00:00';
+    public $Responses = [];
+
+    public function load($userID,$quizID,$responseOn){
+        if (!$userID) {
+            return $this;
+        }
+        if (!$quizID) {
+            return $this;
+        }
+        if (!$responseOn) {
+            return $this;
+        }
+
+        $connection = mysqli_connect("localhost", "php", "password");
+        if (!$connection) {
+            //error connecting
+        } else { //connection was good
+            $responseID = mysqli_real_escape_string($connection, stripslashes($responseID));
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "SELECT * FROM QUIZ_RESPONSE WHERE ResponseID='$responseID';";
+            $qLoadResponse = mysqli_query($connection, $queryString);
+
+            mysqli_close($connection); // Closing Connection
+            if (!is_bool($qLoadResponse) && mysqli_num_rows($qLoadResponse) == 1) {
+                $qLoadResponseObj = $qLoadResponse->fetch_object();
+
+                $this->ResponseID = $qLoadResponseObj->ResponseID;
+                $this->QuizID = $qLoadResponseObj->QuizID;
+                $this->UserID = $qLoadResponseObj->UserID;
+                $this->QuestionText = $qLoadResponseObj->QuestionText;
+                $this->QuestionID = $qLoadResponseObj->QuestionID;
+                $this->OptionText = $qLoadResponseObj->OptionText;
+                $this->QuestionOptionID = $qLoadResponseObj->QuestionOptionID;
+                $this->Response = $qLoadResponseObj->Response;
+                $this->IsCorrect = $qLoadResponseObj->IsCorrect;
+                $this->ResponseOn = $qLoadResponseObj->ResponseOn;
+
+            } else {
+                //error, return empty
+            }
+
+            return $this;
+        }
+    }
+
+    public function loadLatest($userID,$quizID){
+        if (!$userID) {
+            return $this;
+        }
+        if (!$quizID) {
+            return $this;
+        }
+
+        $connection = mysqli_connect("localhost", "php", "password");
+        if (!$connection) {
+            //error connecting
+        } else { //connection was good
+            $userID = mysqli_real_escape_string($connection, stripslashes($userID));
+            $quizID = mysqli_real_escape_string($connection, stripslashes($quizID));
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "SELECT *
+                            FROM QUIZ_RESPONSE
+                            WHERE ResponseOn = (SELECT MAX(ResponseOn) FROM QUIZ_RESPONSE)
+                                AND UserID = $userID
+                                AND QuizID = $quizID
+                            ;";
+            $qLoadResponse = mysqli_query($connection, $queryString);
+
+            mysqli_close($connection); // Closing Connection
+            if (!is_bool($qLoadResponse) && mysqli_num_rows($qLoadResponse) == 1) {
+                $qLoadResponseObj = $qLoadResponse->fetch_object();
+
+                $this->Responses = (new quiz_response())->loadAllForResponseOn($qLoadResponseObj->ResponseOn);
+                $this->QuizID = $qLoadResponseObj->QuizID;
+                $this->UserID = $qLoadResponseObj->UserID;
+
+
+            } else {
+                //error, return empty
+            }
+
+            return $this;
+        }
+    }
+
+    public function save() {
+        if ($this->ResponseID == 0) {
+            return $this->create();
+        } else {
+            return $this->update();
+        }
+
+    }
+
+    //assumes record does not exist in DB and intends to insert one
+    public function create() {
+        $connection = mysqli_connect("localhost", "php", "password");
+        if (!$connection) {
+            //error connecting
+        } else { //connection was good
+            $this->enforceSQLProtection($connection);
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "INSERT INTO QUIZ_RESPONSE(QuizID
+                                ,UserID
+                                ,QuestionText
+                                ,QuestionID
+                                ,OptionText
+                                ,QuestionOptionID
+                                ,Response
+                                ,IsCorrect
+                                ,ResponseOn)
+                            VALUES (
+                                '$this->QuizID'
+                                ,'$this->UserID'
+                                ,'$this->QuestionText'
+                                ,'$this->QuestionID'
+                                ,'$this->OptionText'
+                                ,'$this->QuestionOptionID'
+                                ,'$this->Response'
+                                ,'$this->IsCorrect'
+                                ,'$this->ResponseOn'
+                            );
+                            ";
+            $qCreateResponse = mysqli_query($connection, $queryString);
+            $this->ResponseID = $connection->insert_id;
+
+            mysqli_close($connection); // Closing Connection
+            return $this;
+        }
+    }
+
+    //assumes record does exist in DB and intends to update that one
+    public function update() {
+        $connection = mysqli_connect("localhost", "php", "password");
+        if (!$connection) {
+            //error connecting
+        } else { //connection was good
+            $this->enforceSQLProtection($connection);
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "UPDATE QUIZ_RESPONSE
+                            SET QuizID = '$this->QuizID'
+                                ,UserID = '$this->UserID'
+                                ,QuestionText = '$this->QuestionText'
+                                ,QuestionID = $this->QuestionID
+                                ,OptionText = '$this->OptionText'
+                                ,QuestionOptionID = $this->QuestionOptionID
+                                ,Response = '$this->Response'
+                                ,IsCorrect = '$this->IsCorrect'
+                                ,ResponseOn = '$this->ResponseOn'
+                                WHERE  ResponseID = '$this->ResponseID';
+                            ";
+            $qUpdateResponse = mysqli_query($connection, $queryString);
+
+            mysqli_close($connection); // Closing Connection
+            return $this;
+        }
+    }
+
+    private function enforceSQLProtection($conn) {
+        $this->ResponseID = mysqli_real_escape_string($conn,$this->ResponseID);
+        $this->QuizID = mysqli_real_escape_string($conn,$this->QuizID);
+        $this->UserID = mysqli_real_escape_string($conn,$this->UserID);
+        $this->QuestionText = mysqli_real_escape_string($conn,$this->QuestionText);
+        $this->QuestionID = mysqli_real_escape_string($conn,$this->QuestionID);
+        $this->OptionText = mysqli_real_escape_string($conn,$this->OptionText);
+        $this->QuestionOptionID = mysqli_real_escape_string($conn,$this->QuestionOptionID);
+        $this->Response = mysqli_real_escape_string($conn,$this->Response);
+        $this->IsCorrect = mysqli_real_escape_string($conn,$this->IsCorrect);
+        $this->ResponseOn = mysqli_real_escape_string($conn,$this->ResponseOn);
+    }
+
+    public function populateFromQuery($queryRow) {
+        $this->ResponseID = $queryRow['ResponseID'];
+        $this->QuizID = $queryRow['QuizID'];
+        $this->UserID = $queryRow['UserID'];
+        $this->QuestionText = $queryRow['QuestionText'];
+        $this->QuestionID = $queryRow['QuestionID'];
+        $this->OptionText = $queryRow['OptionText'];
+        $this->QuestionOptionID = $queryRow['QuestionOptionID'];
+        $this->Response = $queryRow['Response'];
+        $this->IsCorrect = $queryRow['IsCorrect'];
+        $this->ResponseOn = $queryRow['ResponseOn'];
+        return $this;
+    }
+
+
+}

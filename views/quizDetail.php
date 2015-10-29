@@ -1,5 +1,5 @@
 <?php
-include "models/quiz.php";
+include_once "models/quiz.php";
 if (isset($_GET["quizID"]) && is_numeric($_GET["quizID"])) {
     $quizID = $_GET["quizID"];
 } else {

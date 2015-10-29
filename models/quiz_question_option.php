@@ -37,6 +37,41 @@ class quiz_question_option {
         }
     }
 
+    public function loadOptionForQuizForQuestion($questionID,$text){
+        if (!$questionID) {
+            return $this;
+        }
+
+        $connection = mysqli_connect("localhost", "php", "password");
+        if (!$connection) {
+            //error connecting
+        } else { //connection was good
+            $questionID = mysqli_real_escape_string($connection, stripslashes($questionID));
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "SELECT *
+                            FROM QUIZ_QUESTION_OPTIONS
+                            WHERE QuestionID = '$questionID'
+                                AND Text = '$text';";
+            $qLoadQuiz = mysqli_query($connection, $queryString);
+            d($queryString);
+var_dump($connection);
+            mysqli_close($connection); // Closing Connection
+            if (!is_bool($qLoadQuiz) && mysqli_num_rows($qLoadQuiz) == 1) {
+                $qLoadQuizObj = $qLoadQuiz->fetch_object();
+
+                $this->QuestionOptionID = $qLoadQuizObj->QuestionOptionID;
+                $this->QuestionID = $qLoadQuizObj->QuestionID;
+                $this->Text = $qLoadQuizObj->Text;
+                $this->IsAnswer = $qLoadQuizObj->IsAnswer;
+
+            } else {
+                //error, return empty
+            }
+
+            return $this;
+        }
+    }
+
     public function save() {
         if ($this->QuestionOptionID == 0) {
             return $this->create();

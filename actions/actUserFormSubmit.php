@@ -1,5 +1,5 @@
 <?php
-include "includes/PasswordHash.php";
+include_once "includes/PasswordHash.php";
 if (isset($_POST['submit']) && isset($_POST['userID'])) {
     //param'ing for userID
     if (is_numeric($_POST['userID'])) {
@@ -17,6 +17,7 @@ if (isset($_POST['submit']) && isset($_POST['userID'])) {
 
 
     $user = (new user())->load($userID); //load a model
+    $rightNow = date("Y-m-d H:i:s");
 
     $user->Username = $_POST['username'];
     $user->Email = $_POST['email'];
@@ -25,7 +26,7 @@ if (isset($_POST['submit']) && isset($_POST['userID'])) {
 
     if (isset($_POST['changePasswords']) && ($_POST['changePasswords'] == "true") && strlen($_POST['password'])) {
         $user->Password = create_hash($_POST['password']);
-        $user->PasswordLastSetOn = date("Y-m-d H:i:s");
+        $user->PasswordLastSetOn = $rightNow;
         $user->PasswordLastSetBy = $_SESSION['loggedInUserID'];
         $user->PasswordLastSetByIP = $ip;
     }
@@ -33,12 +34,12 @@ if (isset($_POST['submit']) && isset($_POST['userID'])) {
     $user->IsLocked = $_POST['isLocked'];
 
     if ($userID == 0) {
-        $user->CreatedOn = date("Y-m-d H:i:s");
+        $user->CreatedOn = $rightNow;
         $user->CreatedBy = $_SESSION['loggedInUserID'];
         $user->CreatedByIP = $ip;
     }
 
-    $user->LastModifiedOn = date("Y-m-d H:i:s");
+    $user->LastModifiedOn = $rightNow;
     $user->LastModifiedBy = $_SESSION['loggedInUserID'];
     $user->LastModifiedByIP = $ip;
 

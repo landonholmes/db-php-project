@@ -31,9 +31,9 @@
                             <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
                                 <i class=\"glyphicon glyphicon-user glyphicon-white\"></i>&nbsp;".(new user())->load($_SESSION['loggedInUserID'])->Username."<b class=\"caret\"></b>
                             </a>
-                            <ul id=\"actions-submenu\" class=\"dropdown-menu\">
-                                <li><a href=\"index.php?action=userDetail&userID=".$_SESSION['loggedInUserID']."\">Account Settings</a></li>
-                                <li><a href=\"index.php?action=logout\">Logout</a></li>
+                            <ul id=\"actions-submenu\" class=\"dropdown-menu\">";
+                                /*<li><a href=\"index.php?action=userDetail&userID=".$_SESSION['loggedInUserID']."\">Account Settings</a></li>*/
+                                echo "<li><a href=\"index.php?action=logout\">Logout</a></li>
                             </ul>
                         </li>
                     ";

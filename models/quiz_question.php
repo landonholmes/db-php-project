@@ -1,5 +1,5 @@
 <?php
-include "quiz_question_option.php";
+include_once "quiz_question_option.php";
 class quiz_question {
     private $_never = '1970-01-01 00:00:00';
     public $QuestionID = 0;
@@ -72,7 +72,6 @@ class quiz_question {
                             ";
             $qCreateUser = mysqli_query($connection, $queryString);
             $this->QuizQuestionID = $connection->insert_id;
-
 
             mysqli_close($connection); // Closing Connection
             return $this;
@@ -149,6 +148,19 @@ class quiz_question {
 
             return $tempArrayOfQuizQuestions;
         }
+    }
+
+    //to be called after options have been loaded
+    public function getAcceptableAnswers() {
+        $tempIsAnswerOptions = [];
+
+        foreach ($this->Options as $option) {
+            if ($option->IsAnswer == 1) {
+                array_push($tempIsAnswerOptions,$option);
+            }
+        }
+
+        return $tempIsAnswerOptions;
     }
 
 }

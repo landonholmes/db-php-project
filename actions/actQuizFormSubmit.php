@@ -1,5 +1,5 @@
 <?php
-include "models/quiz.php";
+include_once "models/quiz.php";
 if (isset($_POST['submit']) && isset($_POST['quizID'])) {
     //param'ing for quizID
     if (is_numeric($_POST['quizID'])) {
