@@ -1,7 +1,7 @@
 <?php
     $error=''; // var for error message
     $username=''; // Variable To Store username
-    include "includes/PasswordHash.php";
+    include_once "includes/PasswordHash.php";
 
     if (isset($_POST['submit'])) {
         $username = $_POST['username'];
@@ -23,6 +23,7 @@
                 $db = mysqli_select_db($connection,"DB_PHP");
                 // SQL query to fetch information of users and finds user match.
                 $qCheckLogin= mysqli_query($connection,"SELECT UserID,Password FROM USERS WHERE Username='$username' AND IsLocked = 0;");
+                mysqli_close($connection); // Closing Connection
                 if (!is_bool($qCheckLogin) && mysqli_num_rows($qCheckLogin) == 1) {
                     $qCheckLoginObj = $qCheckLogin->fetch_object();
                     if (validate_password($password, $qCheckLoginObj->Password)) {
@@ -38,7 +39,7 @@
                             redirect("$root/index.php?action=manageUsers"); // redirect to other page
                         }
                         if (doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) {
-                            redirect("$root/index.php?action=quiz"); // redirect to other page
+                            redirect("$root/index.php?action=quizList"); // redirect to other page
                         }
                     } else {
                         $error = "Username or Password is invalid.";
@@ -46,8 +47,6 @@
                 } else {
                     $error = "Username or Password is invalid";
                 }
-
-                mysqli_close($connection); // Closing Connection
             }
         }
     }

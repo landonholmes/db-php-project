@@ -49,7 +49,7 @@ $quiz = (new quiz())->load($quizID);
             <div class=\"col-sm-4\"><br />
             <div class=\"well\">
                 <p>To update this quiz, click the button below.</p>
-                <a href=\"index.php?action=quizForm&quizID=$quizID\" class=\"btn btn-default\">Update User</a>
+                <a href=\"index.php?action=quizForm&quizID=$quizID\" class=\"btn btn-default\">Update Quiz</a>
             </div>
         </div>";
         ?>

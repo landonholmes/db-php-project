@@ -10,7 +10,7 @@
             if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) { //if a user is in a group
                 echo "
                     <ul class=\"nav navbar-nav navbar-left\">
-                        <li><a href=\"index.php?action=quiz\"><i class=\"glyphicon glyphicon-th-list\"></i>&nbsp;Quiz</a></li>
+                        <li><a href=\"index.php?action=quizList\"><i class=\"glyphicon glyphicon-th-list\"></i>&nbsp;Take Quiz</a></li>
                     </ul>
                 ";
             }

@@ -20,7 +20,7 @@ class quiz_question {
         } else { //connection was good
             $quizQuestionID = mysqli_real_escape_string($connection, stripslashes($quizQuestionID));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ_QUESTION WHERE QuizQuestionID='$quizQuestionID';";
+            $queryString = "SELECT * FROM QUIZ_QUESTIONS WHERE QuestionID='$quizQuestionID';";
             $qLoadQuiz = mysqli_query($connection, $queryString);
 
             mysqli_close($connection); // Closing Connection
@@ -59,7 +59,7 @@ class quiz_question {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "INSERT INTO QUIZ_QUESTION(QuizID
+            $queryString = "INSERT INTO QUIZ_QUESTIONS(QuizID
                                 ,Text
                                 ,Type
                                 ,IsActive)
@@ -87,12 +87,12 @@ class quiz_question {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "UPDATE QUIZ_QUESTION
+            $queryString = "UPDATE QUIZ_QUESTIONS
                             SET QuizID = '$this->QuizID'
                                 ,Text = '$this->Text'
                                 ,Type = '$this->Type'
                                 ,IsActive = $this->IsActive
-                                WHERE  QuizQuestionID = '$this->QuizQuestionID';
+                                WHERE  QuestionID = '$this->QuizQuestionID';
                             ";
             $qUpdateQuiz = mysqli_query($connection, $queryString);
 
