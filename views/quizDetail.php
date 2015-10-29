@@ -17,7 +17,6 @@ if (!$connection) {
     $quiz = (new quiz())->populateFromQuery($getQuiz);
 }
 mysqli_close($connection); // Closing Connection
-d($quiz);
 ?>
 
 <div class="row">
