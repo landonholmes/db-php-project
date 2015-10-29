@@ -46,7 +46,7 @@ $quizList = (new quiz())->loadAll();
                     echo "<span class=\"label label-info\">Active</span>";
                 }
 
-                echo "</tr>";
+                echo "</td></tr>";
             }
 
             echo "</tbody>
