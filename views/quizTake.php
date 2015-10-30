@@ -4,13 +4,13 @@ if (isset($_GET["quizID"]) && is_numeric($_GET["quizID"])) {
     $quizID = $_GET["quizID"];
 } else {
     //we didn't get an id. abort
-    redirect("$root/index.php?action=manageQuiz");
+    redirect("$root/index.php?action=quizList");
 }
 
 $quiz = (new quiz())->load($quizID);
 
-if ($quiz->IsActive == 0) { //don't let them try to take inactive quizzes
-    redirect("$root/index.php?action=manageQuiz");
+if ($quiz->IsActive == 0 || (count($quiz->Quiz_Questions) < 1)) { //don't let them try to take inactive or empty quizzes
+    redirect("$root/index.php?action=quizList");
 }
 
 function buildQuestionHTML($quizQuestion,$index) {
@@ -44,7 +44,7 @@ function buildQuestionHTML($quizQuestion,$index) {
         <?php
             $index = 1;
             foreach ($quiz->Quiz_Questions as $quizQuestion) {
-                if ($quizQuestion->IsActive) { //we only want active questions
+                if ($quizQuestion->IsActive && (count($quizQuestion->Options) > 0)) { //we only want active questions
                     echo buildQuestionHTML($quizQuestion,$index);
                 }
             }

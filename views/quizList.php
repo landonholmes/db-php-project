@@ -2,6 +2,11 @@
 include_once "models/quiz.php";
 
 $quizList = (new quiz())->loadAllActive();
+
+$quizQuestionCount = 0; //this is to check to make sure at least one quiz actually has questions before it shows any
+foreach ($quizList as $singleQuiz) {
+    $quizQuestionCount+=(count($singleQuiz->Quiz_Questions));
+}
 ?>
 
 <div class="row">
@@ -9,7 +14,7 @@ $quizList = (new quiz())->loadAllActive();
 
     <?php if (isset($errorMsg)){echo "<label class=\"label label-warning\">$errorMsg</label>";}?>
     <div class="col-sm-12">
-        <?php if(count($quizList) < 1) {
+        <?php if(count($quizList) < 1 || $quizQuestionCount == 0) {
             echo 'No quizzes found..';
         } else {
             echo "
