@@ -31,6 +31,7 @@ class quiz_result {
                             WHERE ResponseOn = '$responseOn'
                                 AND UserID = $userID
                                 AND QuizID = $quizID
+                            ORDER BY ResponseOn DESC
                             ;";
             $qLoadResponse = mysqli_query($connection, $queryString);
 
@@ -72,6 +73,7 @@ class quiz_result {
                             WHERE ResponseOn = (SELECT MAX(ResponseOn) FROM QUIZ_RESPONSE)
                                 AND UserID = $userID
                                 AND QuizID = $quizID
+                            ORDER BY ResponseOn DESC
                             ;";
             $qLoadResponse = mysqli_query($connection, $queryString);
 
@@ -113,6 +115,7 @@ class quiz_result {
                             FROM QUIZ_RESPONSE
                             WHERE  UserID = $userID
                                 AND QuizID = $quizID
+                            ORDER BY ResponseOn DESC
                             ;";
             $qLoadResponse = mysqli_query($connection, $queryString);
 
@@ -152,6 +155,7 @@ class quiz_result {
             $queryString = "SELECT DISTINCT(ResponseOn),UserID,QuizID
                             FROM QUIZ_RESPONSE
                             WHERE  UserID = $userID
+                            ORDER BY ResponseOn DESC
                             ;";
             $qLoadResponse = mysqli_query($connection, $queryString);
 
