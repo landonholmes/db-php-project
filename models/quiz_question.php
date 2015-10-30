@@ -43,7 +43,7 @@ class quiz_question {
     }
 
     public function save() {
-        if ($this->QuizQuestionID == 0) {
+        if ($this->QuestionID == 0) {
             return $this->create();
         } else {
             return $this->update();
@@ -70,8 +70,8 @@ class quiz_question {
                                 ,'$this->IsActive'
                             );
                             ";
-            $qCreateUser = mysqli_query($connection, $queryString);
-            $this->QuizQuestionID = $connection->insert_id;
+            $qCreateQuizQuestion = mysqli_query($connection, $queryString);
+            $this->QuestionID = $connection->insert_id;
 
             mysqli_close($connection); // Closing Connection
             return $this;
@@ -91,7 +91,7 @@ class quiz_question {
                                 ,Text = '$this->Text'
                                 ,Type = '$this->Type'
                                 ,IsActive = $this->IsActive
-                                WHERE  QuestionID = '$this->QuizQuestionID';
+                                WHERE  QuestionID = '$this->QuestionID';
                             ";
             $qUpdateQuiz = mysqli_query($connection, $queryString);
 

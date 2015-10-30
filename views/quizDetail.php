@@ -60,19 +60,19 @@ $quiz = (new quiz())->load($quizID);
         <h2>Questions:<a class="btn btn-sm btn-info" id="new-question-button" style="float:right;margin-top:5px;">New Question</a></h2>
         <table class="table table-condensed table-detail">
             <tr>
-                <th>Text</th>
-                <th>Type</th>
-                <th>Status</th>
-                <th>Options (<span style="font-weight:bold;text-decoration:underline;">answer</span>)</th>
-                <th>&nbsp;</th>
+                <th style="width:37%;">Text</th>
+                <th style="width:10%;">Type</th>
+                <th style="width:10%;">Status</th>
+                <th style="width:30%;">Options (<span style="font-weight:bold;text-decoration:underline;">answer</span>)</th>
+                <th style="width:25%;">&nbsp;</th>
             </tr>
             <?php
                 foreach ($quiz->Quiz_Questions as $quizQuestion) {
                     echo "
-                    <tr>
-                        <td>$quizQuestion->Text</td>
-                        <td>$quizQuestion->Type</td>
-                        <td>";
+                    <tr data-question-id=\"$quizQuestion->QuestionID\">
+                        <td class=\"textValue\">$quizQuestion->Text</td>
+                        <td class=\"typeValue\">$quizQuestion->Type</td>
+                        <td class=\"isActiveValue\" data-isActive=\"$quizQuestion->IsActive\">";
                     if ($quizQuestion->IsActive == 0) {
                         echo "<span class=\"label label-warning\">Locked</span>";
                     } else {
@@ -90,30 +90,195 @@ $quiz = (new quiz())->load($quizID);
                         }
                         echo "</ul>";
                     echo "</td>
-                        <td>Disable</td>
+                        <td>
+                            <button class=\"btn btn-sm btn-info edit-question-button\" data->Edit</button>&nbsp;";
+                        if ($quizQuestion->IsActive == 0) {
+                            echo "<button class=\"btn btn-sm btn-success enable-question-button\">Enable</button>";
+                            } else {
+                            echo "<button class=\"btn btn-sm btn-danger disable-question-button\">Disable</button>";
+                            }
+                    echo "</td>
                     </tr>
                     ";
                 }
             ?>
         </table>
         <script>
-            var quizID = "<?php print($quiz->QuizID); ?>";
-            var quizQuestionRowTemplate = _.template("");
+            var PAGE = {
+                quizID: <?php print($quiz->QuizID); ?>
+                ,editing: {}
+            };
+            var quizQuestionRowTemplate = _.template('<tr data-question-id="<%= questionID %>">' +
+                    '<td class="textValue"><%= text %></td>' +
+                    '<td class="typeValue"><%= type %></td>' + //type
+                    '<td class="isActiveValue" data-isActive="<%= isActive %>">' +
+                        '<% if (isActive == 0) {%> <span class=\"label label-warning\">Locked</span> <%}else{%><span class=\"label label-info\">Active</span> <%}%> ' +
+                    '</td>' + //status
+                    '<td class="optionValue">' +
+                        '' + //TODO: loop of options, if any
+                    '</td>' + //cancel
+                    '<td>' +
+                        '<button class="btn btn-sm btn-info edit-question-button" data->Edit</button>&nbsp;' +
+                        '<% if (isActive == 0) {%> <button class=\"btn btn-sm btn-success enable-question-button\">Enable</button> <%}else{%><button class=\"btn btn-sm btn-danger disable-question-button\">Disable</button> <%}%> ' +
+                        '</td>' + //cancel/submit
+                '</tr>');
             var quizQuestionFormTemplate = _.template('<tr class="quiz-question-form" id="<%= formID %>">' +
-                '<td><input type="text" class="form-control" name="quizOption"/></td>' +
-                '<td></td>' +
-                '<td></td>' +
-                '<td></td>' +
+                    '<td><input type="text" class="form-control" name="text" value="<%= text %>"/></td>' +
+                    '<td><select class="form-control" name="type">' +
+                        '<option value="Select" <% if(type=="Select"){%>selected<%}%>>Select</option>' +
+                        '<option value="Text" <% if(type=="Text"){%>selected<%}%>>Text</option>' +
+                    '</select></td>' + //type
+                    '<td><select class="form-control" name="isActive">' +
+                        '<option value="1" <% if(type==1){%>selected<%}%>>Active</option>' +
+                        '<option value="0" <% if(type==0){%>selected<%}%>>Disabled</option>' +
+                    '</select></td>' +
+                    '<td></td>' +
+                    '<td><button class="btn btn-sm btn-danger cancel-<%=formType%>-button">Cancel</button>&nbsp;<button class="btn btn-sm btn-success submit-<%=formType%>-button">Submit</button></td>' + //cancel/submit
                 '</tr>');
 
-            //$("div.quiz-question-row").on("click","a#new-question-button",clickedNewQuestionButton);
+            $("div.quiz-question-row").on("click","a#new-question-button",clickedNewQuestionAddButton);
+            $("div.quiz-question-row").on("click","button.cancel-add-button",newQuestionCancel);
+            $("div.quiz-question-row").on("click","button.submit-add-button",newQuestionSubmit);
+            $("div.quiz-question-row").on("click","button.edit-question-button",clickedEditQuestionButton);
+            $("div.quiz-question-row").on("click","button.cancel-edit-button",editQuestionCancel);
+            $("div.quiz-question-row").on("click","button.submit-edit-button",editQuestionSubmit);
+            $("div.quiz-question-row").on("click","button.enable-question-button",disableEnableQuizQuestion);
+            $("div.quiz-question-row").on("click","button.disable-question-button",disableEnableQuizQuestion);
+            //add option to question
+            //remove option from question
 
-            function clickedNewQuestionButton(e) {
+            function clickedNewQuestionAddButton(e) {
                 if (!$("#new-quiz-question-form").length) {
                     $("div.quiz-question-row").find("table").append(quizQuestionFormTemplate({
                         formID: 'new-quiz-question-form'
-                    }));
+                        ,text: ''
+                        ,type: 'Select'
+                        ,isActive: '1'
+                        ,formType: 'add'
+                    })).find("input[name=text]").focus();
                 }
+            }
+
+            function newQuestionSubmit() {
+                //get information from inputs
+                var thisFormRow = $(this).parents("td").parents("tr");
+                var text = thisFormRow.find("input[name=text]").val();
+                var type = thisFormRow.find("select[name=type] option:selected").val();
+                var isActive = thisFormRow.find("select[name=isActive] option:selected").val();
+
+                $.ajax( {
+                    "dataType": 'json',
+                    "type": 'POST',
+                    "url": "includes/helperFunctions.php",
+                    "data": {"action":"addQuestionToQuiz","QuizID":PAGE.quizID,"Text":text,"Type":type,"IsActive":isActive},
+                    "success": function(e) { //tries to return the new question id
+                        console.log("success",e);
+                        if(e === +e){
+                            $("div.quiz-question-row").find("table").append(quizQuestionRowTemplate({
+                                questionID: e
+                                ,text: text
+                                ,type: type
+                                ,isActive: isActive
+                            }));
+                            thisFormRow.remove();
+                        }
+                    },
+                    "timeout": 15000,
+                    "error": function(e) {
+                        console.log("error",e);
+                    }
+                });
+            }
+
+            function clickedEditQuestionButton(e) {
+                var thisRow = $(this).parents("td").parents("tr");
+                var quizQuestionID = thisRow.attr("data-question-id");
+                var text = thisRow.children(".textValue").html();
+                var type = thisRow.children(".typeValue").html();
+                var isActive = thisRow.children(".isActiveValue").attr("data-isActive");
+
+                PAGE.editing[quizQuestionID] = thisRow;
+
+                thisRow.replaceWith(quizQuestionFormTemplate({
+                    formID: quizQuestionID
+                    ,text: text
+                    ,type: type
+                    ,isActive: isActive
+                    ,formType: 'edit'
+                })).find("input[name=text]").focus();
+            }
+            
+            function newQuestionCancel() {$("#new-quiz-question-form").remove();}
+
+            function editQuestionCancel() {
+                var thisRow = $(this).parents("td").parents("tr");
+                var quizQuestionID = thisRow.attr("id");
+                thisRow.replaceWith(PAGE.editing[quizQuestionID])
+            }
+
+            function editQuestionSubmit() {
+                //get information from inputs
+                var thisFormRow = $(this).parents("td").parents("tr");
+                var quizQuestionID = thisFormRow.attr("id");
+                var text = thisFormRow.find("input[name=text]").val();
+                var type = thisFormRow.find("select[name=type] option:selected").val();
+                var isActive = thisFormRow.find("select[name=isActive] option:selected").val();
+
+                $.ajax( {
+                    "dataType": 'json',
+                    "type": 'POST',
+                    "url": "includes/helperFunctions.php",
+                    "data": {"action":"editQuestion","QuestionID":quizQuestionID,"Text":text,"Type":type,"IsActive":isActive},
+                    "success": function(e) { //tries to return the new question id
+                        console.log("success",e);
+                        if(e === +e){
+                            thisFormRow.replaceWith(quizQuestionRowTemplate({
+                                questionID: e
+                                ,text: text
+                                ,type: type
+                                ,isActive: isActive
+                            }));
+                            thisFormRow.remove();
+                        }
+                    },
+                    "timeout": 15000,
+                    "error": function(e) {
+                        console.log("error",e);
+                    }
+                });
+            }
+
+
+
+            function disableEnableQuizQuestion() {
+                var thisRow = $(this).parents("td").parents("tr");
+                var quizQuestionID = thisRow.attr("data-question-id");
+                var text = thisRow.children(".textValue").html();
+                var type = thisRow.children(".typeValue").html();
+                var isActive = thisRow.children(".isActiveValue").attr("data-isActive");
+                var newActiveValue = isActive ^= 1;
+
+                $.ajax( {
+                    "dataType": 'json',
+                    "type": 'POST',
+                    "url": "includes/helperFunctions.php",
+                    "data": {"action":"disableEnableQuizQuestion","QuestionID":quizQuestionID,"IsActive":newActiveValue},
+                    "success": function(e) { //tries to return the new question id
+                        console.log("success",e);
+                        if(e == 1 || e == 0){
+                            thisRow.replaceWith(quizQuestionRowTemplate({
+                                questionID: quizQuestionID
+                                ,text: text
+                                ,type: type
+                                ,isActive: e
+                            }));
+                        }
+                    },
+                    "timeout": 15000,
+                    "error": function(e) {
+                        console.log("error",e);
+                    }
+                });
             }
 
         </script>

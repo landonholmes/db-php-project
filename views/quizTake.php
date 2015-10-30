@@ -29,6 +29,15 @@ function buildQuestionHTML($quizQuestion,$index) {
                     </div>";
             break;
         }
+        case "Text": {
+            $toReturn = $toReturn."<div class=\"form-group\">
+                        <label class=\"control-label col-sm-2 label-required\" for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>
+                        <div class=\"col-sm-5\">
+                            <input id=\"Question_$quizQuestion->QuestionID\" name=\"Question_$quizQuestion->QuestionID\" class=\"form-control\" required value=\"\">";
+            $toReturn = $toReturn."</div>
+                    </div>";
+            break;
+        }
     }
     return $toReturn;
 }

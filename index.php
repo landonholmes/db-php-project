@@ -33,12 +33,13 @@ if (!isset($_GET["action"])) {
     }
 }
 
+include_once 'assets/kint/Kint.class.php';
+
 if ($securedPage) {
     include_once "includes/securityCheck.php";
 }
 include_once "includes/helperFunctions.php";
 include_once "models/user.php"; //included for displaying name on the nav
-require_once 'assets/kint/Kint.class.php';
 ?>
 
 <html>

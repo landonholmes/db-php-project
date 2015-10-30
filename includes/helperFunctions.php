@@ -1,5 +1,8 @@
 <?php
 
+include_once "../models/quiz_question.php";
+include_once "../models/quiz_question_option.php";
+
 function doesUserHaveRole($userID, $roleName) { /*roleName could be "ADMIN","USERMANAGE","STUDENT"*/
     $connection = mysqli_connect("localhost", "php", "password");
     // To protect MySQL injection for Security purpose
@@ -58,6 +61,28 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
                 echo addUserToRole($_POST['UserID'],$_POST['RoleID']);
                 break;
                 }
+        case 'addQuestionToQuiz' : {
+                if (!isset($_POST['QuizID']) || empty($_POST['QuizID'])) { return false; }
+                if (!isset($_POST['Text']) || empty($_POST['Text'])) { return false; }
+                if (!isset($_POST['Type']) || empty($_POST['Type'])) { return false; }
+                if (!isset($_POST['IsActive'])) { return false; }
+                echo addQuestionToQuiz($_POST['QuizID'],$_POST['Text'],$_POST['Type'],$_POST['IsActive']);
+                break;
+                }
+        case 'editQuestion' : {
+                if (!isset($_POST['QuestionID']) || empty($_POST['QuestionID'])) { return false; }
+                if (!isset($_POST['Text']) || empty($_POST['Text'])) { return false; }
+                if (!isset($_POST['Type']) || empty($_POST['Type'])) { return false; }
+                if (!isset($_POST['IsActive'])) { return false; }
+                echo editQuestion($_POST['QuestionID'],$_POST['Text'],$_POST['Type'],$_POST['IsActive']);
+                break;
+                }
+        case 'disableEnableQuizQuestion' : {
+                if (!isset($_POST['QuestionID']) || empty($_POST['QuestionID'])) { return false; }
+                if (!isset($_POST['IsActive'])) { return false; }
+                echo disableEnableQuizQuestion($_POST['QuestionID'],$_POST['IsActive']);
+                break;
+                }
         default: return false;
     }
 }
@@ -108,4 +133,82 @@ function addUserToRole($userID,$roleID) {
         return $User_RoleID;
     }
 }
+
+
+function addQuestionToQuiz($QuizID,$Text,$Type,$IsActive) {
+    if (!is_numeric($QuizID) || (is_numeric($QuizID) && !$QuizID)) {
+        return false;
+    }
+    if (!strlen($Text)) {
+        return false;
+    }
+    if (!strlen($Type)) {
+        return false;
+    }
+    if ($IsActive != 0 && $IsActive != 1) { //must be 0 or 1
+        return false;
+    }
+
+    $quizQues = new quiz_question();
+
+    $quizQues->QuizID = $QuizID;
+    $quizQues->Text = $Text;
+    $quizQues->Type = $Type;
+    $quizQues->IsActive = $IsActive;
+
+    $quizQues->save();
+
+    if ($quizQues->QuestionID == 0) {
+        return false;
+    } else {
+        return $quizQues->QuestionID;
+    }
+}
+
+function editQuestion($QuestionID,$Text,$Type,$IsActive) {
+    if (!is_numeric($QuestionID) || (is_numeric($QuestionID) && !$QuestionID)) {
+        return false;
+    }
+    if (!strlen($Text)) {
+        return false;
+    }
+    if (!strlen($Type)) {
+        return false;
+    }
+    if ($IsActive != 0 && $IsActive != 1) { //must be 0 or 1
+        return false;
+    }
+
+    $quizQues = (new quiz_question())->load($QuestionID);
+
+    $quizQues->Text = $Text;
+    $quizQues->Type = $Type;
+    $quizQues->IsActive = $IsActive;
+
+    $quizQues->save();
+
+    if ($quizQues->QuestionID == 0) {
+        return false;
+    } else {
+        return $quizQues->QuestionID;
+    }
+}
+
+function disableEnableQuizQuestion($QuestionID,$IsActive) {
+    if (!is_numeric($QuestionID) || (is_numeric($QuestionID) && !$QuestionID)) {
+        return false;
+    }
+    if ($IsActive != 0 && $IsActive != 1) { //must be 0 or 1
+        return false;
+    }
+
+    $quizQues = (new quiz_question())->load($QuestionID);
+
+    $quizQues->IsActive = $IsActive;
+
+    $quizQues->save();
+
+    return $quizQues->IsActive;
+}
+
 
