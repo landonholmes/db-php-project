@@ -73,7 +73,7 @@ class user {
             $queryString = "SELECT * FROM USERS;";
             $getUsers = mysqli_query($connection, $queryString);
             mysqli_close($connection); // Closing Connection
-            $userList = array();
+            $userList = [];
             if (is_bool($getUsers) && !$getUsers) {
                 $errorMsg = 'bad query';
             } else {
@@ -221,6 +221,90 @@ class user {
         $this->LastModifiedBy = $queryRow['LastModifiedBy'];
         $this->LastModifiedByIP = $queryRow['LastModifiedByIP'];
         return $this;
+    }
+
+    public function getRoles() {
+        $connection = mysqli_connect("localhost", "php", "password");
+
+        if (!$connection) {
+            $errorMsg = "no connection";
+        } else { //connection was good
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "SELECT *
+                            FROM USER_ROLES
+                            LEFT JOIN ROLES
+                                ON USER_ROLES.RoleID = ROLES.RoleID
+                            WHERE UserID = $this->UserID;";
+            $getUsersRoles = mysqli_query($connection, $queryString);
+            mysqli_close($connection); // Closing Connection
+            $userRoles = [];
+
+            if (!is_bool($getUsersRoles)) {
+                if (mysqli_num_rows($getUsersRoles) == 1) {
+                    $getUsersRolesObj = $getUsersRoles->fetch_object();
+
+                    $tempRoleStruct = new StdClass();
+                    $tempRoleStruct->User_RoleID = $getUsersRolesObj->User_RoleID;
+                    $tempRoleStruct->RoleID = $getUsersRolesObj->RoleID;
+                    $tempRoleStruct->RoleName = $getUsersRolesObj->RoleName;
+                    $tempRoleStruct->RoleDesc = $getUsersRolesObj->RoleDesc;
+                    array_push($userRoles, $tempRoleStruct);
+                } else if (mysqli_num_rows($getUsersRoles) > 0) {
+                    $getUsersRoles->fetch_array();
+
+                    foreach ($getUsersRoles as $role) {
+                        $tempRoleStruct = new StdClass();
+                        $tempRoleStruct->User_RoleID = $role['User_RoleID'];
+                        $tempRoleStruct->RoleID = $role['RoleID'];
+                        $tempRoleStruct->RoleName = $role['RoleName'];
+                        $tempRoleStruct->RoleDesc = $role['RoleDesc'];
+                        array_push($userRoles, $tempRoleStruct);
+                    }
+                }
+            } else {
+                //error, return empty
+            }
+        }
+        return $userRoles;
+    }
+
+    public function getAllAvailableRoles() {
+        $connection = mysqli_connect("localhost", "php", "password");
+
+        if (!$connection) {
+            $errorMsg = "no connection";
+        } else { //connection was good
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "SELECT * FROM ROLES;";
+            $getRoles = mysqli_query($connection, $queryString);
+            mysqli_close($connection); // Closing Connection
+            $roles = [];
+
+            if (!is_bool($getRoles)) {
+                if (mysqli_num_rows($getRoles) == 1) {
+                    $getRolesObj = $getRoles->fetch_object();
+
+                    $tempRoleStruct = new StdClass();
+                    $tempRoleStruct->RoleID = $getRolesObj->RoleID;
+                    $tempRoleStruct->RoleName = $getRolesObj->RoleName;
+                    $tempRoleStruct->RoleDesc = $getRolesObj->RoleDesc;
+                    array_push($roles, $tempRoleStruct);
+                } else if (mysqli_num_rows($getRoles) > 0) {
+                    $getRoles->fetch_array();
+
+                    foreach ($getRoles as $role) {
+                        $tempRoleStruct = new StdClass();
+                        $tempRoleStruct->RoleID = $role['RoleID'];
+                        $tempRoleStruct->RoleName = $role['RoleName'];
+                        $tempRoleStruct->RoleDesc = $role['RoleDesc'];
+                        array_push($roles, $tempRoleStruct);
+                    }
+                }
+            } else {
+                //error, return empty
+            }
+        }
+        return $roles;
     }
 
 }
