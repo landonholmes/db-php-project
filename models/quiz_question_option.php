@@ -127,6 +127,24 @@ class quiz_question_option {
         }
     }
 
+    //assumes record does exist in DB and intends to update that one
+    public function delete() {
+        $connection = mysqli_connect("localhost", "php", "password");
+        if (!$connection) {
+            //error connecting
+        } else { //connection was good
+            $this->enforceSQLProtection($connection);
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "DELETE FROM QUIZ_QUESTION_OPTIONS
+                            WHERE  QuestionOptionID = '$this->QuestionOptionID';
+                            ";
+            $qUpdateQuiz = mysqli_query($connection, $queryString);
+
+            mysqli_close($connection); // Closing Connection
+            return $this;
+        }
+    }
+
     private function enforceSQLProtection($conn) {
         $this->QuestionOptionID = mysqli_real_escape_string($conn,$this->QuestionOptionID);
         $this->QuestionID = mysqli_real_escape_string($conn,$this->QuestionID);

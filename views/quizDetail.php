@@ -84,14 +84,17 @@ $quiz = (new quiz())->load($quizID);
                         echo "<span class=\"label label-info\">Active</span>";
                     }
                     echo "</td>
-                        <td>";
+                        <td class=\"optionValue\">";
                         echo "<ul class=\"optionUL\">";
                         foreach ($quizQuestion->Options as $quizQuestionOption) {
                             echo "<li class=\"optionItem input-group\" data-option-id=\"$quizQuestionOption->QuestionOptionID\"><span class=\"form-control optionText\"";
                             if ($quizQuestionOption->IsAnswer == 1) {
                                 echo " style=\"font-weight:bold; text-decoration:underline;\"";
                             }
-                            echo ">$quizQuestionOption->Text</span><div class=\"input-group-addon toggleIsAnswer\"><i class=\"glyphicon glyphicon-check icon-white\"></i></div><div class=\"input-group-addon\"><i class=\"glyphicon glyphicon-remove icon-white\"></i></div></li>";
+                            echo ">$quizQuestionOption->Text</span>
+                                <div class=\"input-group-addon toggleIsAnswer\"><i class=\"glyphicon glyphicon-check icon-white\"></i></div>
+                                <div class=\"input-group-addon deleteOption\"><i class=\"glyphicon glyphicon-remove icon-white\"></i></div>
+                            </li>";
                         }
                         echo "<li class=\"optionItem input-group\"><input class=\"form-control\" name=\"optionText\" placeholder=\"New Option\"><div class=\"input-group-addon\"><i class=\"glyphicon glyphicon-plus icon-white\"></i></div></li>
                             </ul>";
@@ -121,7 +124,7 @@ $quiz = (new quiz())->load($quizID);
                         '<% if (isActive == 0) {%> <span class=\"label label-warning\">Locked</span> <%}else{%><span class=\"label label-info\">Active</span> <%}%> ' +
                     '</td>' + //status
                     '<td class="optionValue">' +
-                        '' + //TODO: loop of options, if any
+                        '' +
                     '</td>' + //cancel
                     '<td>' +
                         '<button class="btn btn-sm btn-info edit-question-button" data->Edit</button>&nbsp;' +
@@ -143,7 +146,7 @@ $quiz = (new quiz())->load($quizID);
                 '</tr>');
             var quizQuestionOptionListItemTemplate = _.template('<li class="optionItem input-group" data-option-id="<%= optionID %>">' +
                     '<span class="form-control optionText" <% if(isAnswer == 1) {%>style="font-weight:bold; text-decoration:underline;"<%}%> ><%= text %></span>' +
-                    '<div class="input-group-addon toggleIsAnswer"><i class="glyphicon glyphicon-check icon-white"></i></div><div class="input-group-addon"><i class="glyphicon glyphicon-remove icon-white"></i></div></li>');
+                    '<div class="input-group-addon toggleIsAnswer"><i class="glyphicon glyphicon-check icon-white"></i></div><div class="input-group-addon deleteOption"><i class="glyphicon glyphicon-remove icon-white"></i></div></li>');
 
             $("div.quiz-question-row").on("click","a#new-question-button",clickedNewQuestionAddButton);
             $("div.quiz-question-row").on("click","button.cancel-add-button",newQuestionCancel);
@@ -154,6 +157,7 @@ $quiz = (new quiz())->load($quizID);
             $("div.quiz-question-row").on("click","button.enable-question-button",disableEnableQuizQuestion);
             $("div.quiz-question-row").on("click","button.disable-question-button",disableEnableQuizQuestion);
             $("ul.optionUL").on("click","div.toggleIsAnswer",toggleIsAnswerForOption);
+            $("ul.optionUL").on("click","div.deleteOption",deleteOption);
             //add option to question
             //remove option from question
 
@@ -292,7 +296,6 @@ $quiz = (new quiz())->load($quizID);
             }
 
             function toggleIsAnswerForOption() {
-                console.log('test');
                 var thisRow = $(this).parents("li.optionItem");
                 var quizQuestionOptionID = thisRow.attr("data-option-id");
                 var text = thisRow.children("span.optionText").text();
@@ -310,6 +313,28 @@ $quiz = (new quiz())->load($quizID);
                                 ,text: text
                                 ,isAnswer: e
                             }));
+                        }
+                    },
+                    "timeout": 15000,
+                    "error": function(e) {
+                        console.log("error",e);
+                    }
+                });
+            }
+
+            function deleteOption() {
+                var thisRow = $(this).parents("li.optionItem");
+                var quizQuestionOptionID = thisRow.attr("data-option-id");
+
+                $.ajax( {
+                    "dataType": 'json',
+                    "type": 'POST',
+                    "url": "includes/helperFunctions.php",
+                    "data": {"action":"deleteOption","QuestionOptionID":quizQuestionOptionID},
+                    "success": function(e) { //tries to return the new question id
+                        console.log("success",e);
+                        if(e == 1 || e == 0){
+                            thisRow.remove();
                         }
                     },
                     "timeout": 15000,

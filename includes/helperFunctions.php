@@ -96,6 +96,11 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
                 echo toggleIsAnswerForOption($_POST['QuestionOptionID']);
                 break;
                 }
+        case 'deleteOption' : {
+                if (!isset($_POST['QuestionOptionID']) || empty($_POST['QuestionOptionID'])) { return false; }
+                echo deleteOption($_POST['QuestionOptionID']);
+                break;
+                }
         default: return false;
     }
 }
@@ -236,6 +241,18 @@ function toggleIsAnswerForOption($QuestionOptionID) {
     $quizQuesOpt->save(); //save our new state
 
     return $quizQuesOpt->IsAnswer;
+}
+
+function deleteOption($QuestionOptionID) {
+    if (!is_numeric($QuestionOptionID) || (is_numeric($QuestionOptionID) && !$QuestionOptionID)) {
+        return false;
+    }
+
+    $quizQuesOpt = (new quiz_question_option())->load($QuestionOptionID);
+
+    $result = $quizQuesOpt->delete(); //try to delete
+
+    return $result==true;
 }
 
 
