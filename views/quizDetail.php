@@ -191,7 +191,7 @@ $quiz = (new quiz())->load($quizID);
                 "url": "includes/helperFunctions.php",
                 "data": {"action":"addQuestionToQuiz","QuizID":PAGE.quizID,"Text":text,"Type":type,"IsActive":isActive},
                 "success": function(e) { //tries to return the new question id
-                    console.log("success",e);
+                    //console.log("success",e);
                     if(e === +e){
                         $("div.quiz-question-row").find("table").append(quizQuestionRowTemplate({
                             questionID: e
@@ -205,7 +205,7 @@ $quiz = (new quiz())->load($quizID);
                 },
                 "timeout": 15000,
                 "error": function(e) {
-                    console.log("error",e);
+                    //console.log("error",e);
                 }
             });
         }
@@ -250,7 +250,7 @@ $quiz = (new quiz())->load($quizID);
                 "url": "includes/helperFunctions.php",
                 "data": {"action":"editQuestion","QuestionID":quizQuestionID,"Text":text,"Type":type,"IsActive":isActive},
                 "success": function(e) { //tries to return the new question id
-                    console.log("success",e);
+                    //console.log("success",e);
                     if(e === +e){
                         thisFormRow.replaceWith(quizQuestionRowTemplate({
                             questionID: e
@@ -264,7 +264,7 @@ $quiz = (new quiz())->load($quizID);
                 },
                 "timeout": 15000,
                 "error": function(e) {
-                    console.log("error",e);
+                    //console.log("error",e);
                 }
             });
         }
@@ -292,7 +292,7 @@ $quiz = (new quiz())->load($quizID);
                 "url": "includes/helperFunctions.php",
                 "data": {"action":"disableEnableQuizQuestion","QuestionID":quizQuestionID,"IsActive":newActiveValue},
                 "success": function(e) { //tries to return the new question id
-                    console.log("success",e);
+                    //console.log("success",e);
                     if(e == 1 || e == 0){
                         thisRow.replaceWith(quizQuestionRowTemplate({
                             questionID: quizQuestionID
@@ -305,7 +305,7 @@ $quiz = (new quiz())->load($quizID);
                 },
                 "timeout": 15000,
                 "error": function(e) {
-                    console.log("error",e);
+                    //console.log("error",e);
                 }
             });
         }
@@ -321,7 +321,7 @@ $quiz = (new quiz())->load($quizID);
                 "url": "includes/helperFunctions.php",
                 "data": {"action":"toggleIsAnswerForOption","QuestionOptionID":quizQuestionOptionID},
                 "success": function(e) { //tries to return the new status
-                    console.log("success",e);
+                    //console.log("success",e);
                     if(e == 1 || e == 0){
                         thisRow.replaceWith(quizQuestionOptionListItemTemplate({
                             optionID: quizQuestionOptionID
@@ -332,7 +332,7 @@ $quiz = (new quiz())->load($quizID);
                 },
                 "timeout": 15000,
                 "error": function(e) {
-                    console.log("error",e);
+                    //console.log("error",e);
                 }
             });
         }
@@ -347,14 +347,14 @@ $quiz = (new quiz())->load($quizID);
                 "url": "includes/helperFunctions.php",
                 "data": {"action":"deleteOption","QuestionOptionID":quizQuestionOptionID},
                 "success": function(e) { //tries to return result
-                    console.log("success",e);
+                    //console.log("success",e);
                     if(e == 1){
                         thisRow.remove();
                     }
                 },
                 "timeout": 15000,
                 "error": function(e) {
-                    console.log("error",e);
+                    //console.log("error",e);
                 }
             });
         }
@@ -372,7 +372,7 @@ $quiz = (new quiz())->load($quizID);
                     "url": "includes/helperFunctions.php",
                     "data": {"action": "addOption", "QuestionID": quizQuestionID, "Text": quizQuestionOptionText},
                     "success": function (e) { //tries to return the new question id
-                        console.log("success", e);
+                        //console.log("success", e);
                         if (e === +e) {
                             thisRow.before(quizQuestionOptionListItemTemplate({
                                 optionID: e
@@ -384,7 +384,7 @@ $quiz = (new quiz())->load($quizID);
                     },
                     "timeout": 15000,
                     "error": function (e) {
-                        console.log("error", e);
+                        //console.log("error", e);
                     }
                 });
             }
