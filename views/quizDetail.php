@@ -96,7 +96,7 @@ $quiz = (new quiz())->load($quizID);
                                 <div class=\"input-group-addon deleteOption\"><i class=\"glyphicon glyphicon-remove icon-white\"></i></div>
                             </li>";
                         }
-                        echo "<li class=\"optionItem input-group\"><input class=\"form-control\" name=\"optionText\" placeholder=\"New Option\"><div class=\"input-group-addon\"><i class=\"glyphicon glyphicon-plus icon-white\"></i></div></li>
+                        echo "<li class=\"optionItem input-group\"><input class=\"form-control\" name=\"optionText\" placeholder=\"New Option\"><div class=\"input-group-addon addOption\"><i class=\"glyphicon glyphicon-plus icon-white\"></i></div></li>
                             </ul>";
                     echo "</td>
                         <td>
@@ -158,6 +158,7 @@ $quiz = (new quiz())->load($quizID);
             $("div.quiz-question-row").on("click","button.disable-question-button",disableEnableQuizQuestion);
             $("ul.optionUL").on("click","div.toggleIsAnswer",toggleIsAnswerForOption);
             $("ul.optionUL").on("click","div.deleteOption",deleteOption);
+            $("ul.optionUL").on("click","div.addOption",addOption);
             //add option to question
             //remove option from question
 
@@ -305,7 +306,7 @@ $quiz = (new quiz())->load($quizID);
                     "type": 'POST',
                     "url": "includes/helperFunctions.php",
                     "data": {"action":"toggleIsAnswerForOption","QuestionOptionID":quizQuestionOptionID},
-                    "success": function(e) { //tries to return the new question id
+                    "success": function(e) { //tries to return the new status
                         console.log("success",e);
                         if(e == 1 || e == 0){
                             thisRow.replaceWith(quizQuestionOptionListItemTemplate({
@@ -331,9 +332,9 @@ $quiz = (new quiz())->load($quizID);
                     "type": 'POST',
                     "url": "includes/helperFunctions.php",
                     "data": {"action":"deleteOption","QuestionOptionID":quizQuestionOptionID},
-                    "success": function(e) { //tries to return the new question id
+                    "success": function(e) { //tries to return result
                         console.log("success",e);
-                        if(e == 1 || e == 0){
+                        if(e == 1){
                             thisRow.remove();
                         }
                     },
@@ -342,6 +343,35 @@ $quiz = (new quiz())->load($quizID);
                         console.log("error",e);
                     }
                 });
+            }
+
+            function addOption() {
+                var thisRow = $(this).parents("li.optionItem");
+                var quizQuestionID = thisRow.parents("ul").parents("td.optionValue").parents("tr").attr("data-question-id");
+                var quizQuestionOptionText = thisRow.find("input[name=optionText]").val();
+
+                if (quizQuestionOptionText.length) {
+                    $.ajax({
+                        "dataType": 'json',
+                        "type": 'POST',
+                        "url": "includes/helperFunctions.php",
+                        "data": {"action": "addOption", "QuestionID": quizQuestionID, "Text": quizQuestionOptionText},
+                        "success": function (e) { //tries to return the new question id
+                            console.log("success", e);
+                            if (e === +e) {
+                                thisRow.before(quizQuestionOptionListItemTemplate({
+                                    optionID: e
+                                    ,text: quizQuestionOptionText
+                                    ,isAnswer: 0
+                                }));
+                            }
+                        },
+                        "timeout": 15000,
+                        "error": function (e) {
+                            console.log("error", e);
+                        }
+                    });
+                }
             }
 
         </script>

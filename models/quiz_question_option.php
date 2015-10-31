@@ -94,7 +94,7 @@ class quiz_question_option {
                             VALUES (
                                 '$this->QuestionID'
                                 ,'$this->Text'
-                                ,'$this->IsAnswer'
+                                ,$this->IsAnswer
                             );
                             ";
             $qCreateUser = mysqli_query($connection, $queryString);

@@ -101,6 +101,12 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
                 echo deleteOption($_POST['QuestionOptionID']);
                 break;
                 }
+        case 'addOption' : {
+                if (!isset($_POST['QuestionID']) || empty($_POST['QuestionID'])) { return false; }
+                if (!isset($_POST['Text']) || empty($_POST['Text'])) { return false; }
+                echo addOption($_POST['QuestionID'],$_POST['Text']);
+                break;
+                }
         default: return false;
     }
 }
@@ -253,6 +259,24 @@ function deleteOption($QuestionOptionID) {
     $result = $quizQuesOpt->delete(); //try to delete
 
     return $result==true;
+}
+
+function addOption($QuestionID,$Text) {
+    if (!is_numeric($QuestionID) || (is_numeric($QuestionID) && !$QuestionID)) {
+        return false;
+    }
+    if (!strlen($Text)) {
+        return false;
+    }
+
+    $quizQuesOpt = (new quiz_question_option());
+
+    $quizQuesOpt->QuestionID = $QuestionID;
+    $quizQuesOpt->Text = $Text;
+
+    $quizQuesOpt->save(); //try to delete
+
+    return $quizQuesOpt->QuestionOptionID;
 }
 
 
