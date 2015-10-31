@@ -57,7 +57,7 @@ $quiz = (new quiz())->load($quizID);
 <br />
 <div class="row">
     <div class="col-sm-12">
-        Edit questions for quiz below. Please note. Quizzes with no questions are not shown on the available quiz list. Questions with no options are not shown when taking the quiz.
+        Edit questions for quiz below. <br /><span style="font-weight: bold;">Please note:</span> Quizzes with no questions are not shown on the available quiz list. Questions with no options are not shown or graded for when taking the quiz.
     </div>
 </div>
 <div class="row quiz-question-row">
@@ -85,15 +85,16 @@ $quiz = (new quiz())->load($quizID);
                     }
                     echo "</td>
                         <td>";
-                        echo "<ul>";
+                        echo "<ul class=\"optionUL\">";
                         foreach ($quizQuestion->Options as $quizQuestionOption) {
-                            echo "<li";
+                            echo "<li class=\"optionItem input-group\" data-option-id=\"$quizQuestionOption->QuestionOptionID\"><span class=\"form-control optionText\"";
                             if ($quizQuestionOption->IsAnswer == 1) {
                                 echo " style=\"font-weight:bold; text-decoration:underline;\"";
                             }
-                            echo ">$quizQuestionOption->Text</li>";
+                            echo ">$quizQuestionOption->Text</span><div class=\"input-group-addon toggleIsAnswer\"><i class=\"glyphicon glyphicon-check icon-white\"></i></div><div class=\"input-group-addon\"><i class=\"glyphicon glyphicon-remove icon-white\"></i></div></li>";
                         }
-                        echo "</ul>";
+                        echo "<li class=\"optionItem input-group\"><input class=\"form-control\" name=\"optionText\" placeholder=\"New Option\"><div class=\"input-group-addon\"><i class=\"glyphicon glyphicon-plus icon-white\"></i></div></li>
+                            </ul>";
                     echo "</td>
                         <td>
                             <button class=\"btn btn-sm btn-info edit-question-button\" data->Edit</button>&nbsp;";
@@ -140,6 +141,9 @@ $quiz = (new quiz())->load($quizID);
                     '<td></td>' +
                     '<td><button class="btn btn-sm btn-danger cancel-<%=formType%>-button">Cancel</button>&nbsp;<button class="btn btn-sm btn-success submit-<%=formType%>-button">Submit</button></td>' + //cancel/submit
                 '</tr>');
+            var quizQuestionOptionListItemTemplate = _.template('<li class="optionItem input-group" data-option-id="<%= optionID %>">' +
+                    '<span class="form-control optionText" <% if(isAnswer == 1) {%>style="font-weight:bold; text-decoration:underline;"<%}%> ><%= text %></span>' +
+                    '<div class="input-group-addon toggleIsAnswer"><i class="glyphicon glyphicon-check icon-white"></i></div><div class="input-group-addon"><i class="glyphicon glyphicon-remove icon-white"></i></div></li>');
 
             $("div.quiz-question-row").on("click","a#new-question-button",clickedNewQuestionAddButton);
             $("div.quiz-question-row").on("click","button.cancel-add-button",newQuestionCancel);
@@ -149,6 +153,7 @@ $quiz = (new quiz())->load($quizID);
             $("div.quiz-question-row").on("click","button.submit-edit-button",editQuestionSubmit);
             $("div.quiz-question-row").on("click","button.enable-question-button",disableEnableQuizQuestion);
             $("div.quiz-question-row").on("click","button.disable-question-button",disableEnableQuizQuestion);
+            $("ul.optionUL").on("click","div.toggleIsAnswer",toggleIsAnswerForOption);
             //add option to question
             //remove option from question
 
@@ -276,6 +281,34 @@ $quiz = (new quiz())->load($quizID);
                                 ,text: text
                                 ,type: type
                                 ,isActive: e
+                            }));
+                        }
+                    },
+                    "timeout": 15000,
+                    "error": function(e) {
+                        console.log("error",e);
+                    }
+                });
+            }
+
+            function toggleIsAnswerForOption() {
+                console.log('test');
+                var thisRow = $(this).parents("li.optionItem");
+                var quizQuestionOptionID = thisRow.attr("data-option-id");
+                var text = thisRow.children("span.optionText").text();
+
+                $.ajax( {
+                    "dataType": 'json',
+                    "type": 'POST',
+                    "url": "includes/helperFunctions.php",
+                    "data": {"action":"toggleIsAnswerForOption","QuestionOptionID":quizQuestionOptionID},
+                    "success": function(e) { //tries to return the new question id
+                        console.log("success",e);
+                        if(e == 1 || e == 0){
+                            thisRow.replaceWith(quizQuestionOptionListItemTemplate({
+                                optionID: quizQuestionOptionID
+                                ,text: text
+                                ,isAnswer: e
                             }));
                         }
                     },

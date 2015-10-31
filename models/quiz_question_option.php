@@ -53,8 +53,7 @@ class quiz_question_option {
                             WHERE QuestionID = '$questionID'
                                 AND Text = '$text';";
             $qLoadQuiz = mysqli_query($connection, $queryString);
-            d($queryString);
-var_dump($connection);
+
             mysqli_close($connection); // Closing Connection
             if (!is_bool($qLoadQuiz) && mysqli_num_rows($qLoadQuiz) == 1) {
                 $qLoadQuizObj = $qLoadQuiz->fetch_object();
@@ -89,7 +88,7 @@ var_dump($connection);
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "INSERT INTO QUIZ_QUESTION_OPTION(QuestionID
+            $queryString = "INSERT INTO QUIZ_QUESTION_OPTIONS(QuestionID
                                 ,Text
                                 ,IsAnswer)
                             VALUES (
@@ -115,8 +114,8 @@ var_dump($connection);
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "UPDATE QUIZ_QUESTION_OPTION
-                            SET QuizID = '$this->QuizID'
+            $queryString = "UPDATE QUIZ_QUESTION_OPTIONS
+                            SET QuestionID = '$this->QuestionID'
                                 ,Text = '$this->Text'
                                 ,IsAnswer = $this->IsAnswer
                                 WHERE  QuestionOptionID = '$this->QuestionOptionID';

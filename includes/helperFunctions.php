@@ -91,6 +91,11 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
                 echo disableEnableQuizQuestion($_POST['QuestionID'],$_POST['IsActive']);
                 break;
                 }
+        case 'toggleIsAnswerForOption' : {
+                if (!isset($_POST['QuestionOptionID']) || empty($_POST['QuestionOptionID'])) { return false; }
+                echo toggleIsAnswerForOption($_POST['QuestionOptionID']);
+                break;
+                }
         default: return false;
     }
 }
@@ -217,6 +222,20 @@ function disableEnableQuizQuestion($QuestionID,$IsActive) {
     $quizQues->save();
 
     return $quizQues->IsActive;
+}
+
+function toggleIsAnswerForOption($QuestionOptionID) {
+    if (!is_numeric($QuestionOptionID) || (is_numeric($QuestionOptionID) && !$QuestionOptionID)) {
+        return false;
+    }
+
+    $quizQuesOpt = (new quiz_question_option())->load($QuestionOptionID);
+
+    $quizQuesOpt->IsAnswer = 1-$quizQuesOpt->IsAnswer; //if 1, 1-1 is 0. if 0, 1-1 is 1. good for toggle
+
+    $quizQuesOpt->save(); //save our new state
+
+    return $quizQuesOpt->IsAnswer;
 }
 
 
