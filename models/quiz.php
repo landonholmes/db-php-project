@@ -187,4 +187,19 @@ class quiz {
         }
     }
 
+    public function getActiveQuizQuestions(){
+        if (!$this->QuizID) {
+            return []; //no questions for an empty quiz
+        }
+        $tempArrayOfQuizQuestions = []; //temp var
+
+        foreach ($this->Quiz_Questions as $quizQuestion) { //loop through our questions
+            if ($quizQuestion->IsActive == 1 && count($quizQuestion->Options) > 0) { //only get valid ones (active and has options)
+                array_push($tempArrayOfQuizQuestions, $quizQuestion);
+            }
+        }
+
+        return $tempArrayOfQuizQuestions;
+    }
+
 }

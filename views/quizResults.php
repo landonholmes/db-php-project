@@ -32,16 +32,21 @@ if ($quizID) { //given a specific quiz, load all for that
     } else {
         foreach($quizResults as $quizResult) {
             $quizGrade = $quizResult->getGrade();
+            d($quizGrade);
+            d($quizResult);
             echo "<div class=\"row\">
                     <div class=\"col-sm-12\">
-                        <h2>Quiz Results for: ".(new quiz())->load($quizResult->QuizID)->Name." on $quizResult->ResponseOn </h2>
-                        <div class=\"progress\">
-								<div class=\"progress-bar progress-bar-info\" role=\"progressbar\" data-pct=\"$quizGrade\" aria-valuenow=\"$quizGrade\"
-									 aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: $quizGrade%\">
-									$quizGrade%
-								</div>
-							</div>
-                    </div>
+                        <div class=\"row\">
+                            <h2>Quiz Results for: ".(new quiz())->load($quizResult->QuizID)->Name." on $quizResult->ResponseOn </h2>
+                            <div class=\"col-sm-1\">$quizGrade%</div>
+                            <div class=\"progress col-sm-11\">
+                                <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" data-pct=\"$quizGrade\" aria-valuenow=\"$quizGrade\"
+                                     aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: $quizGrade%\">
+                                    $quizGrade%
+                                </div>
+                            </div>
+                        </div>
+                        </div>
                 </div><hr/>";
         }
     }

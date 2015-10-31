@@ -55,6 +55,11 @@ $quiz = (new quiz())->load($quizID);
         ?>
 </div>
 <br />
+<div class="row">
+    <div class="col-sm-12">
+        Edit questions for quiz below. Please note. Quizzes with no questions are not shown on the available quiz list. Questions with no options are not shown when taking the quiz.
+    </div>
+</div>
 <div class="row quiz-question-row">
     <div class="col-sm-12">
         <h2>Questions:<a class="btn btn-sm btn-info" id="new-question-button" style="float:right;margin-top:5px;">New Question</a></h2>
