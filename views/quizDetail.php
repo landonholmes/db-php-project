@@ -128,6 +128,7 @@ $quiz = (new quiz())->load($quizID);
                 '</td>' + //status
                 '<td class="optionValue">' +
                     '<ul class="optionUL">' +
+                        '<%= options %>' +
                         '<li class="optionItem input-group"><input class="form-control" name="optionText" placeholder="New Option"><div class="input-group-addon addOption"><i class="glyphicon glyphicon-plus icon-white"></i></div></li>' +
                     '</ul>' +
                 '</td>' + //cancel
@@ -197,6 +198,7 @@ $quiz = (new quiz())->load($quizID);
                             ,text: text
                             ,type: type
                             ,isActive: isActive
+                            ,options: ""
                         }));
                         thisFormRow.remove();
                     }
@@ -255,6 +257,7 @@ $quiz = (new quiz())->load($quizID);
                             ,text: text
                             ,type: type
                             ,isActive: isActive
+                            ,options: ""
                         }));
                         thisFormRow.remove();
                     }
@@ -274,8 +277,15 @@ $quiz = (new quiz())->load($quizID);
             var text = thisRow.children(".textValue").html();
             var type = thisRow.children(".typeValue").html();
             var isActive = thisRow.children(".isActiveValue").attr("data-isActive");
+            var options = thisRow.children(".optionValue").children("ul.optionUL").children('li:not(:last-child)');
             var newActiveValue = isActive ^= 1;
 
+            var optionsHTML = "";
+            for (var i = 0; i < options.length; i++) {
+                optionsHTML+=options[i].outerHTML;
+            }
+
+            
             $.ajax( {
                 "dataType": 'json',
                 "type": 'POST',
@@ -289,6 +299,7 @@ $quiz = (new quiz())->load($quizID);
                             ,text: text
                             ,type: type
                             ,isActive: e
+                            ,options: optionsHTML
                         }));
                     }
                 },
