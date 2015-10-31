@@ -1,7 +1,15 @@
 <?php
 
-include_once "../models/quiz_question.php";
-include_once "../models/quiz_question_option.php";
+if (file_exists("../models/quiz_question.php")) {
+    include_once "../models/quiz_question.php";
+} else if (file_exists("models/quiz_question.php")) {
+    include_once "models/quiz_question.php";
+}
+if (file_exists("../models/quiz_question_option.php")) {
+    include_once "../models/quiz_question_option.php";
+} else if (file_exists("models/quiz_question_option.php")) {
+    include_once "models/quiz_question_option.php";
+}
 
 function doesUserHaveRole($userID, $roleName) { /*roleName could be "ADMIN","USERMANAGE","STUDENT"*/
     $connection = mysqli_connect("localhost", "php", "password");
