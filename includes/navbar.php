@@ -10,7 +10,9 @@
             if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) { //if a user is in a group
                 echo "
                     <ul class=\"nav navbar-nav navbar-left\">
-                        <li><a href=\"index.php?action=quizList\"><i class=\"glyphicon glyphicon-th-list\"></i>&nbsp;Take Quiz</a></li>
+                        <li";
+                if ($activeNavTab == "quizList") {echo " class=\"active\"";}
+                echo "><a href=\"index.php?action=quizList\"><i class=\"glyphicon glyphicon-th-list\"></i>&nbsp;Take Quiz</a></li>
                     </ul>
                 ";
             }
@@ -19,10 +21,14 @@
             <ul class="nav navbar-nav navbar-right">
                 <?php
                 if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH")) { //if a user is in a group
-                    echo "<li><a href='index.php?action=manageQuiz'><i class='glyphicon glyphicon-ok'></i>&nbsp;Quiz Management</a></li>";
+                    echo "<li";
+                    if ($activeNavTab == "manageQuiz") {echo " class=\"active\"";}
+                    echo "><a href='index.php?action=manageQuiz'><i class='glyphicon glyphicon-ok'></i>&nbsp;Quiz Management</a></li>";
                 }
                 if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE")) { //if a user is in a group
-                    echo "<li><a href='index.php?action=manageUsers'><i class='glyphicon glyphicon-cog'></i>&nbsp;User Management</a></li>";
+                    echo "<li";
+                    if ($activeNavTab == "userManage") {echo " class=\"active\"";}
+                    echo "><a href='index.php?action=manageUsers'><i class='glyphicon glyphicon-cog'></i>&nbsp;User Management</a></li>";
                 }
 
                 if ($_SESSION['loggedIn']) {

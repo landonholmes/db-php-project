@@ -26,8 +26,8 @@
     color: #c0d9f8;
 }
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-    color: #c0d9f8;
-    background-color: rgb(51, 122, 183);
+    color: #ffffff;
+    background-color: rgb(66, 159, 235);
 }
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
     color: #c0d9f8;
@@ -61,8 +61,8 @@
         color: #c0d9f8;
     }
     .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-        color: #c0d9f8;
-        background-color: rgb(51, 122, 183);
+        color: #ffffff;
+        background-color: rgb(66, 159, 235);
     }
 }
 /*end custom navbar styles*/
