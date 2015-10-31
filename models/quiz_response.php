@@ -9,6 +9,7 @@ class quiz_response {
     public $OptionText = "";
     public $QuestionOptionID = 0;
     public $Response = "";
+    public $CorrectResponse = "";
     public $IsCorrect = 0;
     public $ResponseOn = '1970-01-01 00:00:00';
 
@@ -38,6 +39,7 @@ class quiz_response {
                 $this->OptionText = $qLoadResponseObj->OptionText;
                 $this->QuestionOptionID = $qLoadResponseObj->QuestionOptionID;
                 $this->Response = $qLoadResponseObj->Response;
+                $this->CorrectResponse = $qLoadResponseObj->CorrectResponse;
                 $this->IsCorrect = $qLoadResponseObj->IsCorrect;
                 $this->ResponseOn = $qLoadResponseObj->ResponseOn;
 
@@ -111,6 +113,7 @@ class quiz_response {
                                 ,OptionText
                                 ,QuestionOptionID
                                 ,Response
+                                ,CorrectResponse
                                 ,IsCorrect
                                 ,ResponseOn)
                             VALUES (
@@ -121,6 +124,7 @@ class quiz_response {
                                 ,'$this->OptionText'
                                 ,'$this->QuestionOptionID'
                                 ,'$this->Response'
+                                ,'$this->CorrectResponse'
                                 ,$this->IsCorrect
                                 ,'$this->ResponseOn'
                             );
@@ -149,6 +153,7 @@ class quiz_response {
                                 ,OptionText = '$this->OptionText'
                                 ,QuestionOptionID = $this->QuestionOptionID
                                 ,Response = '$this->Response'
+                                ,CorrectResponse = '$this->CorrectResponse'
                                 ,IsCorrect = $this->IsCorrect
                                 ,ResponseOn = '$this->ResponseOn'
                                 WHERE  ResponseID = '$this->ResponseID';
@@ -169,6 +174,7 @@ class quiz_response {
         $this->OptionText = mysqli_real_escape_string($conn,$this->OptionText);
         $this->QuestionOptionID = mysqli_real_escape_string($conn,$this->QuestionOptionID);
         $this->Response = mysqli_real_escape_string($conn,$this->Response);
+        $this->CorrectResponse = mysqli_real_escape_string($conn,$this->CorrectResponse);
         $this->IsCorrect = mysqli_real_escape_string($conn,$this->IsCorrect);
         $this->ResponseOn = mysqli_real_escape_string($conn,$this->ResponseOn);
     }
@@ -182,6 +188,7 @@ class quiz_response {
         $this->OptionText = $queryRow['OptionText'];
         $this->QuestionOptionID = $queryRow['QuestionOptionID'];
         $this->Response = $queryRow['Response'];
+        $this->CorrectResponse = $queryRow['CorrectResponse'];
         $this->IsCorrect = $queryRow['IsCorrect'];
         $this->ResponseOn = $queryRow['ResponseOn'];
         return $this;

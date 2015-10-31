@@ -5,8 +5,8 @@ include_once "models/quiz_result.php";
 if (isset($_GET["userID"]) && is_numeric($_GET["userID"])) {
     $userID = $_GET["userID"];
 } else {
-    //we didn't get an id. abort
-    redirect("$root/index.php?action=manageQuiz");
+    //we didn't get an id, assume logged in user's id
+    $userID = $_SESSION["loggedInUserID"];
 }
 if (isset($_GET["quizID"]) && is_numeric($_GET["quizID"])) {
     $quizID = $_GET["quizID"];
@@ -32,19 +32,43 @@ if ($quizID) { //given a specific quiz, load all for that
     } else {
         foreach($quizResults as $quizResult) {
             $quizGrade = $quizResult->getGrade();
-            d($quizGrade);
-            d($quizResult);
             echo "<div class=\"row\">
                     <div class=\"col-sm-12\">
                         <div class=\"row\">
-                            <h2>Quiz Results for: ".(new quiz())->load($quizResult->QuizID)->Name." on $quizResult->ResponseOn </h2>
-                            <div class=\"col-sm-1\">$quizGrade%</div>
-                            <div class=\"progress col-sm-11\">
-                                <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" data-pct=\"$quizGrade\" aria-valuenow=\"$quizGrade\"
-                                     aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: $quizGrade%\">
-                                    $quizGrade%
+                            <h4>Quiz Results for: ".(new quiz())->load($quizResult->QuizID)->Name." on $quizResult->ResponseOn </h4>
+                            <div class=\"col-sm-2\">Grade: $quizGrade%</div>
+                            <div class=\" col-sm-10\">
+                                <div class=\"progress\">
+                                    <div class=\"progress-bar progress-bar-info\" role=\"progressbar\" data-pct=\"$quizGrade\" aria-valuenow=\"$quizGrade\"
+                                         aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: $quizGrade%\">
+                                        $quizGrade%
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class=\"row\">
+                            <table class=\"table table-bordered table-condensed table-hover\">
+                                <tr>
+                                    <th style=\"width: 30%\">Question Text</th>
+                                    <th style=\"width: 30%\">Your Answer:</th>
+                                    <th style=\"width: 10%\">Right/Wrong</th>
+                                    <th style=\"width: 30%\">Correct Answer(s):</th>
+                                </tr>";
+                        foreach ($quizResult->Responses as $response) {
+                            echo "<tr>
+                                <td>$response->QuestionText</td>
+                                <td>$response->Response</td>";
+                                if ($response->IsCorrect == 1) {
+                                    echo "<td style=\"background-color: #5cb85c; text-align: center;\"><i class=\"glyphicon glyphicon-ok\"></i></td>";
+                                } else {
+                                    echo "<td style=\"background-color: #d9534f; text-align: center;\"><i class=\"glyphicon glyphicon-remove\"></i></td>";
+                                }
+                            echo "</td>
+                                <td>$response->CorrectResponse</td>
+                            </tr>";
+                        }
+
+                        echo "</table>
                         </div>
                         </div>
                 </div><hr/>";

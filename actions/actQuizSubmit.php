@@ -51,6 +51,16 @@ if (isset($_POST['submit']) && isset($_POST['quizID']) && isset($_SESSION['logge
             $quizResponse->OptionText = $specificOption->Text;
             $quizResponse->QuestionOptionID = $specificOption->QuestionOptionID;
             $quizResponse->Response = $inputValue;
+
+            $correctResponseString = "";
+            $i = 0;
+            foreach ($specificQuestion->getAcceptableAnswers() as $correctOption) {
+                if ($i>0) { $correctResponseString = $correctResponseString.", ";};
+                $correctResponseString = $correctResponseString.$correctOption->Text;
+                $i++;
+            }
+            $quizResponse->CorrectResponse = $correctResponseString;
+
             $quizResponse->IsCorrect = $specificOption->IsAnswer;
             $quizResponse->ResponseOn = $rightNow;
 
@@ -71,7 +81,16 @@ if (isset($_POST['submit']) && isset($_POST['quizID']) && isset($_SESSION['logge
         $quizResponse->QuestionID = $unansQ->QuestionID;
         $quizResponse->OptionText = "";
         $quizResponse->QuestionOptionID = 0;
-        $quizResponse->Response = $inputValue;
+        $quizResponse->Response = "";
+
+        $correctResponseString = "";
+        $i = 0;
+        foreach ($unansQ->getAcceptableAnswers() as $correctOption) {
+            if ($i>0) { $correctResponseString = $correctResponseString.", ";};
+            $correctResponseString = $correctResponseString.$correctOption->Text;
+            $i++;
+        }
+        $quizResponse->CorrectResponse = $correctResponseString;
         $quizResponse->IsCorrect = 0;
         $quizResponse->ResponseOn = $rightNow;
 

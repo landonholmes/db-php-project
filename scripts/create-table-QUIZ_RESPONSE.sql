@@ -11,6 +11,7 @@ CREATE TABLE QUIZ_RESPONSE (
 	, OptionText		VARCHAR(2000)	NOT NULL
 	, QuestionOptionID	INT				NOT NULL
 	, Response			VARCHAR(2000)	NOT NULL
+	, CorrectResponse	VARCHAR(2000)	NOT NULL
 	, IsCorrect			BIT				NOT NULL
 	, ResponseOn	    TIMESTAMP		NOT NULL
 	, PRIMARY KEY (ResponseID)

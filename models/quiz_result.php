@@ -1,7 +1,6 @@
 <?php
 class quiz_result {
     private $_never = '1970-01-01 00:00:00';
-    public $ResultID = 0;
     public $QuizID = 0;
     public $UserID = 0;
     public $ResponseOn = '1970-01-01 00:00:00';
