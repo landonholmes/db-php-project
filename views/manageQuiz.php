@@ -16,14 +16,17 @@ $quizList = (new quiz())->loadAll();
                 <table class=\"table table-condensed table-bordered\">
                     <thead>
                         <tr>
-                            <th style=\"width:20%;\">
+                            <th style=\"width:30%;\">
                                 Name
                             </th>
-                            <th style=\"width:70%;\">
+                            <th style=\"width:60%;\">
                                 Description
                             </th>
-                            <th style=\"width:10%;\">
+                            <th style=\"width:5%;\">
                                 Status
+                            </th>
+                            <th style=\"width:5%;\">
+                                &nbsp;
                             </th>
                         </tr>
                     </thead>
@@ -46,7 +49,9 @@ $quizList = (new quiz())->loadAll();
                     echo "<span class=\"label label-info\">Active</span>";
                 }
 
-                echo "</td></tr>";
+                echo "</td>
+                    <td> <a class=\"btn btn-xs btn-success\" href=\"index.php?action=quizDetail&quizID=$singleQuiz->QuizID\">Edit</a></td>
+                </tr>";
             }
 
             echo "</tbody>
