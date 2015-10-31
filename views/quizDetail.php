@@ -119,6 +119,7 @@ $quiz = (new quiz())->load($quizID);
         var PAGE = {
             quizID: <?php print($quiz->QuizID); ?>
             ,editing: {}
+            ,optionsEditing: {}
         };
         var quizQuestionRowTemplate = _.template('<tr data-question-id="<%= questionID %>">' +
                 '<td class="textValue"><%= text %></td>' +
@@ -216,8 +217,14 @@ $quiz = (new quiz())->load($quizID);
             var text = thisRow.children(".textValue").html();
             var type = thisRow.children(".typeValue").html();
             var isActive = thisRow.children(".isActiveValue").attr("data-isActive");
+            var options = thisRow.children(".optionValue").children("ul.optionUL").children('li:not(:last-child)');
 
+            var optionsHTML = "";
+            for (var i = 0; i < options.length; i++) {
+                optionsHTML+=options[i].outerHTML;
+            }
             PAGE.editing[quizQuestionID] = thisRow;
+            PAGE.editing[quizQuestionID] = optionsHTML;
 
             thisRow.replaceWith(quizQuestionFormTemplate({
                 formID: quizQuestionID
@@ -244,6 +251,7 @@ $quiz = (new quiz())->load($quizID);
             var type = thisFormRow.find("select[name=type] option:selected").val();
             var isActive = thisFormRow.find("select[name=isActive] option:selected").val();
 
+
             $.ajax( {
                 "dataType": 'json',
                 "type": 'POST',
@@ -257,7 +265,7 @@ $quiz = (new quiz())->load($quizID);
                             ,text: text
                             ,type: type
                             ,isActive: isActive
-                            ,options: ""
+                            ,options: PAGE.editing[quizQuestionID]
                         }));
                         thisFormRow.remove();
                     }
