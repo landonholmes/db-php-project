@@ -5,7 +5,7 @@ $quizList = (new quiz())->loadAllActive();
 
 $quizQuestionCount = 0; //this is to check to make sure at least one quiz actually has questions before it shows any
 foreach ($quizList as $singleQuiz) {
-    $quizQuestionCount+=(count($singleQuiz->Quiz_Questions));
+    $quizQuestionCount+=(count($singleQuiz->Questions));
 }
 ?>
 

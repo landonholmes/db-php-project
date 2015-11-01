@@ -26,7 +26,7 @@ class quiz_result {
             $quizID = mysqli_real_escape_string($connection, stripslashes($quizID));
             $db = mysqli_select_db($connection, "DB_PHP");
             $queryString = "SELECT *
-                            FROM QUIZ_RESPONSE
+                            FROM RESPONSES
                             WHERE ResponseOn = '$responseOn'
                                 AND UserID = $userID
                                 AND QuizID = $quizID
@@ -38,7 +38,7 @@ class quiz_result {
             if (!is_bool($qLoadResponse) && mysqli_num_rows($qLoadResponse) >  0) {
                 $qLoadResponseObj = $qLoadResponse->fetch_object();
 
-                $this->Responses = (new quiz_response())->loadAllForResponseOn($qLoadResponseObj->ResponseOn);
+                $this->Responses = (new response())->loadAllForResponseOn($qLoadResponseObj->ResponseOn);
                 $this->QuizID = $qLoadResponseObj->QuizID;
                 $this->UserID = $qLoadResponseObj->UserID;
                 $this->ResponseOn = $qLoadResponseObj->ResponseOn;
@@ -68,8 +68,8 @@ class quiz_result {
             $quizID = mysqli_real_escape_string($connection, stripslashes($quizID));
             $db = mysqli_select_db($connection, "DB_PHP");
             $queryString = "SELECT *
-                            FROM QUIZ_RESPONSE
-                            WHERE ResponseOn = (SELECT MAX(ResponseOn) FROM QUIZ_RESPONSE)
+                            FROM RESPONSES
+                            WHERE ResponseOn = (SELECT MAX(ResponseOn) FROM RESPONSES)
                                 AND UserID = $userID
                                 AND QuizID = $quizID
                             ORDER BY ResponseOn DESC
@@ -80,7 +80,7 @@ class quiz_result {
             if (!is_bool($qLoadResponse) && mysqli_num_rows($qLoadResponse) >  0) {
                 $qLoadResponseObj = $qLoadResponse->fetch_object();
 
-                $this->Responses = (new quiz_response())->loadAllForResponseOn($qLoadResponseObj->ResponseOn);
+                $this->Responses = (new response())->loadAllForResponseOn($qLoadResponseObj->ResponseOn);
                 $this->QuizID = $qLoadResponseObj->QuizID;
                 $this->UserID = $qLoadResponseObj->UserID;
                 $this->ResponseOn = $qLoadResponseObj->ResponseOn;
@@ -111,7 +111,7 @@ class quiz_result {
             $quizID = mysqli_real_escape_string($connection, stripslashes($quizID));
             $db = mysqli_select_db($connection, "DB_PHP");
             $queryString = "SELECT DISTINCT(ResponseOn),UserID,QuizID
-                            FROM QUIZ_RESPONSE
+                            FROM RESPONSES
                             WHERE  UserID = $userID
                                 AND QuizID = $quizID
                             ORDER BY ResponseOn DESC
@@ -152,7 +152,7 @@ class quiz_result {
             $userID = mysqli_real_escape_string($connection, stripslashes($userID));
             $db = mysqli_select_db($connection, "DB_PHP");
             $queryString = "SELECT DISTINCT(ResponseOn),UserID,QuizID
-                            FROM QUIZ_RESPONSE
+                            FROM RESPONSES
                             WHERE  UserID = $userID
                             ORDER BY ResponseOn DESC
                             ;";

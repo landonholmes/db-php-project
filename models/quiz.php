@@ -1,12 +1,12 @@
 <?php
-include_once "quiz_question.php";
+include_once "question.php";
 class quiz {
     private $_never = '1970-01-01 00:00:00';
     public $QuizID = 0;
     public $Name = "";
     public $Description = "";
     public $IsActive = 1;
-    public $Quiz_Questions = [];
+    public $Questions = [];
 
     public function load($quizID){
         if (!$quizID) {
@@ -31,7 +31,7 @@ class quiz {
                 $this->Description = $qLoadQuizObj->Description;
                 $this->IsActive = $qLoadQuizObj->IsActive;
 
-                $this->Quiz_Questions = $this->loadArrayOfQuizQuestions();
+                $this->Questions = $this->loadArrayOfQuizQuestions();
             } else {
                 //error, return empty
             }
@@ -154,7 +154,7 @@ class quiz {
         $this->Name = $queryRow['Name'];
         $this->Description = $queryRow['Description'];
         $this->IsActive = $queryRow['IsActive'];
-        $this->Quiz_Questions = $this->loadArrayOfQuizQuestions();
+        $this->Questions = $this->loadArrayOfQuizQuestions();
         return $this;
     }
 
@@ -170,14 +170,14 @@ class quiz {
         } else { //connection was good
             $quizID = mysqli_real_escape_string($connection, stripslashes($quizID));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ_QUESTIONS WHERE QuizID='$quizID';";
+            $queryString = "SELECT * FROM QUESTIONS WHERE QuizID='$quizID';";
             $qLoadQuizQuestions = mysqli_query($connection, $queryString);
             mysqli_close($connection); // Closing Connection
             if (!is_bool($qLoadQuizQuestions) && mysqli_num_rows($qLoadQuizQuestions) > 0) {
                 $qLoadQuizQuestionsObj = $qLoadQuizQuestions->fetch_array();
 
                 foreach ($qLoadQuizQuestions as $quizQuestion) {
-                    array_push($tempArrayOfQuizQuestions, (new quiz_question())->populateFromQuery($quizQuestion));
+                    array_push($tempArrayOfQuizQuestions, (new question())->populateFromQuery($quizQuestion));
                 }
             } else {
                 //error, return empty
@@ -193,7 +193,7 @@ class quiz {
         }
         $tempArrayOfQuizQuestions = []; //temp var
 
-        foreach ($this->Quiz_Questions as $quizQuestion) { //loop through our questions
+        foreach ($this->Questions as $quizQuestion) { //loop through our questions
             if ($quizQuestion->IsActive == 1 && count($quizQuestion->Options) > 0) { //only get valid ones (active and has options)
                 array_push($tempArrayOfQuizQuestions, $quizQuestion);
             }

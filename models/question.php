@@ -1,6 +1,6 @@
 <?php
-include_once "quiz_question_option.php";
-class quiz_question {
+include_once "option.php";
+class question {
     private $_never = '1970-01-01 00:00:00';
     public $QuestionID = 0;
     public $QuizID = 0;
@@ -9,8 +9,8 @@ class quiz_question {
     public $IsActive = 1;
     public $Options = [];
 
-    public function load($quizQuestionID){
-        if (!$quizQuestionID) {
+    public function load($questionID){
+        if (!$questionID) {
             return $this;
         }
 
@@ -18,9 +18,9 @@ class quiz_question {
         if (!$connection) {
             //error connecting
         } else { //connection was good
-            $quizQuestionID = mysqli_real_escape_string($connection, stripslashes($quizQuestionID));
+            $questionID = mysqli_real_escape_string($connection, stripslashes($questionID));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ_QUESTIONS WHERE QuestionID='$quizQuestionID';";
+            $queryString = "SELECT * FROM QUESTIONS WHERE QuestionID='$questionID';";
             $qLoadQuiz = mysqli_query($connection, $queryString);
 
             mysqli_close($connection); // Closing Connection
@@ -59,7 +59,7 @@ class quiz_question {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "INSERT INTO QUIZ_QUESTIONS(QuizID
+            $queryString = "INSERT INTO QUESTIONS(QuizID
                                 ,Text
                                 ,Type
                                 ,IsActive)
@@ -67,7 +67,7 @@ class quiz_question {
                                 '$this->QuizID'
                                 ,'$this->Text'
                                 ,'$this->Type'
-                                ,'$this->IsActive'
+                                ,$this->IsActive
                             );
                             ";
             $qCreateQuizQuestion = mysqli_query($connection, $queryString);
@@ -86,7 +86,7 @@ class quiz_question {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "UPDATE QUIZ_QUESTIONS
+            $queryString = "UPDATE QUESTIONS
                             SET QuizID = '$this->QuizID'
                                 ,Text = '$this->Text'
                                 ,Type = '$this->Type'
@@ -130,7 +130,7 @@ class quiz_question {
         } else { //connection was good
             $questionID = mysqli_real_escape_string($connection, stripslashes($questionID));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ_QUESTION_OPTIONS WHERE QuestionID='$questionID';";
+            $queryString = "SELECT * FROM OPTIONS WHERE QuestionID='$questionID';";
             $qLoadQuizQuestionOptions = mysqli_query($connection, $queryString);
 
             mysqli_close($connection); // Closing Connection
@@ -139,7 +139,7 @@ class quiz_question {
                 $qLoadQuizQuestionOptions->fetch_array();
 
                 foreach ($qLoadQuizQuestionOptions as $quizQuestionOption) {
-                    array_push($tempArrayOfQuizQuestions, (new quiz_question_option())->populateFromQuery($quizQuestionOption));
+                    array_push($tempArrayOfQuizQuestions, (new option())->populateFromQuery($quizQuestionOption));
                 }
             } else {
                 //error, return empty

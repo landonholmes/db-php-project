@@ -1,13 +1,13 @@
 <?php
-class quiz_question_option {
+class option {
     private $_never = '1970-01-01 00:00:00';
-    public $QuestionOptionID = 0;
+    public $OptionID = 0;
     public $QuestionID = 0;
     public $Text = "";
     public $IsAnswer = 0;
 
-    public function load($questionOptionID){
-        if (!$questionOptionID) {
+    public function load($optionID){
+        if (!$optionID) {
             return $this;
         }
 
@@ -15,15 +15,15 @@ class quiz_question_option {
         if (!$connection) {
             //error connecting
         } else { //connection was good
-            $questionOptionID = mysqli_real_escape_string($connection, stripslashes($questionOptionID));
+            $optionID = mysqli_real_escape_string($connection, stripslashes($optionID));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ_QUESTION_OPTIONS WHERE QuestionOptionID='$questionOptionID';";
+            $queryString = "SELECT * FROM OPTIONS WHERE OptionID='$optionID';";
             $qLoadQuiz = mysqli_query($connection, $queryString);
 
             if (!is_bool($qLoadQuiz) && mysqli_num_rows($qLoadQuiz) == 1) {
                 $qLoadQuizObj = $qLoadQuiz->fetch_object();
 
-                $this->QuestionOptionID = $qLoadQuizObj->QuestionOptionID;
+                $this->OptionID = $qLoadQuizObj->OptionID;
                 $this->QuestionID = $qLoadQuizObj->QuestionID;
                 $this->Text = $qLoadQuizObj->Text;
                 $this->IsAnswer = $qLoadQuizObj->IsAnswer;
@@ -49,7 +49,7 @@ class quiz_question_option {
             $questionID = mysqli_real_escape_string($connection, stripslashes($questionID));
             $db = mysqli_select_db($connection, "DB_PHP");
             $queryString = "SELECT *
-                            FROM QUIZ_QUESTION_OPTIONS
+                            FROM OPTIONS
                             WHERE QuestionID = '$questionID'
                                 AND Text = '$text';";
             $qLoadQuiz = mysqli_query($connection, $queryString);
@@ -58,7 +58,7 @@ class quiz_question_option {
             if (!is_bool($qLoadQuiz) && mysqli_num_rows($qLoadQuiz) == 1) {
                 $qLoadQuizObj = $qLoadQuiz->fetch_object();
 
-                $this->QuestionOptionID = $qLoadQuizObj->QuestionOptionID;
+                $this->OptionID = $qLoadQuizObj->OptionID;
                 $this->QuestionID = $qLoadQuizObj->QuestionID;
                 $this->Text = $qLoadQuizObj->Text;
                 $this->IsAnswer = $qLoadQuizObj->IsAnswer;
@@ -72,7 +72,7 @@ class quiz_question_option {
     }
 
     public function save() {
-        if ($this->QuestionOptionID == 0) {
+        if ($this->OptionID == 0) {
             return $this->create();
         } else {
             return $this->update();
@@ -88,7 +88,7 @@ class quiz_question_option {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "INSERT INTO QUIZ_QUESTION_OPTIONS(QuestionID
+            $queryString = "INSERT INTO OPTIONS(QuestionID
                                 ,Text
                                 ,IsAnswer)
                             VALUES (
@@ -98,7 +98,7 @@ class quiz_question_option {
                             );
                             ";
             $qCreateUser = mysqli_query($connection, $queryString);
-            $this->QuestionOptionID = $connection->insert_id;
+            $this->OptionID = $connection->insert_id;
 
 
             mysqli_close($connection); // Closing Connection
@@ -114,11 +114,11 @@ class quiz_question_option {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "UPDATE QUIZ_QUESTION_OPTIONS
+            $queryString = "UPDATE OPTIONS
                             SET QuestionID = '$this->QuestionID'
                                 ,Text = '$this->Text'
                                 ,IsAnswer = $this->IsAnswer
-                                WHERE  QuestionOptionID = '$this->QuestionOptionID';
+                                WHERE  OptionID = '$this->OptionID';
                             ";
             $qUpdateQuiz = mysqli_query($connection, $queryString);
 
@@ -135,8 +135,8 @@ class quiz_question_option {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "DELETE FROM QUIZ_QUESTION_OPTIONS
-                            WHERE  QuestionOptionID = '$this->QuestionOptionID';
+            $queryString = "DELETE FROM OPTIONS
+                            WHERE  OptionID = '$this->OptionID';
                             ";
             $qUpdateQuiz = mysqli_query($connection, $queryString);
 
@@ -146,14 +146,14 @@ class quiz_question_option {
     }
 
     private function enforceSQLProtection($conn) {
-        $this->QuestionOptionID = mysqli_real_escape_string($conn,$this->QuestionOptionID);
+        $this->OptionID = mysqli_real_escape_string($conn,$this->OptionID);
         $this->QuestionID = mysqli_real_escape_string($conn,$this->QuestionID);
         $this->Text = mysqli_real_escape_string($conn,$this->Text);
         $this->IsAnswer = mysqli_real_escape_string($conn,$this->IsAnswer);
     }
 
     public function populateFromQuery($queryRow) {
-        $this->QuestionOptionID = $queryRow['QuestionOptionID'];
+        $this->OptionID = $queryRow['OptionID'];
         $this->QuestionID = $queryRow['QuestionID'];
         $this->Text = $queryRow['Text'];
         $this->IsAnswer = $queryRow['IsAnswer'];

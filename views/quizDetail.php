@@ -72,7 +72,7 @@ $quiz = (new quiz())->load($quizID);
                 <th style="width:25%;">&nbsp;</th>
             </tr>
             <?php
-                foreach ($quiz->Quiz_Questions as $quizQuestion) {
+                foreach ($quiz->Questions as $quizQuestion) {
                     echo "
                     <tr data-question-id=\"$quizQuestion->QuestionID\">
                         <td class=\"textValue\">$quizQuestion->Text</td>
@@ -87,7 +87,7 @@ $quiz = (new quiz())->load($quizID);
                         <td class=\"optionValue\">";
                         echo "<ul class=\"optionUL\">";
                         foreach ($quizQuestion->Options as $quizQuestionOption) {
-                            echo "<li class=\"optionItem input-group\" data-option-id=\"$quizQuestionOption->QuestionOptionID\"><span class=\"form-control optionText\"";
+                            echo "<li class=\"optionItem input-group\" data-option-id=\"$quizQuestionOption->OptionID\"><span class=\"form-control optionText\"";
                             if ($quizQuestionOption->IsAnswer == 1) {
                                 echo " style=\"font-weight:bold; text-decoration:underline;\"";
                             }
@@ -326,19 +326,19 @@ $quiz = (new quiz())->load($quizID);
 
         function toggleIsAnswerForOption() {
             var thisRow = $(this).parents("li.optionItem");
-            var quizQuestionOptionID = thisRow.attr("data-option-id");
+            var quizOptionID = thisRow.attr("data-option-id");
             var text = thisRow.children("span.optionText").text();
 
             $.ajax( {
                 "dataType": 'json',
                 "type": 'POST',
                 "url": "includes/helperFunctions.php",
-                "data": {"action":"toggleIsAnswerForOption","QuestionOptionID":quizQuestionOptionID},
+                "data": {"action":"toggleIsAnswerForOption","OptionID":quizOptionID},
                 "success": function(e) { //tries to return the new status
                     //console.log("success",e);
                     if(e == 1 || e == 0){
                         thisRow.replaceWith(quizQuestionOptionListItemTemplate({
-                            optionID: quizQuestionOptionID
+                            optionID: quizOptionID
                             ,text: text
                             ,isAnswer: e
                         }));
@@ -353,13 +353,13 @@ $quiz = (new quiz())->load($quizID);
 
         function deleteOption() {
             var thisRow = $(this).parents("li.optionItem");
-            var quizQuestionOptionID = thisRow.attr("data-option-id");
+            var quizOptionID = thisRow.attr("data-option-id");
 
             $.ajax( {
                 "dataType": 'json',
                 "type": 'POST',
                 "url": "includes/helperFunctions.php",
-                "data": {"action":"deleteOption","QuestionOptionID":quizQuestionOptionID},
+                "data": {"action":"deleteOption","OptionID":quizOptionID},
                 "success": function(e) { //tries to return result
                     //console.log("success",e);
                     if(e == 1){
@@ -376,25 +376,25 @@ $quiz = (new quiz())->load($quizID);
         function addOption() {
             var thisRow = $(this).parents("li.optionItem");
             var quizQuestionID = thisRow.parents("ul").parents("td.optionValue").parents("tr").attr("data-question-id");
-            var quizQuestionOptionTextInput = thisRow.find("input[name=optionText]");
-            var quizQuestionOptionText = quizQuestionOptionTextInput.val();
+            var optionTextInput = thisRow.find("input[name=optionText]");
+            var optionText = optionTextInput.val();
 
-            if (quizQuestionOptionText.length) {
+            if (optionText.length) {
                 $.ajax({
                     "dataType": 'json',
                     "type": 'POST',
                     "url": "includes/helperFunctions.php",
-                    "data": {"action": "addOption", "QuestionID": quizQuestionID, "Text": quizQuestionOptionText},
+                    "data": {"action": "addOption", "QuestionID": quizQuestionID, "Text": optionText},
                     "success": function (e) { //tries to return the new question id
                         //console.log("success", e);
                         if (e === +e) {
                             thisRow.before(quizQuestionOptionListItemTemplate({
                                 optionID: e
-                                ,text: quizQuestionOptionText
+                                ,text: optionText
                                 ,isAnswer: 0
                             }));
-                            quizQuestionOptionTextInput.val('');
-                            quizQuestionOptionTextInput.focus();
+                            optionTextInput.val('');
+                            optionTextInput.focus();
                         }
                     },
                     "timeout": 15000,

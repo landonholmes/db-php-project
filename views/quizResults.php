@@ -1,6 +1,6 @@
 <?php
 include_once "models/quiz.php";
-include_once "models/quiz_response.php";
+include_once "models/response.php";
 include_once "models/quiz_result.php";
 if (isset($_GET["userID"]) && is_numeric($_GET["userID"])) {
     $userID = $_GET["userID"];

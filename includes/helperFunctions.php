@@ -1,14 +1,14 @@
 <?php
 
-if (file_exists("../models/quiz_question.php")) {
-    include_once "../models/quiz_question.php";
-} else if (file_exists("models/quiz_question.php")) {
-    include_once "models/quiz_question.php";
+if (file_exists("../models/question.php")) {
+    include_once "../models/question.php";
+} else if (file_exists("models/question.php")) {
+    include_once "models/question.php";
 }
-if (file_exists("../models/quiz_question_option.php")) {
-    include_once "../models/quiz_question_option.php";
-} else if (file_exists("models/quiz_question_option.php")) {
-    include_once "models/quiz_question_option.php";
+if (file_exists("../models/option.php")) {
+    include_once "../models/option.php";
+} else if (file_exists("models/option.php")) {
+    include_once "models/option.php";
 }
 
 function doesUserHaveRole($userID, $roleName) { /*roleName could be "ADMIN","USERMANAGE","STUDENT"*/
@@ -92,13 +92,13 @@ if(isset($_POST['action']) && !empty($_POST['action'])) {
                 break;
                 }
         case 'toggleIsAnswerForOption' : {
-                if (!isset($_POST['QuestionOptionID']) || empty($_POST['QuestionOptionID'])) { return false; }
-                echo toggleIsAnswerForOption($_POST['QuestionOptionID']);
+                if (!isset($_POST['OptionID']) || empty($_POST['OptionID'])) { return false; }
+                echo toggleIsAnswerForOption($_POST['OptionID']);
                 break;
                 }
         case 'deleteOption' : {
-                if (!isset($_POST['QuestionOptionID']) || empty($_POST['QuestionOptionID'])) { return false; }
-                echo deleteOption($_POST['QuestionOptionID']);
+                if (!isset($_POST['OptionID']) || empty($_POST['OptionID'])) { return false; }
+                echo deleteOption($_POST['OptionID']);
                 break;
                 }
         case 'addOption' : {
@@ -173,13 +173,12 @@ function addQuestionToQuiz($QuizID,$Text,$Type,$IsActive) {
         return false;
     }
 
-    $quizQues = new quiz_question();
+    $quizQues = new question();
 
     $quizQues->QuizID = $QuizID;
     $quizQues->Text = $Text;
     $quizQues->Type = $Type;
     $quizQues->IsActive = $IsActive;
-
     $quizQues->save();
 
     if ($quizQues->QuestionID == 0) {
@@ -203,7 +202,7 @@ function editQuestion($QuestionID,$Text,$Type,$IsActive) {
         return false;
     }
 
-    $quizQues = (new quiz_question())->load($QuestionID);
+    $quizQues = (new question())->load($QuestionID);
 
     $quizQues->Text = $Text;
     $quizQues->Type = $Type;
@@ -226,7 +225,7 @@ function disableEnableQuizQuestion($QuestionID,$IsActive) {
         return false;
     }
 
-    $quizQues = (new quiz_question())->load($QuestionID);
+    $quizQues = (new question())->load($QuestionID);
 
     $quizQues->IsActive = $IsActive;
 
@@ -235,12 +234,12 @@ function disableEnableQuizQuestion($QuestionID,$IsActive) {
     return $quizQues->IsActive;
 }
 
-function toggleIsAnswerForOption($QuestionOptionID) {
-    if (!is_numeric($QuestionOptionID) || (is_numeric($QuestionOptionID) && !$QuestionOptionID)) {
+function toggleIsAnswerForOption($OptionID) {
+    if (!is_numeric($OptionID) || (is_numeric($OptionID) && !$OptionID)) {
         return false;
     }
 
-    $quizQuesOpt = (new quiz_question_option())->load($QuestionOptionID);
+    $quizQuesOpt = (new option())->load($OptionID);
 
     $quizQuesOpt->IsAnswer = 1-$quizQuesOpt->IsAnswer; //if 1, 1-1 is 0. if 0, 1-1 is 1. good for toggle
 
@@ -249,12 +248,12 @@ function toggleIsAnswerForOption($QuestionOptionID) {
     return $quizQuesOpt->IsAnswer;
 }
 
-function deleteOption($QuestionOptionID) {
-    if (!is_numeric($QuestionOptionID) || (is_numeric($QuestionOptionID) && !$QuestionOptionID)) {
+function deleteOption($OptionID) {
+    if (!is_numeric($OptionID) || (is_numeric($OptionID) && !$OptionID)) {
         return false;
     }
 
-    $quizQuesOpt = (new quiz_question_option())->load($QuestionOptionID);
+    $quizQuesOpt = (new option())->load($OptionID);
 
     $result = $quizQuesOpt->delete(); //try to delete
 
@@ -269,14 +268,14 @@ function addOption($QuestionID,$Text) {
         return false;
     }
 
-    $quizQuesOpt = (new quiz_question_option());
+    $quizQuesOpt = (new option());
 
     $quizQuesOpt->QuestionID = $QuestionID;
     $quizQuesOpt->Text = $Text;
 
     $quizQuesOpt->save(); //try to delete
 
-    return $quizQuesOpt->QuestionOptionID;
+    return $quizQuesOpt->OptionID;
 }
 
 

@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS DB_PHP;
+use DB_PHP;
+DROP TABLE IF EXISTS OPTIONS;
+
+CREATE TABLE OPTIONS (
+	  OptionID			INT		        NOT NULL auto_increment
+	, QuestionID	    INT				NOT NULL
+	, Text				VARCHAR(2000)	NOT NULL
+	, IsAnswer			BIT				NOT NULL
+	, PRIMARY KEY (OptionID)
+);

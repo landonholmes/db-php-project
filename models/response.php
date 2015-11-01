@@ -1,5 +1,5 @@
 <?php
-class quiz_response {
+class response {
     private $_never = '1970-01-01 00:00:00';
     public $ResponseID = 0;
     public $QuizID = 0;
@@ -7,7 +7,7 @@ class quiz_response {
     public $QuestionText = "";
     public $QuestionID = 0;
     public $OptionText = "";
-    public $QuestionOptionID = 0;
+    public $OptionID = 0;
     public $Response = "";
     public $CorrectResponse = "";
     public $IsCorrect = 0;
@@ -24,7 +24,7 @@ class quiz_response {
         } else { //connection was good
             $responseID = mysqli_real_escape_string($connection, stripslashes($responseID));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ_RESPONSE WHERE ResponseID='$responseID';";
+            $queryString = "SELECT * FROM RESPONSES WHERE ResponseID='$responseID';";
             $qLoadResponse = mysqli_query($connection, $queryString);
 
             mysqli_close($connection); // Closing Connection
@@ -37,7 +37,7 @@ class quiz_response {
                 $this->QuestionText = $qLoadResponseObj->QuestionText;
                 $this->QuestionID = $qLoadResponseObj->QuestionID;
                 $this->OptionText = $qLoadResponseObj->OptionText;
-                $this->QuestionOptionID = $qLoadResponseObj->QuestionOptionID;
+                $this->OptionID = $qLoadResponseObj->OptionID;
                 $this->Response = $qLoadResponseObj->Response;
                 $this->CorrectResponse = $qLoadResponseObj->CorrectResponse;
                 $this->IsCorrect = $qLoadResponseObj->IsCorrect;
@@ -64,7 +64,7 @@ class quiz_response {
         } else { //connection was good
             $responseOn = mysqli_real_escape_string($connection, stripslashes($responseOn));
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "SELECT * FROM QUIZ_RESPONSE WHERE ResponseOn='$responseOn';";
+            $queryString = "SELECT * FROM RESPONSES WHERE ResponseOn='$responseOn';";
             $qLoadResponse = mysqli_query($connection, $queryString);
 
             mysqli_close($connection); // Closing Connection
@@ -106,12 +106,12 @@ class quiz_response {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "INSERT INTO QUIZ_RESPONSE(QuizID
+            $queryString = "INSERT INTO RESPONSES(QuizID
                                 ,UserID
                                 ,QuestionText
                                 ,QuestionID
                                 ,OptionText
-                                ,QuestionOptionID
+                                ,OptionID
                                 ,Response
                                 ,CorrectResponse
                                 ,IsCorrect
@@ -122,7 +122,7 @@ class quiz_response {
                                 ,'$this->QuestionText'
                                 ,$this->QuestionID
                                 ,'$this->OptionText'
-                                ,'$this->QuestionOptionID'
+                                ,'$this->OptionID'
                                 ,'$this->Response'
                                 ,'$this->CorrectResponse'
                                 ,$this->IsCorrect
@@ -145,13 +145,13 @@ class quiz_response {
         } else { //connection was good
             $this->enforceSQLProtection($connection);
             $db = mysqli_select_db($connection, "DB_PHP");
-            $queryString = "UPDATE QUIZ_RESPONSE
+            $queryString = "UPDATE RESPONSES
                             SET QuizID = $this->QuizID
                                 ,UserID = $this->UserID
                                 ,QuestionText = '$this->QuestionText'
                                 ,QuestionID = $this->QuestionID
                                 ,OptionText = '$this->OptionText'
-                                ,QuestionOptionID = $this->QuestionOptionID
+                                ,OptionID = $this->OptionID
                                 ,Response = '$this->Response'
                                 ,CorrectResponse = '$this->CorrectResponse'
                                 ,IsCorrect = $this->IsCorrect
@@ -172,7 +172,7 @@ class quiz_response {
         $this->QuestionText = mysqli_real_escape_string($conn,$this->QuestionText);
         $this->QuestionID = mysqli_real_escape_string($conn,$this->QuestionID);
         $this->OptionText = mysqli_real_escape_string($conn,$this->OptionText);
-        $this->QuestionOptionID = mysqli_real_escape_string($conn,$this->QuestionOptionID);
+        $this->OptionID = mysqli_real_escape_string($conn,$this->OptionID);
         $this->Response = mysqli_real_escape_string($conn,$this->Response);
         $this->CorrectResponse = mysqli_real_escape_string($conn,$this->CorrectResponse);
         $this->IsCorrect = mysqli_real_escape_string($conn,$this->IsCorrect);
@@ -186,7 +186,7 @@ class quiz_response {
         $this->QuestionText = $queryRow['QuestionText'];
         $this->QuestionID = $queryRow['QuestionID'];
         $this->OptionText = $queryRow['OptionText'];
-        $this->QuestionOptionID = $queryRow['QuestionOptionID'];
+        $this->OptionID = $queryRow['OptionID'];
         $this->Response = $queryRow['Response'];
         $this->CorrectResponse = $queryRow['CorrectResponse'];
         $this->IsCorrect = $queryRow['IsCorrect'];

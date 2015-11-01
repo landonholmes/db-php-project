@@ -9,7 +9,7 @@ if (isset($_GET["quizID"]) && is_numeric($_GET["quizID"])) {
 
 $quiz = (new quiz())->load($quizID);
 
-if ($quiz->IsActive == 0 || (count($quiz->Quiz_Questions) < 1)) { //don't let them try to take inactive or empty quizzes
+if ($quiz->IsActive == 0 || (count($quiz->Questions) < 1)) { //don't let them try to take inactive or empty quizzes
     redirect("$root/index.php?action=quizList");
 }
 
@@ -52,7 +52,7 @@ function buildQuestionHTML($quizQuestion,$index) {
     <form class="form-horizontal" action="index.php?action=actQuizSubmit" method="POST">
         <?php
             $index = 1;
-            foreach ($quiz->Quiz_Questions as $quizQuestion) {
+            foreach ($quiz->Questions as $quizQuestion) {
                 if ($quizQuestion->IsActive && (count($quizQuestion->Options) > 0)) { //we only want active questions
                     echo buildQuestionHTML($quizQuestion,$index);
                 }
