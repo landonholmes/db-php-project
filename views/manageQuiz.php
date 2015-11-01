@@ -50,7 +50,7 @@ $quizList = (new quiz())->loadAll();
                 }
 
                 echo "</td>
-                    <td> <a class=\"btn btn-xs btn-success\" href=\"index.php?action=quizDetail&quizID=$singleQuiz->QuizID\">Edit</a></td>
+                    <td> <a class=\"btn btn-xs btn-success\" href=\"index.php?action=quizForm&quizID=$singleQuiz->QuizID\">Edit</a></td>
                 </tr>";
             }
 
