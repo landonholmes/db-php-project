@@ -15,7 +15,7 @@
                 echo "><a href=\"index.php?action=quizList\"><i class=\"glyphicon glyphicon-list-alt\"></i>&nbsp;Take Quiz</a></li>
                     <li";
                 if ($activeNavTab == "quizResults") {echo " class=\"active\"";}
-                echo "><a href=\"index.php?action=quizResults\"><i class=\"glyphicon glyphicon-stats\"></i>&nbsp;Your Results</a></li>
+                echo "><a href=\"index.php?action=quizResults\"><i class=\"glyphicon glyphicon-stats\"></i>&nbsp;Results</a></li>
                     </ul>
                 ";
             }
@@ -27,6 +27,9 @@
                     echo "<li";
                     if ($activeNavTab == "manageQuiz") {echo " class=\"active\"";}
                     echo "><a href='index.php?action=manageQuiz'><i class='glyphicon glyphicon-th-list'></i>&nbsp;Quiz Management</a></li>";
+                    echo "<li";
+                    if ($activeNavTab == "userResults") {echo " class=\"active\"";}
+                    echo "><a href='index.php?action=userResults'><i class='glyphicon glyphicon-stats'></i>&nbsp;User Results</a></li>";
                 }
                 if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE")) { //if a user is in a group
                     echo "<li";

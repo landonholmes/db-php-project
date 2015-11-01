@@ -179,6 +179,40 @@ class quiz_result {
         }
     }
 
+    public function loadAllResults(){
+        $tempArrOfResults = [];
+        $connection = mysqli_connect("localhost", "php", "password");
+        if (!$connection) {
+            //error connecting
+        } else { //connection was good
+            $db = mysqli_select_db($connection, "DB_PHP");
+            $queryString = "SELECT DISTINCT(ResponseOn),UserID,QuizID
+                            FROM RESPONSES
+                            ORDER BY ResponseOn DESC
+                            ;";
+            $qLoadResponse = mysqli_query($connection, $queryString);
+
+            mysqli_close($connection); // Closing Connection
+            if (!is_bool($qLoadResponse)) {
+                if (mysqli_num_rows($qLoadResponse) == 1) {
+                    $qLoadResponseObj = $qLoadResponse->fetch_object();
+
+                    array_push($tempArrOfResults,(new self())->load($qLoadResponseObj->UserID,$qLoadResponseObj->QuizID,$qLoadResponseObj->ResponseOn));
+                } else if (mysqli_num_rows($qLoadResponse) > 0) {
+                    $qLoadResponse->fetch_array();
+
+                    foreach ($qLoadResponse as $singleResponse) {
+                        array_push($tempArrOfResults,(new self())->load($singleResponse['UserID'],$singleResponse['QuizID'],$singleResponse['ResponseOn']));
+                    }
+                }
+            } else {
+                //error, return empty
+            }
+
+            return $tempArrOfResults;
+        }
+    }
+
     public function getGrade() {
         if (!count($this->Responses)) {
             return 0;

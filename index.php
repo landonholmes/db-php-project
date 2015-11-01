@@ -31,6 +31,7 @@ if (!isset($_GET["action"])) {
         case "quizTake": $toInclude = ['includes/securityCheck_quizSection.php','views/quizTake.php']; $pageTitle='Taking Quiz'; $activeNavTab = "quizList";  break;
         case "actQuizSubmit": $toInclude = ['includes/securityCheck_quizSection.php','actions/actQuizSubmit.php']; break;
         case "quizResults": $toInclude = ['includes/securityCheck_quizSection.php','views/quizResults.php']; $pageTitle='Quiz Results'; $activeNavTab = "quizResults";  break;
+        case "userResults": $toInclude = ['includes/securityCheck_quizManageSection.php','views/userResults.php']; $pageTitle='User Quiz Results'; $activeNavTab = "userResults";  break;
         default: $toInclude = ['views/login.php']; $pageTitle='Log In'; $activeNavTab = "login";
     }
 }
