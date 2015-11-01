@@ -109,7 +109,7 @@ class quiz {
                             VALUES (
                                 '$this->Name'
                                 ,'$this->Description'
-                                ,'$this->IsActive'
+                                ,$this->IsActive
                             );
                             ";
             $qCreateUser = mysqli_query($connection, $queryString);
