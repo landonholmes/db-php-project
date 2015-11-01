@@ -230,11 +230,11 @@ $quiz = (new quiz())->load($quizID);
                 optionsHTML+=options[i].outerHTML;
             }
             PAGE.editing[quizQuestionID] = thisRow;
-            PAGE.editing[quizQuestionID] = optionsHTML;
+            PAGE.optionsEditing[quizQuestionID] = optionsHTML;
 
             thisRow.replaceWith(quizQuestionFormTemplate({
                 formID: quizQuestionID
-                ,text: text
+                ,text: text.replace(/\"/g,'&quot;')
                 ,type: type
                 ,isActive: isActive
                 ,formType: 'edit'
@@ -271,7 +271,7 @@ $quiz = (new quiz())->load($quizID);
                             ,text: text
                             ,type: type
                             ,isActive: isActive
-                            ,options: PAGE.editing[quizQuestionID]
+                            ,options: PAGE.optionsEditing[quizQuestionID]
                         }));
                         thisFormRow.remove();
                     }
