@@ -167,6 +167,12 @@ $quiz = (new quiz())->load($quizID);
         $("div.quiz-question-row").on("click","div.deleteOption",deleteOption);
         $("div.quiz-question-row").on("click","div.addOption",addOption);
 
+        $("div.quiz-question-row").on("keypress","input[name=optionText]",function(e){
+            if(e.which == 13) {
+                $(this).siblings("div.addOption").click();
+            }
+        });
+
         function clickedNewQuestionAddButton(e) {
             if (!$("#new-quiz-question-form").length) {
                 $("div.quiz-question-row").find("table").append(quizQuestionFormTemplate({
@@ -388,6 +394,7 @@ $quiz = (new quiz())->load($quizID);
                                 ,isAnswer: 0
                             }));
                             quizQuestionOptionTextInput.val('');
+                            quizQuestionOptionTextInput.focus();
                         }
                     },
                     "timeout": 15000,
