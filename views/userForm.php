@@ -24,7 +24,7 @@ $user = (new user())->load($userID);
             </div>
             <div>
                 <!--error message?-->
-                <span class="help-block" id="username_loading" style="display:none;"><img src="assets/img/ajax-loader.gif" /></span>
+                <span class="help-block" id="username_loading" style="display:none;"><img src="assets/ajax-loader.gif" /></span>
                 <span class="help-block" id="username_ok" style="display:none;"><span class="glyphicon glyphicon-ok"></span></span>
                 <span class="help-block" id="username_warning" style="display:none;"><i class="glyphicon glyphicon-warning-sign"></i> That username is already assigned.</span>
                 <span class="help-block" id="username_invalid" style="display:none;"><i class="glyphicon glyphicon-warning-sign"></i> Please enter a username.</span>
@@ -38,7 +38,7 @@ $user = (new user())->load($userID);
             </div>
             <div>
                 <!--error message?-->
-                <span class="help-block" id="email_loading" style="display:none;"><img src="assets/img/ajax-loader.gif" /></span>
+                <span class="help-block" id="email_loading" style="display:none;"><img src="assets/ajax-loader.gif" /></span>
                 <span class="help-block" id="email_ok" style="display:none;"><span class="glyphicon glyphicon-ok"></span></span>
                 <span class="help-block" id="email_warning" style="display:none;"><i class="glyphicon glyphicon-warning-sign"></i> That email address is already assigned.</span>
                 <span class="help-block" id="email_invalid" style="display:none;"><i class="glyphicon glyphicon-warning-sign"></i> Email address is not valid.</span>
@@ -119,5 +119,24 @@ $user = (new user())->load($userID);
             <input type="submit" value="Submit" name="submit" class="btn btn-primary" id="accountSubmitButton" />
         </div>
     </form>
+    <script>
+        $("#showPasswordText").change(function(e){
+            $(".passwordInput").attr("type", this.checked ? "text" : "password");
+        });
+
+        $(".passwordInput").bind("change blur", validatePasswords);
+
+        function validatePasswords() {
+            if ( $("#password").val() === $("#password2").val() ) {
+                $(".passwordInputFormGroup").removeClass("has-error");
+                $(".passwordsDontMatchErrorMessage").hide();
+                return true;
+            } else {
+                $(".passwordInputFormGroup").addClass("has-error");
+                $(".passwordsDontMatchErrorMessage").show();
+                return false;
+            }
+        }
+    </script>
 
 </div>
