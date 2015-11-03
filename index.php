@@ -1,7 +1,7 @@
 <?php
 ob_start();
-ini_set('display_errors',1);
-error_reporting(-1);
+//ini_set('display_errors',1);
+//error_reporting(-1);
 
 if(!isset($_SESSION)) {session_start();} //checking if session needs to be started
 if(!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn']=false;} //checking if session loggedIn has been set yet
