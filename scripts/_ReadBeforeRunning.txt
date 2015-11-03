@@ -1,5 +1,13 @@
-These scripts assume you are running as root and have permission to create/drop database/tables. 
+You can import the database from the DATABASE_DB_PHP_backup.sql file. 
+
+OR
+
+Running separately, these scripts assume you are running as root and have permission to create/drop database/tables. 
 It will create the datasource DB_PHP if it does not exist.
 Then it will create the tables (dropping and recreating if they already exist).
 
+------------------------------------------------------------------------------------------
+
 Also worth noting that the system assumes there is a user named "php" with a password "password". This is not created here so for the system to work on your database you need to create this user. 
+
+
