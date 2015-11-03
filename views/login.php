@@ -30,17 +30,11 @@
                         $_SESSION['loggedIn'] = true;
                         $_SESSION['loggedInUserID'] = $qCheckLoginObj->UserID;
 
-                        $updateLoggedInTime = mysqli_query($connection,"UPDATE USERS SET LastLoggedInOn = '".date("Y-m-d H:i:s")."' WHERE UserID = '$qCheckLoginObj->UserID'");
-
-                        if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
-                            redirect("$root/index.php?action=manageQuiz"); // redirect to other page
-                        }
-                        if (doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE") ) {
-                            redirect("$root/index.php?action=manageUsers"); // redirect to other page
-                        }
-                        if (doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) {
-                            redirect("$root/index.php?action=quizList"); // redirect to other page
-                        }
+                        $connection = mysqli_connect("localhost", "php", "password");
+                        $db = mysqli_select_db($connection,"DB_PHP");
+                        $rightNow = date("Y-m-d H:i:s");
+                        $updateLoggedInTime = mysqli_query($connection,"UPDATE USERS SET LastLoggedInOn = '$rightNow' WHERE UserID = '$qCheckLoginObj->UserID'");
+                        mysqli_close($connection); // Closing Connection
                     } else {
                         $error = "Username or Password is invalid.";
                     }
@@ -48,6 +42,18 @@
                     $error = "Username or Password is invalid";
                 }
             }
+        }
+    }
+
+    if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
+        if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
+            redirect("$root/index.php?action=manageQuiz"); // redirect to other page
+        }
+        if (doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE") ) {
+            redirect("$root/index.php?action=manageUsers"); // redirect to other page
+        }
+        if (doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) {
+            redirect("$root/index.php?action=quizList"); // redirect to other page
         }
     }
 ?>
