@@ -9,15 +9,15 @@ CREATE TABLE USERS (
     , FirstName		            VARCHAR(200)	NOT NULL
     , LastName		            VARCHAR(200)	NOT NULL
     , Password		            VARCHAR(512)	NOT NULL
-    , PasswordLastSetOn		    TIMESTAMP		NOT NULL
+    , PasswordLastSetOn		    DATETIME		NOT NULL
     , PasswordLastSetBy		    INT		        NOT NULL
     , PasswordLastSetByIP		VARCHAR(50)		NOT NULL
-    , LastLoggedInOn		    TIMESTAMP		NOT NULL
+    , LastLoggedInOn		    DATETIME		NOT NULL
     , IsLocked		            BIT 			NOT NULL
-    , CreatedOn		            TIMESTAMP		NOT NULL
+    , CreatedOn		            DATETIME		NOT NULL
     , CreatedBy		            INT		        NOT NULL
     , CreatedByIP		        VARCHAR(50)		NOT NULL
-    , LastModifiedOn		    TIMESTAMP		NOT NULL
+    , LastModifiedOn		    DATETIME		NOT NULL
     , LastModifiedBy		    INT		        NOT NULL
     , LastModifiedByIP		    VARCHAR(50)		NOT NULL
 

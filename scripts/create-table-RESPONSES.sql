@@ -13,6 +13,6 @@ CREATE TABLE RESPONSES (
 	, Response			VARCHAR(2000)	NOT NULL
 	, CorrectResponse	VARCHAR(2000)	NOT NULL
 	, IsCorrect			BIT				NOT NULL
-	, ResponseOn	    TIMESTAMP		NOT NULL
+	, ResponseOn	    DATETIME		NOT NULL
 	, PRIMARY KEY (ResponseID)
 );

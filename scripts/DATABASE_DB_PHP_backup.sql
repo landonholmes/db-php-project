@@ -111,7 +111,7 @@ CREATE TABLE `RESPONSES` (
   `Response` varchar(2000) NOT NULL,
   `CorrectResponse` varchar(2000) NOT NULL,
   `IsCorrect` bit(1) NOT NULL,
-  `ResponseOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ResponseOn` datetime NOT NULL,
   PRIMARY KEY (`ResponseID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -191,15 +191,15 @@ CREATE TABLE `USERS` (
   `FirstName` varchar(200) NOT NULL,
   `LastName` varchar(200) NOT NULL,
   `Password` varchar(512) NOT NULL,
-  `PasswordLastSetOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `PasswordLastSetOn` datetime NOT NULL,
   `PasswordLastSetBy` int(11) NOT NULL,
   `PasswordLastSetByIP` varchar(50) NOT NULL,
-  `LastLoggedInOn` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `LastLoggedInOn` datetime NOT NULL,
   `IsLocked` bit(1) NOT NULL,
-  `CreatedOn` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `CreatedOn` datetime NOT NULL,
   `CreatedBy` int(11) NOT NULL,
   `CreatedByIP` varchar(50) NOT NULL,
-  `LastModifiedOn` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `LastModifiedOn` datetime NOT NULL,
   `LastModifiedBy` int(11) NOT NULL,
   `LastModifiedByIP` varchar(50) NOT NULL,
   PRIMARY KEY (`UserID`)
@@ -212,7 +212,7 @@ CREATE TABLE `USERS` (
 
 LOCK TABLES `USERS` WRITE;
 /*!40000 ALTER TABLE `USERS` DISABLE KEYS */;
-INSERT INTO `USERS` VALUES (1,'admin','admin@example.com','Admin','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-01 16:15:54',1,'0.0.0.0','1970-01-01 06:00:00','\0','2015-11-01 16:15:54',1,'0.0.0.0','1970-01-01 06:00:00',1,'0.0.0.0'),(2,'student','student@example.com','Student','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-01 16:15:54',1,'0.0.0.0','1970-01-01 06:00:00','\0','2015-11-01 16:15:54',1,'0.0.0.0','1970-01-01 06:00:00',1,'0.0.0.0'),(3,'manager','manager@example.com','Manager','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-01 16:15:54',1,'0.0.0.0','1970-01-01 06:00:00','\0','2015-11-01 16:15:54',1,'0.0.0.0','1970-01-01 06:00:00',1,'0.0.0.0');
+INSERT INTO `USERS` VALUES (1,'admin','admin@example.com','Admin','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-03 14:09:45',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-03 14:09:45',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(2,'student','student@example.com','Student','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-03 14:09:45',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-03 14:09:45',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(3,'manager','manager@example.com','Manager','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-03 14:09:45',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-03 14:09:45',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0');
 /*!40000 ALTER TABLE `USERS` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -225,4 +225,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-03  8:43:10
+-- Dump completed on 2015-11-03 14:10:43
