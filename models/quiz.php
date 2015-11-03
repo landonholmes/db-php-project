@@ -96,7 +96,7 @@ class quiz {
     }
 
     //assumes record does not exist in DB and intends to insert one
-    public function create() {
+    private function create() {
         $connection = mysqli_connect("localhost", "php", "password");
         if (!$connection) {
             //error connecting
@@ -122,7 +122,7 @@ class quiz {
     }
 
     //assumes record does exist in DB and intends to update that one
-    public function update() {
+    private function update() {
         $connection = mysqli_connect("localhost", "php", "password");
         if (!$connection) {
             //error connecting
