@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation">
-    <div class="container">
+    <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <a class="navbar-brand" href="index.php?action=login">Quizzeret</a>
