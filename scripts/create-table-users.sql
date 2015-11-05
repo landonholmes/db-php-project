@@ -1,7 +1,9 @@
 CREATE DATABASE IF NOT EXISTS DB_PHP;
 use DB_PHP;
-DROP TABLE IF EXISTS USERS;
 
+SET FOREIGN_KEY_CHECKS=0; -- it'll complain when we drop it to recreate it
+
+DROP TABLE IF EXISTS `USERS`;
 CREATE TABLE USERS (
       UserID		            INT		        NOT NULL auto_increment
     , Username		            VARCHAR(200)	NOT NULL
@@ -21,8 +23,11 @@ CREATE TABLE USERS (
     , LastModifiedBy		    INT		        NOT NULL
     , LastModifiedByIP		    VARCHAR(50)		NOT NULL
 
-    , PRIMARY KEY (userID)
+    , CONSTRAINT 	            UserPK 		    PRIMARY KEY (userID)
+    , CONSTRAINT 	            UserAK1 		UNIQUE KEY(Username)
 );
+
+SET FOREIGN_KEY_CHECKS=1; -- turn that back on
 
 INSERT INTO USERS
 (
@@ -45,9 +50,9 @@ INSERT INTO USERS
 )
 VALUES
 (
-    'admin'	/* Username - varchar (256) */
-    , 'admin@example.com'	/* Email - varchar (256) */
-    , 'Admin'	/* FirstName - varchar (100) */
+    'teacher'	/* Username - varchar (256) */
+    , 'teacher@example.com'	/* Email - varchar (256) */
+    , 'Teacher'	/* FirstName - varchar (100) */
     , 'User'	/* LastName - varchar (100) */
     , 'sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL'
     , CURRENT_TIMESTAMP()	/* PasswordLastSetOn - datetime */

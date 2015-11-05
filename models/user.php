@@ -130,7 +130,7 @@ class user {
                                 ,'$this->PasswordLastSetBy'
                                 ,'$this->PasswordLastSetByIP'
                                 ,'$this->LastLoggedInOn'
-                                ,'$this->IsLocked'
+                                ,$this->IsLocked
                                 ,'$this->CreatedOn'
                                 ,'$this->CreatedBy'
                                 ,'$this->CreatedByIP'
@@ -166,7 +166,7 @@ class user {
                                 ,PasswordLastSetBy = '$this->PasswordLastSetBy'
                                 ,PasswordLastSetByIP = '$this->PasswordLastSetByIP'
                                 ,LastLoggedInOn = '$this->LastLoggedInOn'
-                                ,IsLocked = '$this->IsLocked'
+                                ,IsLocked = $this->IsLocked
                                 ,CreatedOn = '$this->CreatedOn'
                                 ,CreatedBy = '$this->CreatedBy'
                                 ,CreatedByIP = '$this->CreatedByIP'

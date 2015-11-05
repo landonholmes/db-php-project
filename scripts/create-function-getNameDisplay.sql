@@ -1,0 +1,17 @@
+CREATE DATABASE IF NOT EXISTS DB_PHP;
+use DB_PHP;
+
+DROP FUNCTION IF EXISTS getNameDisplay;
+DELIMITER $$
+CREATE FUNCTION getNameDisplay
+    (FirstName VARCHAR(200),LastName VARCHAR(200))
+    RETURNS VARCHAR(400)
+    DETERMINISTIC
+    BEGIN
+        DECLARE FullName VARCHAR(400);
+
+        SET FullName = CONCAT(TRIM(LastName),',',TRIM(FirstName));
+
+        RETURN FullName;
+    END$$
+    DELIMITER ;

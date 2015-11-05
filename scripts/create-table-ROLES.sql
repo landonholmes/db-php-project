@@ -1,14 +1,18 @@
 CREATE DATABASE IF NOT EXISTS DB_PHP;
 use DB_PHP;
-DROP TABLE IF EXISTS ROLES;
 
+SET FOREIGN_KEY_CHECKS=0; -- it'll complain when we drop it to recreate it
+
+DROP TABLE IF EXISTS ROLES;
 CREATE TABLE ROLES (
 	  RoleID		    INT		        NOT NULL auto_increment
 	, RoleName		    VARCHAR(100)	NOT NULL
 	, RoleDesc		    VARCHAR(2000)	NOT NULL
-	, PRIMARY KEY (RoleID)
-	, UNIQUE KEY Roles_IDX0 (RoleName)
+	, CONSTRAINT        RolePK          PRIMARY KEY (RoleID)
+	, CONSTRAINT        Roles_IDX0      UNIQUE KEY (RoleName)
 );
+
+SET FOREIGN_KEY_CHECKS=1; -- turn that back on
 
 INSERT INTO ROLES
 (

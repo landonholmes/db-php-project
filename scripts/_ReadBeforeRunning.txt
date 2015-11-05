@@ -1,4 +1,4 @@
-You can import the database from the DATABASE_DB_PHP_backup.sql file. 
+You can import the database from the DATABASE_DB_PHP_backup.sql file. This should include functions and triggers.
 
 OR
 
