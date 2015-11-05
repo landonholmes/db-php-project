@@ -18,7 +18,7 @@ function buildQuestionHTML($quizQuestion,$index) {
     switch($quizQuestion->Type) {
         case "Select": {
             $toReturn = $toReturn."<div class=\"form-group\">
-                        <label class=\"control-label col-sm-2 label-required\" for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>
+                        <label class=\"control-label col-sm-2 label-required\" style=\"text-align: left;\" for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>
                         <div class=\"col-sm-5\">
                             <select id=\"Question_$quizQuestion->QuestionID\" name=\"Question_$quizQuestion->QuestionID\" class=\"form-control\" required>";
             foreach ($quizQuestion->Options as $quizQuestionOption) {
@@ -31,7 +31,7 @@ function buildQuestionHTML($quizQuestion,$index) {
         }
         case "Radio": {
             $toReturn = $toReturn."<div class=\"form-group\">
-                        <label class=\"control-label col-sm-2 label-required\" for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>
+                        <label class=\"control-label col-sm-2 label-required\" style=\"text-align: left;\"  for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>
                         <div class=\"col-sm-5\">";
             foreach ($quizQuestion->Options as $quizQuestionOption) {
                 $toReturn = $toReturn."<label class=\"radio\" style=\"font-weight: normal;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"radio\" value=\"$quizQuestionOption->Text\" id=\"Question_$quizQuestion->QuestionID\" name=\"Question_$quizQuestion->QuestionID\">$quizQuestionOption->Text</option></label>";
@@ -42,7 +42,7 @@ function buildQuestionHTML($quizQuestion,$index) {
         }
         case "Text": {
             $toReturn = $toReturn."<div class=\"form-group\">
-                        <label class=\"control-label col-sm-2 label-required\" for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>
+                        <label class=\"control-label col-sm-2 label-required\" style=\"text-align: left;\"  for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>
                         <div class=\"col-sm-5\">
                             <input id=\"Question_$quizQuestion->QuestionID\" name=\"Question_$quizQuestion->QuestionID\" class=\"form-control\" required value=\"\">";
             $toReturn = $toReturn."</div>
