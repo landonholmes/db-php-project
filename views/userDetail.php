@@ -83,7 +83,7 @@ $user = (new user())->load($userID);
             <div class=\"col-sm-4\"><br />";
 
         echo "<div class=\"well\">";
-        if ($user->UserID == $_SESSION['loggedInUserID']) {
+        if ($user->UserID == $_SESSION['loggedInUser']->UserID) {
             echo "<strong>Your Roles</strong>";
         } else {
             echo "<strong>$user->FirstName $user->LastName's Roles</strong>";
@@ -94,11 +94,11 @@ $user = (new user())->load($userID);
                 <ul id=\"roleUL\">";
         foreach ($userRoles as $role) {
             echo "<li class=\"userRoleItem list-role-item\" data-user-id=\"$user->UserID\" data-role-id=\"$role->RoleID\" data-role-user-id=\"$role->User_RoleID\">$role->RoleName";
-             if ($user->UserID != $_SESSION['loggedInUserID']) {echo "<i style=\"float:right;\" class=\"glyphicon glyphicon-remove icon-white\"></i>"; }
+             if ($user->UserID != $_SESSION['loggedInUser']->UserID) {echo "<i style=\"float:right;\" class=\"glyphicon glyphicon-remove icon-white\"></i>"; }
             echo"</li>";
         }
         echo "</ul>";
-        if ( ($user->UserID != $_SESSION['loggedInUserID']) && (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE"))) {
+        if ( ($user->UserID != $_SESSION['loggedInUser']->UserID) && ($_SESSION['loggedInUser']->isUserInRole("TEACH") || $_SESSION['loggedInUser']->isUserInRole("USERMANAGE"))) {
             echo "<select id=\"newRoleID\" class=\"addRoleSelect form-control\" >
 		                <option value=\"-1\" data-user-id=\"-1\" data-role-id=\"-1\" disabled=\"true\" selected=\"true\">- Choose Role -</option>";
                 foreach ($availableRoles as $availRole) {
@@ -108,7 +108,7 @@ $user = (new user())->load($userID);
         }
         echo "</div><div class=\"well\"";
 
-            if ($_SESSION['loggedInUserID'] == $user->UserID) {
+            if ($_SESSION['loggedInUser']->UserID == $user->UserID) {
               echo "<p>To update your account, click the button below.</p>
 					<a href=\"index.php?action=userForm&userID=$userID\" class=\"btn btn-default\">Update Account</a>";
             } else{
@@ -136,7 +136,7 @@ $user = (new user())->load($userID);
         updateAddRoleDropdown();
     }
 
-    <?php if ( ($user->UserID != $_SESSION['loggedInUserID']) && (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE"))) {
+    <?php if ( ($user->UserID != $_SESSION['loggedInUser']->UserID) && ($_SESSION['loggedInUser']->isUserInRole("TEACH") || $_SESSION['loggedInUser']->isUserInRole("USERMANAGE"))) {
             echo "$(\"#roleUL\").delegate(\"li\", \"click\", function(e){
                 elem = $(this);
 
@@ -180,7 +180,7 @@ $user = (new user())->load($userID);
             "success": function(e) {
                 if(e === +e){
                     var newRoleUL = '<li class="userRoleItem list-role-item" data-user-id="' + userID + '" data-role-id="' + roleID + '" data-role-user-id="' + e + '">' + roleName + '';
-                    <?php if ($user->UserID != $_SESSION['loggedInUserID']) {echo "newRoleUL += '<i style=\"float:right;\" class=\"glyphicon glyphicon-remove icon-white\"></i>';";}?>
+                    <?php if ($user->UserID != $_SESSION['loggedInUser']->UserID) {echo "newRoleUL += '<i style=\"float:right;\" class=\"glyphicon glyphicon-remove icon-white\"></i>';";}?>
                     newRoleUL += '</li>';
                     $("#roleUL").append(newRoleUL);
                     $("#newRoleID").val(-1);

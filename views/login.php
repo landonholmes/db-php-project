@@ -28,7 +28,7 @@
                     $qCheckLoginObj = $qCheckLogin->fetch_object();
                     if (validate_password($password, $qCheckLoginObj->Password)) {
                         $_SESSION['loggedIn'] = true;
-                        $_SESSION['loggedInUserID'] = $qCheckLoginObj->UserID;
+                        $_SESSION['loggedInUser'] = (new user())->load($qCheckLoginObj->UserID);
 
                         $connection = mysqli_connect("localhost", "php", "password");
                         $db = mysqli_select_db($connection,"DB_PHP");
@@ -46,13 +46,13 @@
     }
 
     if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn']) {
-        if (doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") ) {
+        if ($_SESSION['loggedInUser']->isUserInRole("TEACH") ) {
             redirect("$root/index.php?action=manageQuiz"); // redirect to other page
         }
-        if (doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE") ) {
+        if ($_SESSION['loggedInUser']->isUserInRole("USERMANAGE") ) {
             redirect("$root/index.php?action=manageUsers"); // redirect to other page
         }
-        if (doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) {
+        if ($_SESSION['loggedInUser']->isUserInRole("STUDENT") ) {
             redirect("$root/index.php?action=quizList"); // redirect to other page
         }
     }

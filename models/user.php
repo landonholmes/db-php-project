@@ -311,7 +311,7 @@ class user {
         return $roles;
     }
 
-    function isUserInRole($roleName) {
+    public function isUserInRole($roleName) {
         if (count($this->Roles) < 1) {
             return false;
         }

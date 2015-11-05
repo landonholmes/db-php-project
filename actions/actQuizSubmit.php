@@ -2,7 +2,7 @@
 include_once "models/quiz.php";
 include_once "models/question.php";
 include_once "models/response.php";
-if (isset($_POST['submit']) && isset($_POST['quizID']) && isset($_SESSION['loggedInUserID'])) {
+if (isset($_POST['submit']) && isset($_POST['quizID']) && isset($_SESSION['loggedInUser'])) {
     //param'ing for quizID
     if (is_numeric($_POST['quizID'])) {
         $quizID = $_POST['quizID'];
@@ -45,7 +45,7 @@ if (isset($_POST['submit']) && isset($_POST['quizID']) && isset($_SESSION['logge
 
             $quizResponse = new response();
             $quizResponse->QuizID = $quizID;
-            $quizResponse->UserID = $_SESSION['loggedInUserID'];
+            $quizResponse->UserID = $_SESSION['loggedInUser']->UserID;
             $quizResponse->QuestionText = $specificQuestion->Text;
             $quizResponse->QuestionID = $specificQuestion->QuestionID;
             $quizResponse->OptionText = $specificOption->Text;
@@ -76,7 +76,7 @@ if (isset($_POST['submit']) && isset($_POST['quizID']) && isset($_SESSION['logge
     foreach ($unansweredQuestions as $unansQ) {
         $quizResponse = new response();
         $quizResponse->QuizID = $quizID;
-        $quizResponse->UserID = $_SESSION['loggedInUserID'];
+        $quizResponse->UserID = $_SESSION['loggedInUser']->UserID;
         $quizResponse->QuestionText = $unansQ->Text;
         $quizResponse->QuestionID = $unansQ->QuestionID;
         $quizResponse->OptionText = "";
@@ -97,7 +97,7 @@ if (isset($_POST['submit']) && isset($_POST['quizID']) && isset($_SESSION['logge
         $quizResponse->save();
     }
 
-    redirect("$root/index.php?action=quizResults&userID=".$_SESSION['loggedInUserID']."&quizID=$quiz->QuizID");
+    redirect("$root/index.php?action=quizResults&userID=".$_SESSION['loggedInUser']->UserID."&quizID=$quiz->QuizID");
 } else {
     redirect("$root/index.php?action=quizList");
 }

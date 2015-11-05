@@ -114,7 +114,7 @@ $user = (new user())->load($userID);
             </div>
         </div>
         <div class="col-sm-offset-1 col-sm-6 well">
-            <input type="hidden" name="lastModifiedBy" value="<?php print $_SESSION['loggedInUserID'];?>" />
+            <input type="hidden" name="lastModifiedBy" value="<?php print $_SESSION['loggedInUser']->UserID;?>" />
             <input type="hidden" name="userID" value="<?php print $user->UserID;?>" />
             <input type="submit" value="Submit" name="submit" class="btn btn-primary" id="accountSubmitButton" />
         </div>

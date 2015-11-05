@@ -27,7 +27,7 @@ if (isset($_POST['submit']) && isset($_POST['userID'])) {
     if (isset($_POST['changePasswords']) && ($_POST['changePasswords'] == "true") && strlen($_POST['password'])) {
         $user->Password = create_hash($_POST['password']);
         $user->PasswordLastSetOn = $rightNow;
-        $user->PasswordLastSetBy = $_SESSION['loggedInUserID'];
+        $user->PasswordLastSetBy = $_SESSION['loggedInUser']->UserID;
         $user->PasswordLastSetByIP = $ip;
     }
 
@@ -35,12 +35,12 @@ if (isset($_POST['submit']) && isset($_POST['userID'])) {
 
     if ($userID == 0) {
         $user->CreatedOn = $rightNow;
-        $user->CreatedBy = $_SESSION['loggedInUserID'];
+        $user->CreatedBy = $_SESSION['loggedInUser']->UserID;
         $user->CreatedByIP = $ip;
     }
 
     $user->LastModifiedOn = $rightNow;
-    $user->LastModifiedBy = $_SESSION['loggedInUserID'];
+    $user->LastModifiedBy = $_SESSION['loggedInUser']->UserID;
     $user->LastModifiedByIP = $ip;
 
     $user = $user->save();

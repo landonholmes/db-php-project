@@ -6,7 +6,7 @@ if (isset($_GET["userID"]) && is_numeric($_GET["userID"])) {
     $userID = $_GET["userID"];
 } else {
     //we didn't get an id, assume logged in user's id
-    $userID = $_SESSION["loggedInUserID"];
+    $userID = $_SESSION["loggedInUser"]->UserID;
 }
 if (isset($_GET["quizID"]) && is_numeric($_GET["quizID"])) {
     $quizID = $_GET["quizID"];

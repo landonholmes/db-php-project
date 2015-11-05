@@ -7,7 +7,7 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <?php
-            if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"STUDENT") ) { //if a user is in a group
+            if($_SESSION['loggedInUser']->isUserInRole("TEACH") || $_SESSION['loggedInUser']->isUserInRole("STUDENT") ) { //if a user is in a group
                 echo "
                     <ul class=\"nav navbar-nav navbar-left\">
                         <li";
@@ -23,7 +23,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <?php
-                if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH")) { //if a user is in a group
+                if($_SESSION['loggedInUser']->isUserInRole("TEACH")) { //if a user is in a group
                     echo "<li";
                     if ($activeNavTab == "manageQuiz") {echo " class=\"active\"";}
                     echo "><a href='index.php?action=manageQuiz'><i class='glyphicon glyphicon-th-list'></i>&nbsp;Quiz Management</a></li>";
@@ -31,7 +31,7 @@
                     if ($activeNavTab == "userResults") {echo " class=\"active\"";}
                     echo "><a href='index.php?action=userResults'><i class='glyphicon glyphicon-stats'></i>&nbsp;User Results</a></li>";
                 }
-                if(doesUserHaveRole($_SESSION['loggedInUserID'],"TEACH") || doesUserHaveRole($_SESSION['loggedInUserID'],"USERMANAGE")) { //if a user is in a group
+                if($_SESSION['loggedInUser']->isUserInRole("TEACH") || $_SESSION['loggedInUser']->isUserInRole("USERMANAGE")) { //if a user is in a group
                     echo "<li";
                     if ($activeNavTab == "userManage") {echo " class=\"active\"";}
                     echo "><a href='index.php?action=manageUsers'><i class='glyphicon glyphicon-cog'></i>&nbsp;User Management</a></li>";
@@ -41,10 +41,10 @@
                     echo "
                         <li class=\"dropdown\">
                             <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\">
-                                <i class=\"glyphicon glyphicon-user glyphicon-white\"></i>&nbsp;".(new user())->load($_SESSION['loggedInUserID'])->Username."<b class=\"caret\"></b>
+                                <i class=\"glyphicon glyphicon-user glyphicon-white\"></i>&nbsp;".$_SESSION['loggedInUser']->Username."<b class=\"caret\"></b>
                             </a>
                             <ul id=\"actions-submenu\" class=\"dropdown-menu\">";
-                                /*<li><a href=\"index.php?action=userDetail&userID=".$_SESSION['loggedInUserID']."\">Account Settings</a></li>*/
+                                /*<li><a href=\"index.php?action=userDetail&userID=".$_SESSION['loggedInUser']->UserID."\">Account Settings</a></li>*/
                                 echo "<li><a href=\"index.php?action=logout\">Logout</a></li>
                             </ul>
                         </li>

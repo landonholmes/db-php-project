@@ -1,11 +1,13 @@
 <?php
+
+include_once "models/user.php"; //included for displaying name on the nav
 ob_start();
 //ini_set('display_errors',1);
 //error_reporting(-1);
 
 if(!isset($_SESSION)) {session_start();} //checking if session needs to be started
 if(!isset($_SESSION['loggedIn'])) {$_SESSION['loggedIn']=false;} //checking if session loggedIn has been set yet
-if(!isset($_SESSION['loggedInUserID'])) {$_SESSION['loggedInUserID']=0;} //checking if loggedIn userid has been set yet
+if(!isset($_SESSION['loggedInUser'])) {$_SESSION['loggedInUser']=(new user());} //checking if loggedIn userid has been set yet
 $root = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://'.$_SERVER['HTTP_HOST'].rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 //this file acts as a controller, including pages that are necessary
 $activeNavTab='login';
@@ -41,7 +43,6 @@ include_once "includes/helperFunctions.php";
 if ($securedPage) {
     include_once "includes/securityCheck.php";
 }
-include_once "models/user.php"; //included for displaying name on the nav
 ?>
 
 <html>
