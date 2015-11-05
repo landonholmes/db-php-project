@@ -18,6 +18,7 @@ class user {
     public $LastModifiedOn = '1970-01-01 00:00:00';
     public $LastModifiedBy = 0;
     public $LastModifiedByIP = "";
+    public $Roles = [];
 
     public function load($userID){
         if (!$userID) {
@@ -54,6 +55,7 @@ class user {
                 $this->LastModifiedBy = $qCheckLoginObj->LastModifiedBy;
                 $this->LastModifiedByIP = $qCheckLoginObj->LastModifiedByIP;
 
+                $this->Roles = $this->getRoles();
             } else {
                 //error, return empty
             }
@@ -220,6 +222,8 @@ class user {
         $this->LastModifiedOn = $queryRow['LastModifiedOn'];
         $this->LastModifiedBy = $queryRow['LastModifiedBy'];
         $this->LastModifiedByIP = $queryRow['LastModifiedByIP'];
+
+        $this->Roles = $this->getRoles();
         return $this;
     }
 
@@ -305,6 +309,18 @@ class user {
             }
         }
         return $roles;
+    }
+
+    function isUserInRole($roleName) {
+        if (count($this->Roles) < 1) {
+            return false;
+        }
+
+        foreach($this->Roles as $role) {
+            if ($role->RoleName == $roleName) {
+                return true;
+            }
+        }
     }
 
 }

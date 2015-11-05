@@ -1,7 +1,6 @@
 <?php
 
 $userList =  (new user())->loadAll();
-
 ?>
 
 <div class="row">
