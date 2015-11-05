@@ -29,6 +29,17 @@ function buildQuestionHTML($quizQuestion,$index) {
                     </div>";
             break;
         }
+        case "Radio": {
+            $toReturn = $toReturn."<div class=\"form-group\">
+                        <label class=\"control-label col-sm-2 label-required\" for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>
+                        <div class=\"col-sm-5\">";
+            foreach ($quizQuestion->Options as $quizQuestionOption) {
+                $toReturn = $toReturn."<label class=\"radio\" style=\"font-weight: normal;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type=\"radio\" value=\"$quizQuestionOption->Text\" id=\"Question_$quizQuestion->QuestionID\" name=\"Question_$quizQuestion->QuestionID\">$quizQuestionOption->Text</option></label>";
+            }
+            $toReturn = $toReturn."</div>
+                    </div>";
+            break;
+        }
         case "Text": {
             $toReturn = $toReturn."<div class=\"form-group\">
                         <label class=\"control-label col-sm-2 label-required\" for=\"Question_$quizQuestion->QuestionID\">$index: $quizQuestion->Text:</label>

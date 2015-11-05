@@ -142,6 +142,7 @@ $quiz = (new quiz())->load($quizID);
                 '<td><input type="text" class="form-control" name="text" value="<%= text %>"/></td>' +
                 '<td><select class="form-control" name="type">' +
                     '<option value="Select" <% if(type=="Select"){%>selected<%}%>>Select</option>' +
+                    '<option value="Radio" <% if(type=="Radio"){%>selected<%}%>>Radio</option>' +
                     '<option value="Text" <% if(type=="Text"){%>selected<%}%>>Text</option>' +
                 '</select></td>' + //type
                 '<td><select class="form-control" name="isActive">' +
