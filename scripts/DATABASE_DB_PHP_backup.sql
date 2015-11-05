@@ -2,9 +2,9 @@ CREATE DATABASE  IF NOT EXISTS `DB_PHP` /*!40100 DEFAULT CHARACTER SET latin1 */
 USE `DB_PHP`;
 -- MySQL dump 10.13  Distrib 5.6.24, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: DB_PHP
+-- Host: 45.55.227.51    Database: DB_PHP
 -- ------------------------------------------------------
--- Server version	5.6.26
+-- Server version	5.5.44-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -32,7 +32,7 @@ CREATE TABLE `OPTIONS` (
   PRIMARY KEY (`OptionID`),
   KEY `QuestionFK` (`QuestionID`),
   CONSTRAINT `QuestionFK` FOREIGN KEY (`QuestionID`) REFERENCES `QUESTIONS` (`QuestionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `OPTIONS` (
 
 LOCK TABLES `OPTIONS` WRITE;
 /*!40000 ALTER TABLE `OPTIONS` DISABLE KEYS */;
-INSERT INTO `OPTIONS` VALUES (1,1,'Option 1',''),(2,1,'Option 2','\0'),(3,1,'Option 3','\0'),(4,1,'Option 4','\0'),(5,2,'Option 1','\0'),(6,2,'Option 2',''),(7,2,'Option 3',''),(8,2,'Option 4','\0'),(9,3,'Yes',''),(10,3,'No',''),(11,3,'Maybe','\0'),(12,5,'Option 1','\0'),(13,5,'Option 2','\0');
+INSERT INTO `OPTIONS` VALUES (1,1,'Option 1',''),(2,1,'Option 2','\0'),(3,1,'Option 3','\0'),(4,1,'Option 4','\0'),(5,2,'Option 1','\0'),(6,2,'Option 2',''),(7,2,'Option 3',''),(8,2,'Option 4','\0'),(9,3,'Yes',''),(10,3,'No',''),(11,3,'Maybe','\0'),(12,5,'Option 1','\0'),(13,5,'Option 2','\0'),(14,6,'Option 1','\0'),(15,6,'Option 2','\0'),(16,6,'Option 3','\0'),(17,6,'Option 4','');
 /*!40000 ALTER TABLE `OPTIONS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -59,7 +59,7 @@ CREATE TABLE `QUESTIONS` (
   `Type` varchar(100) NOT NULL,
   `IsActive` bit(1) NOT NULL,
   PRIMARY KEY (`QuestionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE `QUESTIONS` (
 
 LOCK TABLES `QUESTIONS` WRITE;
 /*!40000 ALTER TABLE `QUESTIONS` DISABLE KEYS */;
-INSERT INTO `QUESTIONS` VALUES (1,1,'Choose option 1','Select',''),(2,1,'Choose Option 2 or 3','Select',''),(3,1,'Type \"Yes\" or \"No\"','Text',''),(4,1,'Question with no OPTIONS','Select',''),(5,1,'Question that is disabled','Select','\0');
+INSERT INTO `QUESTIONS` VALUES (1,1,'Choose option 1','Select',''),(2,1,'Choose Option 2 or 3','Select',''),(3,1,'Type \"Yes\" or \"No\"','Text',''),(4,1,'Question with no OPTIONS','Select',''),(5,1,'Question that is disabled','Select','\0'),(6,1,'Choose Option 4','Radio','');
 /*!40000 ALTER TABLE `QUESTIONS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,32 +165,6 @@ INSERT INTO `ROLES` VALUES (1,'TEACH','Teacher'),(2,'STUDENT','Student'),(3,'USE
 UNLOCK TABLES;
 
 --
--- Table structure for table `USER_ROLES`
---
-
-DROP TABLE IF EXISTS `USER_ROLES`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `USER_ROLES` (
-  `User_RoleID` int(11) NOT NULL AUTO_INCREMENT,
-  `UserID` int(11) NOT NULL,
-  `RoleID` int(11) NOT NULL,
-  PRIMARY KEY (`User_RoleID`),
-  UNIQUE KEY `User_Roles_IDX0` (`UserID`,`RoleID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `USER_ROLES`
---
-
-LOCK TABLES `USER_ROLES` WRITE;
-/*!40000 ALTER TABLE `USER_ROLES` DISABLE KEYS */;
-INSERT INTO `USER_ROLES` VALUES (1,1,1),(2,2,2),(3,3,3),(4,4,2),(5,8,2);
-/*!40000 ALTER TABLE `USER_ROLES` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `USERS`
 --
 
@@ -226,8 +200,34 @@ CREATE TABLE `USERS` (
 
 LOCK TABLES `USERS` WRITE;
 /*!40000 ALTER TABLE `USERS` DISABLE KEYS */;
-INSERT INTO `USERS` VALUES (1,'teacher','teacher@example.com','Teacher','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:28',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:28',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(2,'student','student@example.com','Student','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(3,'manager','manager@example.com','Manager','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0');
+INSERT INTO `USERS` VALUES (1,'teacher','teacher@example.com','Teacher','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:28',1,'0.0.0.0','2015-11-05 13:56:46','\0','2015-11-05 13:24:28',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(2,'student','student@example.com','Student','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(3,'manager','manager@example.com','Manager','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0');
 /*!40000 ALTER TABLE `USERS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `USER_ROLES`
+--
+
+DROP TABLE IF EXISTS `USER_ROLES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `USER_ROLES` (
+  `User_RoleID` int(11) NOT NULL AUTO_INCREMENT,
+  `UserID` int(11) NOT NULL,
+  `RoleID` int(11) NOT NULL,
+  PRIMARY KEY (`User_RoleID`),
+  UNIQUE KEY `User_Roles_IDX0` (`UserID`,`RoleID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `USER_ROLES`
+--
+
+LOCK TABLES `USER_ROLES` WRITE;
+/*!40000 ALTER TABLE `USER_ROLES` DISABLE KEYS */;
+INSERT INTO `USER_ROLES` VALUES (1,1,1),(2,2,2),(3,3,3),(4,4,2),(5,8,2);
+/*!40000 ALTER TABLE `USER_ROLES` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -271,4 +271,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-05 13:27:22
+-- Dump completed on 2015-11-05 14:10:45
