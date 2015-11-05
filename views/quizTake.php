@@ -66,6 +66,7 @@ function buildQuestionHTML($quizQuestion,$index) {
             foreach ($quiz->Questions as $quizQuestion) {
                 if ($quizQuestion->IsActive && (count($quizQuestion->Options) > 0)) { //we only want active questions
                     echo buildQuestionHTML($quizQuestion,$index);
+                    $index++;
                 }
             }
 
