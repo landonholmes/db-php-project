@@ -11,6 +11,17 @@ CREATE TABLE QUESTIONS (
 	, Type				VARCHAR(100)	NOT NULL
 	, IsActive		    BIT				NOT NULL
 	,CONSTRAINT 		QuestionPK 		PRIMARY KEY (QuestionID)
+    ,CONSTRAINT			Question_QuizFK	FOREIGN KEY (QuizID) REFERENCES QUIZ(QuizID)
 );
+
+
+INSERT INTO QUESTIONS
+VALUES
+(1,1,'Choose option 1','Select',1)
+,(2,1,'Choose Option 2 or 3','Select',1)
+,(3,1,'Type \"Yes\" or \"No\"','Text',1)
+,(4,1,'Question with no OPTIONS','Select',1)
+,(5,1,'Question that is disabled','Select',0)
+,(6,1,'Choose Option 4','Radio',1);
 
 SET FOREIGN_KEY_CHECKS=1; -- turn that back on 

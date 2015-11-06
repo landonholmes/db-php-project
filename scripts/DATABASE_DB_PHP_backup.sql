@@ -30,8 +30,8 @@ CREATE TABLE `OPTIONS` (
   `Text` varchar(2000) NOT NULL,
   `IsAnswer` bit(1) NOT NULL,
   PRIMARY KEY (`OptionID`),
-  KEY `QuestionFK` (`QuestionID`),
-  CONSTRAINT `QuestionFK` FOREIGN KEY (`QuestionID`) REFERENCES `QUESTIONS` (`QuestionID`)
+  KEY `Options_QuestionFK` (`QuestionID`),
+  CONSTRAINT `Options_QuestionFK` FOREIGN KEY (`QuestionID`) REFERENCES `QUESTIONS` (`QuestionID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -58,7 +58,9 @@ CREATE TABLE `QUESTIONS` (
   `Text` varchar(2000) NOT NULL,
   `Type` varchar(100) NOT NULL,
   `IsActive` bit(1) NOT NULL,
-  PRIMARY KEY (`QuestionID`)
+  PRIMARY KEY (`QuestionID`),
+  KEY `Question_QuizFK` (`QuizID`),
+  CONSTRAINT `Question_QuizFK` FOREIGN KEY (`QuizID`) REFERENCES `QUIZ` (`QuizID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -122,10 +124,10 @@ CREATE TABLE `RESPONSES` (
   KEY `Reponse_UserFK` (`UserID`),
   KEY `Reponse_QuestionFK` (`QuestionID`),
   KEY `Reponse_OptionFK` (`OptionID`),
-  CONSTRAINT `Reponse_OptionFK` FOREIGN KEY (`OptionID`) REFERENCES `OPTIONS` (`OptionID`),
-  CONSTRAINT `Reponse_QuestionFK` FOREIGN KEY (`QuestionID`) REFERENCES `QUESTIONS` (`QuestionID`),
   CONSTRAINT `Reponse_QuizFK` FOREIGN KEY (`QuizID`) REFERENCES `QUIZ` (`QuizID`),
-  CONSTRAINT `Reponse_UserFK` FOREIGN KEY (`UserID`) REFERENCES `USERS` (`UserID`)
+  CONSTRAINT `Reponse_UserFK` FOREIGN KEY (`UserID`) REFERENCES `USERS` (`UserID`),
+  CONSTRAINT `Reponse_QuestionFK` FOREIGN KEY (`QuestionID`) REFERENCES `QUESTIONS` (`QuestionID`),
+  CONSTRAINT `Reponse_OptionFK` FOREIGN KEY (`OptionID`) REFERENCES `OPTIONS` (`OptionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -200,7 +202,7 @@ CREATE TABLE `USERS` (
 
 LOCK TABLES `USERS` WRITE;
 /*!40000 ALTER TABLE `USERS` DISABLE KEYS */;
-INSERT INTO `USERS` VALUES (1,'teacher','teacher@example.com','Teacher','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:28',1,'0.0.0.0','2015-11-05 13:56:46','\0','2015-11-05 13:24:28',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(2,'student','student@example.com','Student','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(3,'manager','manager@example.com','Manager','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0');
+INSERT INTO `USERS` VALUES (1,'teacher','teacher@example.com','Teacher','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:28',1,'0.0.0.0','2015-11-05 18:45:25','\0','2015-11-05 13:24:28',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(2,'student','student@example.com','Student','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0'),(3,'manager','manager@example.com','Manager','User','sha256:1000:uoJNHMPp14mpES0B+fn7LASxTR/NYtNu:S0PfZhtY2w68lRQf575pfpskVLhZsXyL','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00','\0','2015-11-05 13:24:29',1,'0.0.0.0','1970-01-01 00:00:00',1,'0.0.0.0');
 /*!40000 ALTER TABLE `USERS` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,4 +273,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-11-05 14:10:45
+-- Dump completed on 2015-11-05 18:46:10

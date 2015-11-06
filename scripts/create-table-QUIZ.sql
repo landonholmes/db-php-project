@@ -12,4 +12,6 @@ CREATE TABLE QUIZ (
 	, CONSTRAINT		QuizPK			PRIMARY KEY (QuizID)
 );
 
+INSERT INTO QUIZ VALUES (1,'Test 1','A Test 1 Sample Quiz Thing',1);
+
 SET FOREIGN_KEY_CHECKS=1; -- turn that back on
