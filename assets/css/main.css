@@ -103,3 +103,10 @@ ul.optionUL {
     margin-left: -15%;
 }
 
+.greenBackground {
+    background-color: #15CD72;
+}
+.redBackground {
+    background-color: rgba(248, 81, 51, 0.87);
+}
+

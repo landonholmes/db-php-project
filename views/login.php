@@ -91,6 +91,45 @@
         </form>
     </div>
 </div>
+<div style="height: 350px;">&nbsp;</div>
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center" colspan="2">User</th>
+        <th class="text-center" colspan="4">Permissions</th>
+    </tr>
+    <tr>
+        <th class="text-center">Username</th>
+        <th class="text-center">Password</th>
+        <th class="text-center">Quiz Management</th>
+        <th class="text-center">Take Quizzes</th>
+        <th class="text-center">Manage Users</th>
+        <th class="text-center">View Reports</th>
+    </tr>
+    <tr>
+        <td>teacher</td>
+        <td>password</td>
+        <td class="greenBackground text-center"><i class="glyphicon glyphicon-ok" /></td>
+        <td class="greenBackground text-center"><i class="glyphicon glyphicon-ok" /></td>
+        <td class="greenBackground text-center"><i class="glyphicon glyphicon-ok" /></td>
+        <td class="greenBackground text-center"><i class="glyphicon glyphicon-ok" /></td>
+    </tr>
+    <tr>
+        <td>student</td>
+        <td>password</td>
+        <td class="redBackground text-center"><i class="glyphicon glyphicon-remove" /></td>
+        <td class="greenBackground text-center"><i class="glyphicon glyphicon-ok" /></td>
+        <td class="redBackground text-center"><i class="glyphicon glyphicon-remove" /></td>
+        <td class="redBackground text-center"><i class="glyphicon glyphicon-remove" /></td>
+    </tr>
+    <tr>
+        <td>student</td>
+        <td>password</td>
+        <td class="redBackground text-center"><i class="glyphicon glyphicon-remove" /></td>
+        <td class="redBackground text-center"><i class="glyphicon glyphicon-remove" /></td>
+        <td class="greenBackground text-center"><i class="glyphicon glyphicon-ok" /></td>
+        <td class="redBackground text-center"><i class="glyphicon glyphicon-remove" /></td>
+    </tr>
+</table>
 
 
 <script>
